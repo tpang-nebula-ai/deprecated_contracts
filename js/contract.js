@@ -1,4 +1,30 @@
 /**
+ * BASIC CONTRACTS
+ * 1. Nebula Base contract: the main contract that distribute tasks and deal with problems
+ * 2. Version contract : each app should have their fixed version contract, so all the versions are linked
+ * 3. TASK contract : each app should implement its own task contract for clients to create and submit
+ */
+
+const VERSION_CONTRACT = {
+    address: "",
+    abi_uri: "",
+    contract: {}
+};
+
+const NEBULA_CONTRACT = {
+    address: "",
+    abi_uri: "",
+    contract: {}
+};
+
+const TASK_CONTRACT = {
+    address: "",
+    abi_url: "",
+    contract: {}
+};
+
+
+/**
  * Define task app default info
  */
 class Task {
@@ -53,6 +79,7 @@ class Task {
     }
 }
 
+
 /**
  * Either use url like : "http://quantum.nebula-ai.network/assets/ABI/NebulaAi1.json";
  * Or load by relative path like : "abi/NebulaAi.json"
@@ -71,6 +98,10 @@ const task_abi_url = "abi/Task_1.json";
  */
 let nebula_address = "";
 /**
+ * WIP V1.2 use version
+ */
+let version_contract_address = "";
+/**
  * WIP V1.2 task contract address
  * The application contract address,
  * @type {string}
@@ -80,18 +111,26 @@ let contract_address = "0x45677a1af702817b00858d6a202136ac3cdc4dca"; //Helix v0.
  *
  * @type {{}}
  */
-let BASE_CONTRACT = {};
+let BASE_CONTRACT = {
+    model: {}
+};
 /**
  *
- * @type {{}}
+ * @type {{model: {}}}
  */
-let CONTRACT_INSTANCE = {};
+let CONTRACT_INSTANCE = {
+    model: {}
+};
 
 
 /**
  * On load processes
+ * Make sure supported browsers are used (chrome and firefox at the moment)
+ * Make sure metamask is loaded and logged in
+ * Redirect to the corresponding html according the different situations
+ * @param callback function to process if and only if all requirements are met, usually load the basic contract
  */
-(function () {
+const contractOnLoad = function (callback) {
 
     window.addEventListener('load', function () {
 
@@ -115,14 +154,7 @@ let CONTRACT_INSTANCE = {};
                     window.open("templates/login.html", "_self");
                 } else {
                     //All good , load contract
-                    loadContractFromJsonAbi(
-                        BASE_CONTRACT,
-                        nebula_abi_url,
-                    );
-
-                    loadContract(function () {
-                        prepareTaskContract();
-                    });
+                    callback();
                 }
             } else {
                 console.log('No web3? You should consider trying MetaMask!');
@@ -133,13 +165,16 @@ let CONTRACT_INSTANCE = {};
             }
         }
     });
-})();
+};
 
 /**
- * This will directly
+ * Load a contract from json abi template
  *
+ * @param contract_template Contract Object created from json abi file
+ * @param url link to abi file
+ * @param callback code to be executed after abi is loaded
  */
-function loadContractFromJsonAbi(contract_type, url, callback) {
+function loadContractFromJsonAbi(contract_template, url, callback) {
     $.ajax({
         url: url,
         dataType: "json",
@@ -147,68 +182,51 @@ function loadContractFromJsonAbi(contract_type, url, callback) {
             console.log("loadContract error: ", e);
         },
         success: function (data) {
-            contract_type = web3.eth.contract(data);
+            contract_template.model = web3.eth.contract(data);
             callback();
         }
     })
 }
 
 /**
- * Create an instance of the contract
- * @param contract_type
- * @param contract_address
- * @param callback
- * @returns {*}
+ * Load an instance of the contract from the abi contract template, @ specified address
+ * @param contract_template Contract template loaded from Json abi file
+ * @param contract_address Contract instance address in blockchain
+ * @param callback Code to be executed after the instance is loaded from blockchain
+ * @returns {*} instance of the contract @ address given
  */
-function loadContractInstance(contract_type, contract_address, callback) {
-    let instance = contract_type.at(contract_address);
+function loadContractInstance(contract_template, contract_address, callback) {
+    let instance = contract_template.model.at(contract_address);
     callback();
     return instance;
 }
 
-const loadContract = function (callback) {
-    $.ajax({
-        url: nebula_abi_url,
-        dataType: "json",
-        error: function (e) {
-            console.log("loadContract error: ", e);
-        },
-        success: function (data) {
-            let NebulaAi = web3.eth.contract(data);
-            window.nebulaAi = NebulaAi.at(contract_address);
-            console.log("current nebula base contract @ ", contract_address);
+// const loadTaskContract = function (taskAddress) {
+//     window.taskContractInstance = window.taskContract.at(taskAddress);
+// };
 
-            $("#contractReady").show();
-            callback();
+
+//Initialization point
+
+contractOnLoad(function () {
+    loadContractFromJsonAbi(
+        BASE_CONTRACT,
+        nebula_abi_url,
+        function () {
+            loadContractInstance(
+                CONTRACT_INSTANCE,
+                contract_address,
+                function () {
+                    // $("#contractLoaded").show();
+                });
         }
-    })
-};
-const prepareTaskContract = function () {
-    $.ajax({
-        url: task_abi_url,
-        dataType: "json",
-        error: function (e) {
-            console.log("prepareTaskContract error: ", e);
-        },
-        success: function (data) {
-            window.taskContract = web3.eth.contract(data);
-        }
-    });
-};
-const loadTaskContract = function (taskAddress) {
-    window.taskContractInstance = window.taskContract.at(taskAddress);
-};
+    );
+});
 
-
-///console.log(nebulaAi);
-
-const scriptAddressDefault = "http://quantum.nebula-ai.network/script/Nebula_LSTM.py";
-const outputAddress = "http://quantum.nebula-ai.network/nebula/scripts/";
-
-const minimalFee = 5;
 
 /**
  * Temporary solution, this must move to backend
+ * @Deprecated Use contract address as uuid already guarantees uniqueness
  * @return {*|XML|string|void}
  */
 const uuidv4 = function () {
