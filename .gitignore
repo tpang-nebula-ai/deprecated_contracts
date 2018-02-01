@@ -53,3 +53,5 @@ fabric.properties
 
 .idea/
 /contract/helix1.1/node_modules/
+/contract/node_modules/
+/contract/build/
