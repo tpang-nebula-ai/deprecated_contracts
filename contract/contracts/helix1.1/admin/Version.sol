@@ -1,14 +1,14 @@
 pragma solidity ^0.4.18;
 
-import "../ownership/Owner";
+import "../ownership/Ownable.sol";
 
 // To simplify version/release tracking and simply version changes, let Dapp to track Version and get the address of
 // the newest contract from Version
 contract Version is Ownable {
 
-    address[] public address_list;
+    address[] public version_list;
 
-    address public current_address;
+    address public current_version;
 
     function Version()
     Ownable(msg.sender)

@@ -1,7 +1,6 @@
 pragma solidity ^0.4.18;
 
 import "../nebula_base/Nebula_Base.sol";
-import "../math/SafeMath.sol";
 
 contract Task_Template {
 
@@ -59,7 +58,7 @@ contract Task_Template {
 
     function addTaskToQueue() internal {
         Nebula_Base nebula = Nebula_Base(dispatcher);
-        nebula.queueTask.value(msg.value)(address(this));
+        nebula.join.value(msg.value)(address(this));
 
     }
 
