@@ -1,38 +1,12 @@
 pragma solidity ^0.4.18;
 
-import "../nebula_base/Nebula_Base.sol";
-
-contract Task_Template {
-
-    address public owner;
-    address public dispatcher;
-    address public worker;
-
-    //Unique app id
-    uint256 public app_id;
-    //    uint256 public app_version;
-
-    bytes32 public task_name;
-    string public data_address;
-    string public script_address;
-    string public output_address;
-    string public parameters;
-
-    bool public started;
-    bool public completed;
-    bool public task_issue;
-    bool public cancelled;
-
-    uint256 minimal_fee = 5 ether;
-    uint256 completion_fee;
+import "../nebula_base/Nebula_Interface.sol";
+import "./AbstractTask.sol";
 
 
+contract Task is AbstractTask {
 
-    //for future encryption uses
-    //bytes32 internal worker_public_key;
-    //bytes32 internal task_owner_public_key;
-
-    function Task_Template(
+    function Task(
         uint256 _app_id,
         bytes32 _name,
         string _data,
@@ -56,8 +30,8 @@ contract Task_Template {
         //all bool are false by default
     }
 
-    function addTaskToQueue() internal {
-        Nebula_Base nebula = Nebula_Base(dispatcher);
+    function addTaskToQueue() public {
+        Nebula_Interface nebula = Nebula_Interface(dispatcher);
         nebula.join.value(msg.value)(address(this));
 
     }
@@ -72,8 +46,6 @@ contract Task_Template {
         return true;
     }
 
-    event TaskCancelled();
-
     //DISPATCHER
     function assignWorker(address _worker_address) public returns (bool){
         require(dispatcher == msg.sender);
@@ -82,13 +54,7 @@ contract Task_Template {
         return true;
     }
 
-    event WorkerAssigned(address indexed _worker_address);
-
     //WORKER
-    modifier worker_only(){
-        require(worker == msg.sender);
-        _;
-    }
 
     function startTask() worker_only public returns (bool){
 
@@ -101,7 +67,6 @@ contract Task_Template {
         return true;
     }
 
-    event TaskFailed();
 
     function forfeitTask() worker_only public returns (bool){
 
@@ -110,7 +75,6 @@ contract Task_Template {
         return true;
     }
 
-    event TaskForfeited();
 
     function finishTask() worker_only public returns (bool){
 
@@ -119,7 +83,6 @@ contract Task_Template {
         return true;
     }
 
-    event TaskCompleted();
 
 
 }

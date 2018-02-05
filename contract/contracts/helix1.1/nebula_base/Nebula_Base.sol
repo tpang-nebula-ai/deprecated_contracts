@@ -1,17 +1,20 @@
 pragma solidity ^0.4.18;
 
-import "../task/Task_Template.sol";
+import "../ownership/Ownable.sol";
 import "./Nebula_Interface.sol";
+import "../task/Task.sol";
 
-
-contract Nebula_Base is Nebula_Interface {
-    function Nebula_Base(){
+contract Nebula is Nebula_Interface, Onwable {
+    function Nebula()
+    public
+    Ownable(msg.sender)
+    {
 
     }
 
     function join(address _address) public payable returns (bool) {
-        Task_Template template = Task_Template(_address);
-        //how do i know this is a valid task contract
+        Task task = Task(_address);
+
 
     }
 

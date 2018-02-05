@@ -59,7 +59,8 @@ contract Client is Ownable {
         return accounts[_client_address].active_tasks.length < accounts[_client_address].level - 1;
     }
 
-    function get_task_history(address _client_address) view public returns (address[]){
+    //complete from 0
+    function get_complete_task_history(address _client_address) view public returns (address[]){
         return accounts[_client_address].task_history;
     }
 
