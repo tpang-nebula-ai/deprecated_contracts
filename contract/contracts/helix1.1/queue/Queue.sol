@@ -36,7 +36,7 @@ contract Queue is QueueInterface, Dispatchable {
     }
 
     function querer_status(address _address) public view returns (address _prev, address _next, uint _id, uint _curr){
-        return (queue[_address].prev, queue[_address].next, queue[_address].id, queue.curr_id);
+        return (queue.line[_address].prev, queue.line[_address].next, queue.line[_address].id, queue.curr_id);
     }
 
     ///@dev function implementation
@@ -73,18 +73,10 @@ contract Queue is QueueInterface, Dispatchable {
     }
 
     function remove(address _address) dispatcher_only public returns (bool){
-        //        curr -> queue.line[_ai_address];
-        //        prev -> queue.line[prev];
-        //        next -> queue.line[next];
         require(queue.head != address(0) || _address == address(0));
 
-        if (queue.head == _address) {
-            queue.head = queue.line[queue.head].next;
-        }
-        if (queue.tail == _address) {
-            queue.tail = queue.line[queue.tail].prev;
-        }
-
+        if (queue.head == _address) queue.head = queue.line[queue.head].next;
+        if (queue.tail == _address) queue.tail = queue.line[queue.tail].prev;
         if (queue.line[_address].next != address(0)) {
             queue.line[queue.line[_address].next].prev = queue.line[_address].prev;
         }
@@ -97,6 +89,11 @@ contract Queue is QueueInterface, Dispatchable {
         queue.line[_address].next = 0;
         queue.line[_address].id = 0;
 
+        return true;
+    }
+
+    function insert(address _address, uint _position) dispatcher_only public returns (bool){
+        require(_position <= queue.size);
         return true;
     }
 
