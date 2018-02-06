@@ -1,12 +1,12 @@
-pragma solidity ^0.4.18;
+// pragma solidity ^0.4.18;
 
-import "zeppelin-solidity/contracts/ownership/Ownable.sol";
+// import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 
-contract IdDistributor is Ownable{
+// contract IdDistributor is Ownable{
 
-    uint256 public id;
+//     uint256 public id;
 
-    function IdDistributor(){
+//     function IdDistributor(){
 
-    }
-}
+//     }
+// }
