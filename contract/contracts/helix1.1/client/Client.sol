@@ -1,8 +1,9 @@
 pragma solidity ^0.4.18;
 
 import "../ownership/Ownable.sol";
+import "../interface/Client_Interface.sol";
 
-contract Client is Ownable {
+contract Client is Ownable, ClientInterface {
 
     struct Account {
         bool eligible;
