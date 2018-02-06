@@ -1,4 +1,13 @@
-// pragma solidity ^0.4.18;
+pragma solidity ^0.4.18;
+
+import "../interface/Task_Interface.sol";
+
+contract Task is TaskInterface {
+
+    function Task() public {
+
+    }
+}
 
 // import "./TaskInterface.sol";
 // import "../nebula_base/Nebula_Interface.sol";
