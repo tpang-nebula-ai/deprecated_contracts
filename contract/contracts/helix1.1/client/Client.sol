@@ -26,7 +26,7 @@ contract Client is Dispatchable, ClientInterfaceNebula, ClientInterfaceClient, C
     mapping(address => Account) accounts;
 
     function Client() public Dispatchable(msg.sender) {}
-
+    
     modifier valid_client(address _address){
         require(_address != address(0));
         _;
@@ -48,7 +48,7 @@ contract Client is Dispatchable, ClientInterfaceNebula, ClientInterfaceClient, C
     }
 
     function submissible(address _address) view public returns (bool){
-        return accounts[_address].active_tasks.length < accounts[_address].level - 1;
+        return accounts[_address].active_tasks.length < accounts[_address].level + 1;
     }
 
     function set_eligible(address _client, bool _eligible) valid_client(_client) dispatcher_only public returns (bool){
@@ -71,7 +71,7 @@ contract Client is Dispatchable, ClientInterfaceNebula, ClientInterfaceClient, C
             accounts[_client].job_history.push(_task);
             accounts[_client].active_job = _task;
         } else {
-            accounts[_client].active_job = 0;
+            accounts[_client].active_job = 0;   
         }
         accounts[_client].working = _working;
         return true;
