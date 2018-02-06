@@ -9,6 +9,8 @@ interface ClientInterfaceClient {
         bool _submissible
     );
 
+    function submissible(address _address) view public returns (bool);
+
     function task_history() view public returns (address[]);
 
     function active_tasks() view public returns (address[]);
