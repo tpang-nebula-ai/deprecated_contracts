@@ -9,7 +9,9 @@ contract Distributable is Ownable {
     Ownable(_owner) {}
 
     function set_distributor(address _distributor) ownerOnly public returns (bool){
+        require(_distributor != address(0));
         distributor = _distributor;
+        return true;
     }
 
     modifier distributor_only(){
