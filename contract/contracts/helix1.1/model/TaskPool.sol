@@ -32,7 +32,7 @@ contract TaskPool is Distributable, TaskPoolInterface {
     //------------------------------------------------------------------------------------------------------------------
     //Getters
     function get_task(address _task)
-    public returns (uint256 _app_id, string _name, string _data, string _script, string _output, string _params)
+    view public returns (uint256 _app_id, string _name, string _data, string _script, string _output, string _params)
     {
         return (
         pool[_task].app_id,
@@ -45,7 +45,7 @@ contract TaskPool is Distributable, TaskPoolInterface {
     }
 
     function get_status(address _task)
-    public returns (uint _create_time, uint dispatch_time, uint start_time, uint complete_time, uint _cancel_time, uint _error_time)
+    view public returns (uint _create_time, uint dispatch_time, uint start_time, uint complete_time, uint _cancel_time, uint _error_time)
     {
         return (
         pool[_task].create_time,
@@ -57,15 +57,15 @@ contract TaskPool is Distributable, TaskPoolInterface {
         );
     }
 
-    function get_worker(address _task) public returns (address){
+    function get_worker(address _task) view public returns (address){
         return pool[_task].worker;
     }
 
-    function get_error_msg(address _task) public returns (string){
+    function get_error_msg(address _task) view public returns (string){
         return pool[_task].error_message;
     }
 
-    function get_fees(address _task) public returns (uint256 _fee, uint256 _completion_fee){
+    function get_fees(address _task) view public returns (uint256 _fee, uint256 _completion_fee){
         return (pool[_task].fee, pool[_task].completion_fee);
     }
 

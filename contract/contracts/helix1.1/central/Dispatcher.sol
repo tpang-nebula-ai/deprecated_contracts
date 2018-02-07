@@ -1,7 +1,7 @@
 pragma solidity ^0.4.18;
 
 import "../ownership/Ownable.sol";
-import "../interface/Client_Interface_nebula.sol";
+import "../interface/Client_Interface_dispatcher.sol";
 import "../interface/Queue_Interface.sol";
 import "../interface/Dispatcher_Interface_client.sol";
 import "../interface/Dispatcher_Interface_miner.sol";
@@ -35,6 +35,11 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, NebulaInterfaceMiner,
         //        task_pool_contract = TaskInterface(task_pool_address);
         queue_ai_contract = QueueInterface(queue_ai_address);
         queue_task_contract = QueueInterface(queue_task_address);
+    }
+
+    modifier contract_ready(){
+        //require();
+        _;
     }
 
 }

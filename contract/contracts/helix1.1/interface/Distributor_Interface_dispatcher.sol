@@ -1,7 +1,7 @@
 pragma solidity ^0.4.18;
 
-contract DistributorInterfaceMiner {
-    //getters
+interface DistributorInterfaceNebula {
+    //getter
     function get_task(address _task)
     view public returns (uint256 _app_id, string _name, string _data, string _script, string _output, string _params);
 
@@ -12,14 +12,6 @@ contract DistributorInterfaceMiner {
 
     function get_fees(address _task) view public returns (uint256 _fee, uint256 _completion_fee);
 
-
-    //functions
-    function report_start(address _task) public returns (bool);
-
-    function report_finish(address _task, uint256 _complete_fee) public;
-
-    function report_error(address _task, string _error_msg) public;
-
-    function forfeit(address _task) public;
-    
+    //Task Dispatcher
+    function dispatch_task(address _task, address _worker) public;
 }

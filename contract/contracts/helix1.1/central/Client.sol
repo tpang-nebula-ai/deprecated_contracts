@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 import "../ownership/Dispatchable.sol";
-import "../interface/Client_Interface_nebula.sol";
+import "../interface/Client_Interface_dispatcher.sol";
 import "../interface/Client_Interface_client.sol";
 import "../interface/Client_Interface_miner.sol";
 import "../interface/Client_Interface_taskpool.sol";
@@ -27,6 +27,11 @@ contract Client is Dispatchable, ClientInterfaceNebula, ClientInterfaceClient, C
     mapping(address => Account) accounts;
 
     function Client() public Dispatchable(msg.sender) {}
+
+    modifier contract_ready(){
+        //        require();
+        _;
+    }
     
     modifier valid_client(address _address){
         require(_address != address(0));
