@@ -1,8 +1,8 @@
 pragma solidity ^0.4.18;
 
-import "../ownership/StorageManager.sol";
+import "../ownership/Distributable.sol";
 
-contract TaskStorage is StorageManager {
+contract TaskPool is Distributable {
     struct Task {
         uint256 app_id;
         //uint256 public app_version;
@@ -29,5 +29,9 @@ contract TaskStorage is StorageManager {
 
     mapping(address => Task) pool;
 
-    function TaskStorage() public StorageManager(msg.sender) {}
+    function TaskPool() public Distributable(msg.sender) {}
+
+
+
+
 }

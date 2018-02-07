@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-interface TaskInterfaceNebula {
+interface DistributorInterfaceNebula {
     //Task Dispatcher
     function dispatch_task(address _worker) public returns (bool);
 }

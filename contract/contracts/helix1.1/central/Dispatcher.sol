@@ -3,12 +3,12 @@ pragma solidity ^0.4.18;
 import "../ownership/Ownable.sol";
 import "../interface/Client_Interface_nebula.sol";
 import "../interface/Queue_Interface.sol";
-import "../interface/Nebula_Interface_client.sol";
-import "../interface/Nebula_Interface_miner.sol";
-import "../interface/Nebula_Interface_taskpool.sol";
+import "../interface/Dispatcher_Interface_client.sol";
+import "../interface/Dispatcher_Interface_miner.sol";
+import "../interface/Dispatcher_Interface_distributor.sol";
 
 
-contract Nebula is Ownable, NebulaInterfaceClient, NebulaInterfaceMiner, NebulaInterfaceTask
+contract Dispatcher is Ownable, DispatcherInterfaceClient, NebulaInterfaceMiner, NebulaInterfaceTask
 {
     address public task_pool_address;
     address public queue_ai_address;
@@ -20,7 +20,7 @@ contract Nebula is Ownable, NebulaInterfaceClient, NebulaInterfaceMiner, NebulaI
     QueueInterface queue_ai_contract;
     QueueInterface queue_task_contract;
 
-    function Nebula(address _task_pool, address _queue_ai, address _queue_task, address _client)
+    function Dispatcher(address _task_pool, address _queue_ai, address _queue_task, address _client)
     public
     Ownable(msg.sender)
     {
