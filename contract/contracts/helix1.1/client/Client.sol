@@ -3,9 +3,10 @@ import "../ownership/Dispatchable.sol";
 import "../interface/Client_Interface_nebula.sol";
 import "../interface/Client_Interface_client.sol";
 import "../interface/Client_Interface_miner.sol";
+import "../interface/Client_Interface_taskpool.sol";
 
 ///@dev logic should be added
-contract Client is Dispatchable, ClientInterfaceNebula, ClientInterfaceClient, ClientInterfaceMiner {
+contract Client is Dispatchable, ClientInterfaceNebula, ClientInterfaceClient, ClientInterfaceMiner, ClientInterfaceTask {
 
     struct Account {
         //both
@@ -78,8 +79,13 @@ contract Client is Dispatchable, ClientInterfaceNebula, ClientInterfaceClient, C
     }
 
     function set_banned(address _client, bool _banned) valid_client(_client) dispatcher_only public returns (bool){
-        //todo Add logic 
+        //todo Add logic
         accounts[_client].banned = _banned;
+        if (_banned) {
+            accounts[_client].eligible = false;
+            accounts[_client].waiting = false;
+            accounts[_client].working = false;
+        }
         return true;
     }
 
