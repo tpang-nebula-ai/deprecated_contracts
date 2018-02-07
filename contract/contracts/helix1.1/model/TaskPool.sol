@@ -14,6 +14,7 @@ contract TaskPool is Distributable, TaskPoolInterface {
         string parameters;
         uint256 fee;
         uint256 completion_fee;
+        address owner;
         address worker;
         uint create_time;
         uint dispatch_time;
@@ -45,7 +46,7 @@ contract TaskPool is Distributable, TaskPoolInterface {
     }
 
     function get_status(address _task)
-    view public returns (uint _create_time, uint dispatch_time, uint start_time, uint complete_time, uint _cancel_time, uint _error_time)
+    view public returns (uint _create_time, uint _dispatch_time, uint _start_time, uint _complete_time, uint _cancel_time, uint _error_time)
     {
         return (
         pool[_task].create_time,
@@ -71,7 +72,7 @@ contract TaskPool is Distributable, TaskPoolInterface {
 
     //------------------------------------------------------------------------------------------------------------------
     //Setters
-    function create(uint256 _app_id, string _name, string _data, string _script, string _output, string _params, uint256 _fee)
+    function create(uint256 _app_id, string _name, string _data, string _script, string _output, string _params, uint256 _fee, address _owner)
     public returns (address _task_address)
     {
         _task_address = generate_address();
@@ -82,30 +83,35 @@ contract TaskPool is Distributable, TaskPoolInterface {
         pool[_task_address].output_address = _output;
         pool[_task_address].parameters = _params;
         pool[_task_address].fee = _fee;
-        pool[_task_address].create_time = now;
+        pool[_task_address].owner = _owner;
+        pool[_task_address].create_time = block.number;
     }
 
     function set_dispatched(address _task, address _worker) distributor_only public {
-        pool[_task].dispatch_time = now;
+        pool[_task].dispatch_time = block.number;
         pool[_task].worker = _worker;
     }
 
     function set_start(address _task) distributor_only public {
-        pool[_task].start_time = now;
+        pool[_task].start_time = block.number;
     }
 
+    function set_fee(address _task, uint256 _fee) distributor_only public returns (bool){
+        pool[_task].fee = _fee;
+        return true;
+    }
     function set_complete(address _task, uint256 _complete_fee) distributor_only public {
-        pool[_task].complete_time = now;
+        pool[_task].complete_time = block.number;
         pool[_task].completion_fee = _complete_fee;
     }
 
     function set_error(address _task, string _error_msg) distributor_only public {
-        pool[_task].error_time = now;
+        pool[_task].error_time = block.number;
         pool[_task].error_message = _error_msg;
     }
 
     function set_cancel(address _task) distributor_only public {
-        pool[_task].cancel_time = now;
+        pool[_task].cancel_time = block.number;
     }
 
     function generate_address() internal returns (address){

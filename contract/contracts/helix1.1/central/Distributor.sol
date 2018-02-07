@@ -8,7 +8,6 @@ import "../interface/Distributor_Interface_client.sol";
 import "../interface/Distributor_Interface_miner.sol";
 import "../interface/Distributor_Interface_dispatcher.sol";
 
-//TODO add safeMath
 //This layer is necessary for security and control reason
 //Otherwise no way to control what are send to task queue while able to keep Task modular
 contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInterfaceMiner, DistributorInterfaceNebula {
@@ -18,12 +17,13 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
     address public pool_address;
     TaskPoolInterface pool;
     bool public pool_ready;
-    uint public mininal_fee;
+    uint256 public minimal_fee;
+    uint256 public MAX_WAITING_BLOCK_COUNT = 15;
 
 
     ///@dev used to store ALL submitted task
     function Distributor(uint256 _minimal_fee) public Dispatchable(msg.sender) {
-        mininal_fee = _minimal_fee == 0 ? 5 ether : _minimal_fee;
+        minimal_fee = _minimal_fee == 0 ? 5 ether : _minimal_fee;
     }
 
     modifier contract_ready(){
@@ -43,42 +43,82 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
         pool_ready = true;
     }
 
+    //modifiers
+    modifier task_owner_only(address _task){
+        require(pool.get_owner(_task) == msg.sender);
+        _;
+    }
+    modifier miner_only(address _task){
+        require(pool.get_worker(_task) == msg.sender);
+        _;
+    }
 
     //------------------------------------------------------------------------------------------------------------------
     //Client
+
     function create_task(uint256 _app_id, string _name, string _data, string _script, string _output, string _params)
     contract_ready public payable returns (address _task){
         //        require(app.valid_id(_app_id)) app_id needs to be valid , TODO a contract that keep tracks of the app id
-        require(msg.value >= mininal_fee && _app_id != 0);
-        _task = pool.create(_app_id, _name, _data, _script, _output, _params, msg.value);
+        require(msg.value >= minimal_fee && _app_id != 0);
+        _task = pool.create(_app_id, _name, _data, _script, _output, _params, msg.value, msg.sender);
     }
 
     function cancel_task(address _task) contract_ready public returns (bool){
+        address _task_owner = pool.get_owner(_task);
+        require(msg.sender == _task_owner);
+        uint _create_time;
+        uint _dispatch_time;
+        (_create_time, _dispatch_time, ,,,) = pool.get_status(_task);
 
+        require(_create_time != 0);
+        //task existed
+
+        if (_dispatch_time != 0) return false;
+        //task dispatched cannot cancel
+        else {
+            if (dispatcher_at.cancel(_task)) {
+                //in queue can be cancelled
+                uint256 _fee;
+                (_fee,) = pool.get_fees(_task);
+                if (pool.set_fee(_task, 0)) {
+                    _task_owner.transfer(_fee);
+                } else return false;
+            } else return false;
+        }
     }
 
-    function reassignable(address _task) view public returns (bool){
-
+    function reassignable(address _task) task_owner_only(_task) view public returns (bool){
+        uint _create_time;
+        uint _dispatch_time;
+        (_create_time, _dispatch_time, ,,,) = pool.get_status(_task);
+        require(_create_time != 0 && _dispatch_time != 0);
+        return block.number - _dispatch_time > MAX_WAITING_BLOCK_COUNT;
     }
 
-    function reassign_task_request(address _task) public {
-
+    function reassign_task_request(address _task) task_owner_only(_task) public returns (bool){
+        if (reassignable(_task)) {
+            dispatcher_at.rejoin(_task);
+            return true;
+        } else return false;
     }
     //------------------------------------------------------------------------------------------------------------------
     //Miner
-    function report_start(address _task) public returns (bool){
+
+
+    function report_start(address _task) miner_only(_task) public returns (bool){
+
 
     }
 
-    function report_finish(address _task, uint256 _complete_fee) public {
+    function report_finish(address _task, uint256 _complete_fee) miner_only(_task) public {
 
     }
 
-    function report_error(address _task, string _error_msg) public {
+    function report_error(address _task, string _error_msg) miner_only(_task) public {
 
     }
 
-    function forfeit(address _task) public {
+    function forfeit(address _task) miner_only(_task) public {
 
     }
 

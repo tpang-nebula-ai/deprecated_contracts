@@ -8,7 +8,7 @@ import "../interface/Dispatcher_Interface_miner.sol";
 import "../interface/Dispatcher_Interface_distributor.sol";
 
 
-contract Dispatcher is Ownable, DispatcherInterfaceClient, NebulaInterfaceMiner, NebulaInterfaceTask
+contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMiner, DispatcherInterfaceDistributor
 {
     address public task_pool_address;
     address public queue_ai_address;
