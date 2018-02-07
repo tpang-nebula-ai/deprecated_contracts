@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-interface NebulaInterfaceTask {
+interface NebulaInterfaceTaskPool {
 
     function join(address _task) public payable returns (bool);
 

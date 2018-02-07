@@ -14,5 +14,4 @@ interface QueueInterface {
     function remove(address _address) public returns (bool);
 
     function insert(address _address, uint _position) public returns (bool);
-
 }

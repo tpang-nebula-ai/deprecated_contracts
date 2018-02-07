@@ -5,6 +5,7 @@ import "./Ownable.sol";
 contract Dispatchable is Ownable {
     address public dispatcher;
 
+
     function Dispatchable(address _owner)
     Ownable(_owner)
     public {

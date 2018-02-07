@@ -2,11 +2,10 @@ pragma solidity ^0.4.18;
 
 import "../ownership/Ownable.sol";
 import "../interface/Client_Interface_nebula.sol";
-import "../interface/Task_Interface.sol";
 import "../interface/Queue_Interface.sol";
 import "../interface/Nebula_Interface_client.sol";
 import "../interface/Nebula_Interface_miner.sol";
-import "../interface/Nebula_Interface_task.sol";
+import "../interface/Nebula_Interface_taskpool.sol";
 
 
 contract Nebula is Ownable, NebulaInterfaceClient, NebulaInterfaceMiner, NebulaInterfaceTask
@@ -17,7 +16,7 @@ contract Nebula is Ownable, NebulaInterfaceClient, NebulaInterfaceMiner, NebulaI
     address public client_info_address;
 
     ClientInterfaceNebula client_info_contract;
-    TaskInterface task_pool_contract;
+    //    TaskPoolInterface task_pool_contract;
     QueueInterface queue_ai_contract;
     QueueInterface queue_task_contract;
 
@@ -33,78 +32,9 @@ contract Nebula is Ownable, NebulaInterfaceClient, NebulaInterfaceMiner, NebulaI
 
         //Load corresponding contracts
         client_info_contract = ClientInterfaceNebula(client_info_address);
-        task_pool_contract = TaskInterface(task_pool_address);
+        //        task_pool_contract = TaskInterface(task_pool_address);
         queue_ai_contract = QueueInterface(queue_ai_address);
         queue_task_contract = QueueInterface(queue_task_address);
     }
-
-    /**
-     * NebulaInterfaceTask methods
-     */
-    function task_join(address _task) public payable returns (bool) {
-        queue_task_contract.join(_task);
-        return true;
-    }
-
-    function task_leave(address _task_address) public returns (bool){
-        return true;
-    }
-    ///@dev to be implemented after further discussion about the rejoining logic
-    function task_rejoin(address _task) public returns (bool){
-        return true;
-    }
-    
-    /**
-     * NebulaInterfaceQueue methods (needed?)
-     */
-     
-     
-    /**
-     * NebulaInterfaceClient methods
-     */
-    function submit_task(uint256 _app_id, bytes32 _name, string _data, string _script, string _output, string _params) public payable returns(address){
-        return address(0);
-    }
-
-    function cancel_task(address _task_address) public returns(bool){
-        return true;
-    }
-    /**
-     * NebulaInterfaceMiner methods
-     */ 
-    function apply_eligibility() public returns(bool){
-        return true;
-    }
-
-    function join_ai_queue() public returns(bool){
-        return true;
-    }
-
-    function leave_ai_queue() public returns(bool){
-        return true;
-    }
-    
-    /**
-     * ClientInterface methods
-     */
-     
-    /**
-     * TaskInterface methods
-     */
-    // function dispatchTask(address _worker_address) public returns (bool){
-    //     return true;
-    // }
-    // function reassignTask(address _worker_address) public returns (bool){
-    //     return true;
-    // }
-    
-    /**
-     * QueueInterface methods
-     */ 
-     
-    
-
-     
-    
 
 }
