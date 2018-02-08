@@ -6,5 +6,5 @@ interface DispatcherInterfaceDistributor {
 
     function cancel(address _task_address) public returns (bool);
 
-    function rejoin(address _task) public returns (bool);
+    function rejoin(address _task, address _worker, uint _penalty) public returns (bool);
 }

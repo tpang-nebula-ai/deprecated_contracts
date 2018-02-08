@@ -114,6 +114,14 @@ contract TaskPool is Distributable, TaskPoolInterface {
         pool[_task].cancel_time = block.number;
     }
 
+    function set_forfeit(address _task) public {
+        pool[_task].worker = 0;
+        pool[_task].dispatch_time = 0;
+        pool[_task].start_time = 0;
+        pool[_task].complete_time = 0;
+        pool[_task].error_time = 0;
+    }
+
     function generate_address() internal returns (address){
         return address(bytes20(++nonce));
     }

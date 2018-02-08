@@ -29,7 +29,7 @@ contract Client is Dispatchable, ClientInterfaceNebula, ClientInterfaceClient, C
     function Client() public Dispatchable(msg.sender) {}
 
     modifier contract_ready(){
-        //        require();
+        //require();
         _;
     }
     

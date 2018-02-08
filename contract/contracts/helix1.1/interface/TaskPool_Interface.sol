@@ -34,4 +34,6 @@ interface TaskPoolInterface {
     function set_error(address _task, string _error_msg) public;
 
     function set_cancel(address _task) public;
+
+    function set_forfeit(address _task) public;
 }
