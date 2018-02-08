@@ -62,6 +62,10 @@ contract TaskPool is Distributable, TaskPoolInterface {
         return pool[_task].worker;
     }
 
+    function get_owner(address _task) view public returns (address){
+        return pool[_task].owner;
+    }
+
     function get_error_msg(address _task) view public returns (string){
         return pool[_task].error_message;
     }
@@ -69,6 +73,7 @@ contract TaskPool is Distributable, TaskPoolInterface {
     function get_fees(address _task) view public returns (uint256 _fee, uint256 _completion_fee){
         return (pool[_task].fee, pool[_task].completion_fee);
     }
+
 
     //------------------------------------------------------------------------------------------------------------------
     //Setters
@@ -114,7 +119,7 @@ contract TaskPool is Distributable, TaskPoolInterface {
         pool[_task].cancel_time = block.number;
     }
 
-    function set_forfeit(address _task) public {
+    function set_forfeit(address _task) distributor_only public {
         pool[_task].worker = 0;
         pool[_task].dispatch_time = 0;
         pool[_task].start_time = 0;

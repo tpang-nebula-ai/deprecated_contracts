@@ -12,7 +12,6 @@ interface TaskPoolInterfaceGetter {
 
     function get_owner(address _task) view public returns (address);
 
-
     function get_error_msg(address _task) view public returns (string);
 
     function get_fees(address _task) view public returns (uint256 _fee, uint256 _completion_fee);

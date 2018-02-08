@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-interface ClientInterfaceNebula {
+interface ClientInterfaceDispatcher {
     function get_client(address _address) view public returns
     (
         bool _eligible,

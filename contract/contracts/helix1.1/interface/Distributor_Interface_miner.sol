@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-contract DistributorInterfaceMiner {
+interface DistributorInterfaceMiner {
     //functions
     function report_start(address _task) public returns (bool);
 

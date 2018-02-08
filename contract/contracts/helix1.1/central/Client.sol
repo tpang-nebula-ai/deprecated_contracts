@@ -3,10 +3,10 @@ import "../ownership/Dispatchable.sol";
 import "../interface/Client_Interface_dispatcher.sol";
 import "../interface/Client_Interface_client.sol";
 import "../interface/Client_Interface_miner.sol";
-import "../interface/Client_Interface_taskpool.sol";
+import "../interface/Client_Interface_dispatcher.sol";
 
 ///@dev logic should be added
-contract Client is Dispatchable, ClientInterfaceNebula, ClientInterfaceClient, ClientInterfaceMiner, ClientInterfaceTask {
+contract Client is Dispatchable, ClientInterfaceClient, ClientInterfaceMiner, ClientInterfaceDispatcher {
 
     struct Account {
         //both

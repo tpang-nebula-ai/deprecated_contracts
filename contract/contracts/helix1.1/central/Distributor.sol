@@ -90,7 +90,7 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
         if (_dispatch_time != 0) return false;
         //task dispatched cannot cancel
         else {
-            if (dispatcher_at.cancel(_task)) {
+            if (dispatcher_at.leave_task_queue(_task)) {
                 //in queue can be cancelled
                 uint256 _fee;
                 (_fee,) = pool.get_fees(_task);
