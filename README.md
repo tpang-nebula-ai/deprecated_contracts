@@ -1,6 +1,6 @@
 #  wormhole
 ## Frontend 
-A framework aims to simplify the development of Daipp by providing a simple api for those frequently used functions between blockchain and frontend.
+A framework aims to simplify the development of Dai App by providing a simple api for those frequently used functions between blockchain and frontend.
 
 ## Modularized Smart contract
 - Variety of interfaces aiming to provide APIs for different parties. 
