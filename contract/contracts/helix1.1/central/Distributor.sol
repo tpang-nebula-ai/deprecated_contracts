@@ -9,7 +9,7 @@ import "../interface/Distributor_Interface_miner.sol";
 import "../interface/Distributor_Interface_dispatcher.sol";
 
 //@dev used to access, store and modify ALL submitted task related functions
-contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInterfaceMiner, DistributorInterfaceNebula {
+contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInterfaceMiner, DistributorInterfaceDispatcher {
     using SafeMath for uint256;
     DispatcherInterfaceDistributor dispatcher_at;
 
@@ -20,7 +20,7 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
     uint256 public MAX_WAITING_BLOCK_COUNT = 15;
 
     function Distributor(uint256 _minimal_fee) public Dispatchable(msg.sender) {
-        minimal_fee = _minimal_fee == 0 ? 5 ether : _minimal_fee;
+        minimal_fee = _minimal_fee;
     }
 
 
@@ -56,6 +56,7 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
 
     //------------------------------------------------------------------------------------------------------------------
     //Client
+    //TODO condition checker should be added here, not in dispatcher
     function create_task(
         uint256 _app_id,
         string _name,

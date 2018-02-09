@@ -35,7 +35,7 @@ contract Queue is QueueInterface, Dispatchable {
         return queue.size;
     }
 
-    function querer_status(address _address) public view returns (address _prev, address _next, uint _id, uint _curr){
+    function queuer_status(address _address) view public returns (address _prev, address _next, uint _id, uint _curr){
         return (queue.line[_address].prev, queue.line[_address].next, queue.line[_address].id, queue.curr_id);
     }
 
@@ -94,6 +94,7 @@ contract Queue is QueueInterface, Dispatchable {
 
     function insert(address _address, uint _position) dispatcher_only public returns (bool){
         require(_position <= queue.size);
+        _address = 0;
         return true;
     }
 
@@ -114,6 +115,5 @@ contract Queue is QueueInterface, Dispatchable {
     function queue_status() public view returns (address _head, address _tail, uint _last_id){
         return (queue.head, queue.tail, queue.last_id);
     }
-
 }
 

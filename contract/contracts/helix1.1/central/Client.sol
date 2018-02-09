@@ -58,19 +58,16 @@ contract Client is Dispatchable, ClientInterfaceClient, ClientInterfaceMiner, Cl
     }
 
     function set_eligible(address _client, bool _eligible) valid_client(_client) dispatcher_only public returns (bool){
-        //todo add logic
         accounts[_client].eligible = _eligible;
         return true;
     }
 
     function set_waiting(address _client, bool _waiting) valid_client(_client) dispatcher_only public returns (bool){
-        //todo add logic
         accounts[_client].waiting = _waiting;
         return true;
     }
 
     function add_job(address _client, bool _working, address _task) valid_client(_client) dispatcher_only public returns (bool){
-        //todo add logic
         if (_working) {
             require(accounts[_client].waiting && _task != address(0));
             accounts[_client].waiting = false;
@@ -84,7 +81,6 @@ contract Client is Dispatchable, ClientInterfaceClient, ClientInterfaceMiner, Cl
     }
 
     function set_banned(address _client, bool _banned) valid_client(_client) dispatcher_only public returns (bool){
-        //todo Add logic
         accounts[_client].banned = _banned;
         if (_banned) {
             accounts[_client].eligible = false;
@@ -95,7 +91,6 @@ contract Client is Dispatchable, ClientInterfaceClient, ClientInterfaceMiner, Cl
     }
 
     function set_misconduct_counter(address _client, bool _increase) valid_client(_client) dispatcher_only public returns (bool){
-        //todo Add logic
         if (_increase) {
             accounts[_client].misconduct_counter++;
             if (accounts[_client].misconduct_counter == 3) set_banned(_client, true);
