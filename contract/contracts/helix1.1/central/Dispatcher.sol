@@ -10,6 +10,7 @@ import "../interface/Dispatcher_Interface_client.sol";
 import "../interface/Dispatcher_Interface_miner.sol";
 import "../interface/Dispatcher_Interface_distributor.sol";
 
+//Dispatcher Logic Module
 contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMiner, DispatcherInterfaceDistributor
 {
     //------------------------------------------------------------------------------------------------------------------
@@ -118,11 +119,35 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
         (, ,_id, _curr) = _is_task ? queue_task.queuer_status(_address) : queue_ai.queuer_status(_address);
         return _id <= _curr ? 0 : _id.sub(_curr);
     }
-    //@dev internal usage
-    function dispatchable(bool _is_task) Ready view internal returns (bool){
-        return _is_task
-        ? queue_task.size() == 0 && queue_ai.size() != 0
-        : queue_ai.size() == 0 && queue_task.size() != 0;
+    //@dev internal usage, dispatchable Logic
+    /**
+     * @param _is_task distinguish a task or worker address
+     * @param _address the address of the task or worker
+     * @return @param _success whether the pushing to queue is successful
+     *         @param _dispatchable whether a task can be dispatched to a worker
+     *         @param _worker address of the worker where the task is assigned to
+     *         @param _task address of the task to be dispatched to worker
+     */
+    function dispatchable(bool _is_task, address _address) Ready view internal returns (bool _success, bool _dispatchable, address _worker, address _task){
+        if(_is_task){
+            if(queue_ai.size() == 0) return (queue_task.push(_address), false, address(0), address(0));
+            else{
+                if(queue_task.size() == 0) {
+                    return (true, true, queue_ai.pop(), _address);
+                } else {
+                    return (queue_task.push(_address), true, queue_ai.pop(), queue_task.pop());
+                }
+            }
+        }else{
+            if(queue_task.size() == 0) return (queue_ai.push(_address), false, address(0), address(0));
+            else{
+                if(queue_ai.size() == 0) {
+                    return (true, true, _address, queue_task.pop());
+                } else{
+                    return (queue_ai.push(_address), true, queue_ai.pop(), queue_task.pop());
+                }
+            }
+        }
     }
     ///@dev internal usage
     ///@dev task and client validation is made at their entry point
@@ -152,16 +177,16 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
         require(!_sender._banned && !_sender._eligible);
         client.set_eligible(msg.sender, true);
     }
-    ///@dev entry point
+    ///@dev entry point: AI eligibility is checked here
     function join_ai_queue() Ready public returns (bool){
         account_info memory _sender = load_client(msg.sender);
         require(_sender._eligible && !_sender._waiting && !_sender._working);
-
-        if (dispatchable(false)) {
-            dispatch(queue_task.pop(), msg.sender);
-        } else {
-            client.set_waiting(msg.sender, true);
-        }
+        ();
+//        if (dispatchable(false)) {
+//            dispatch(queue_task.pop(), msg.sender);
+//        } else {
+//            client.set_waiting(msg.sender, true);
+//        }
     }
     ///@dev entry point
     function leave_ai_queue() Ready public returns (bool){
