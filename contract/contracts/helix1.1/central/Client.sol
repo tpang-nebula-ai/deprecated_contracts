@@ -8,7 +8,7 @@ import "../interface/Client_Interface_dispatcher.sol";
 
 ///@dev logic should be added
 contract Client is Dispatchable, ClientInterfaceClient, ClientInterfaceMiner, ClientInterfaceDispatcher {
-    using SafeMath for uint256;
+    using SafeMath for uint8;
     struct Account {
         //both
         bool banned;

@@ -73,6 +73,7 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
         //        require(app.valid_id(_app_id)) app_id needs to be valid , TODO a contract that keep tracks of the app id
         require(msg.value >= minimal_fee && _app_id != 0);
         _task = pool.create(_app_id, _name, _data, _script, _output, _params, msg.value, msg.sender);
+        dispatcher_at.join_task_queue.value(msg.value)(_task);//TODO this ONLY for testing
     }
 
     //@dev entry point TODO REVIEW REQUIRED
@@ -93,7 +94,8 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
             uint256 _fee;
             (_fee,) = pool.get_fees(_task);
             assert(pool.set_fee(_task, 0));
-            return _task_owner.transfer(_fee);
+            _task_owner.transfer(_fee);
+            return true; 
         } else return false; //task dispatched cannot cancel
     }
     ///@dev entry point TODO verify checker
@@ -129,25 +131,30 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
     returns (bool){
         pool.set_start(_task);
     }
-    ///@dev entry point TODO condition check
+    ///@dev entry point TODO condition check, change client and worker status
     function report_finish(address _task, uint256 _complete_fee)
     miner_only(_task)
     public {
         pool.set_complete(_task, _complete_fee);
+        // client. set miner free and owner free
     }
-    ///@dev entry point TODO condition check
+    ///@dev entry point TODO condition check , CHANGE Client and worker status
     ///Currently the penalty would be pay the full price...
     function report_error(address _task, string _error_msg)
     miner_only(_task)
     public {
         pool.set_error(_task, _error_msg);
+        // client. set miner free and owner free
+
     }
-    ///@dev entry point TODO condition check
+    ///@dev entry point TODO condition check, change miner status
     function forfeit(address _task)
     miner_only(_task)
     public {
         pool.set_forfeit(_task);
         dispatcher_at.rejoin(_task, msg.sender, 1);
+                // client. set miner free and owner free
+
     }
 
     //------------------------------------------------------------------------------------------------------------------

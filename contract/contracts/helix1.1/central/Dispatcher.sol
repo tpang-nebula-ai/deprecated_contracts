@@ -27,8 +27,8 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
     address public queue_task_address;
     QueueInterface queue_task;
 
-    address public taskpool_address;
-    TaskPoolInterfaceGetter taskpool;
+    address public taskpool_address;  //Not needed 
+    TaskPoolInterfaceGetter taskpool; //Not needed
 
     address public distributor_address;
     DistributorInterfaceDispatcher distributor;
@@ -46,28 +46,28 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
 
     //------------------------------------------------------------------------------------------------------------------
     //Setters
-    //@dev Owner setter for contract preparation
+    ///@dev Owner setter for contract preparation
     function set_client(address _client) ownerOnly public returns (bool){
         require(_client != address(0));
         client_address = _client;
         client = ClientInterfaceDispatcher(client_address);
         return ready_check();
     }
-    //@dev Owner setter for contract preparation
+    ///@dev Owner setter for contract preparation
     function set_ai_queue(address _queue_ai) ownerOnly public returns (bool){
         require(_queue_ai != address(0));
         queue_ai_address = _queue_ai;
         queue_ai = QueueInterface(queue_ai_address);
         return ready_check();
     }
-    //@dev Owner setter for contract preparation
+    ///@dev Owner setter for contract preparation
     function set_task_queue(address _queue_task) ownerOnly public returns (bool){
         require(_queue_task != address(0));
         queue_task_address = _queue_task;
         queue_task = QueueInterface(queue_task_address);
         return ready_check();
     }
-    //@dev Owner setter for contract preparation
+    ///@dev Owner setter for contract preparation
     function set_taskpool(address _taskpool) ownerOnly public returns (bool){
         require(_taskpool != address(0));
         taskpool_address = _taskpool;
@@ -84,12 +84,12 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
 
     //------------------------------------------------------------------------------------------------------------------
     //internal helpers
-    //@dev internal usage
+    ///@dev internal usage
     function ready_check() internal returns (bool){
         return ready = client_address != address(0) && queue_ai_address != address(0) && queue_task_address != address(0)
         && taskpool_address != address(0) && distributor_address != address(0);
     }
-    //@dev internal usage
+    ///@dev internal usage
     struct account_info {
         bool _eligible;
         bool _waiting;
@@ -99,7 +99,7 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
         uint8 _level;
         bool _submissible;
     }
-
+    
     //@dev internal usage
     function load_client(address _client) Ready view internal returns (account_info){
         bool _eligible;
@@ -121,7 +121,7 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
     }
     /**
      * @dev internal usage, make change in its own data contract
-     * @dev
+     * 
      * @param _is_task distinguish a task or worker address
      * @param _address the address of the task or worker
      * @return @param _success whether the pushing to queue is successful
@@ -130,7 +130,7 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
      *         @param _task address of the task to be dispatched to worker
      */
     function is_dispatchable(bool _is_task, address _address)
-    Ready view internal
+    Ready internal
     returns (bool _success, bool _dispatchable, address _worker, address _task){
         if(_is_task){
             if(queue_ai.size() == 0) return (queue_task.push(_address), false, address(0), address(0));
@@ -192,9 +192,11 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
         address _task;
         (_success, _dispatchable, _worker, _task) = is_dispatchable(false, msg.sender);
 
-        assert(_success && dispatch(_task, _worker));
+        assert(_success);
         //make change in client account and task pool through Client and Distributor
-
+    
+        if(_dispatchable) dispatch(_task, _worker);
+        
         return true;
     }
     ///@dev entry point
@@ -216,12 +218,14 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
     //Distributor
     //@dev intermediate point - task validation has been made by
     function join_task_queue(address _task) Ready public payable returns (bool){
+        client.add_task(msg.sender, true, _task);
         bool _success;
         bool _dispatchable;
         address _worker;
         (_success, _dispatchable, _worker, _task) = is_dispatchable(true, _task);
 
-        assert(_success && dispatch(_task, _worker));
+        assert(_success);
+        if(_dispatchable) dispatch(_task, _worker);
         return true;
     }
     //@dev intermediate point, condition checked and met in distributor
