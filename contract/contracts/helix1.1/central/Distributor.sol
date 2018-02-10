@@ -26,12 +26,12 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
 
     //------------------------------------------------------------------------------------------------------------------
     //Owner
-    //@dev override
+    //@dev entry point override
     function setDispatcher(address _dispatcher) ownerOnly public {
         super.setDispatcher(_dispatcher);
         dispatcher_at = DispatcherInterfaceDistributor(dispatcher);
     }
-
+    ///@dev entry point
     function set_taskpool_contract(address _pool_address) ownerOnly public {
         require(_pool_address != 0);
         pool_address = _pool_address;
@@ -56,6 +56,7 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
 
     //------------------------------------------------------------------------------------------------------------------
     //Client
+    ///@dev entry point
     //TODO condition checker should be added here, not in dispatcher
     function create_task(
         uint256 _app_id,
@@ -74,7 +75,7 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
         _task = pool.create(_app_id, _name, _data, _script, _output, _params, msg.value, msg.sender);
     }
 
-    //@dev TODO REVIEW REQUIRED
+    //@dev entry point TODO REVIEW REQUIRED
     function cancel_task(address _task)
     contract_ready
     public
@@ -100,7 +101,7 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
             } else return false;
         }
     }
-
+    ///@dev entry point TODO verify checker
     function reassignable(address _task)
     contract_ready
     task_owner_only(_task)
@@ -113,7 +114,7 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
         require(_create_time != 0 && _dispatch_time != 0);
         return block.number - _dispatch_time > MAX_WAITING_BLOCK_COUNT;
     }
-
+    ///@dev entry point TODO verify checker
     function reassign_task_request(address _task)
     contract_ready
     task_owner_only(_task)
@@ -126,25 +127,26 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
 
     //------------------------------------------------------------------------------------------------------------------
     //Miner
+    ///@dev entry point TODO condition check
     function report_start(address _task)
     miner_only(_task)
     public
     returns (bool){
         pool.set_start(_task);
     }
-
+    ///@dev entry point TODO condition check
     function report_finish(address _task, uint256 _complete_fee)
     miner_only(_task)
     public {
         pool.set_complete(_task, _complete_fee);
     }
-
+    ///@dev entry point TODO condition check
     function report_error(address _task, string _error_msg)
     miner_only(_task)
     public {
         pool.set_error(_task, _error_msg);
     }
-
+    ///@dev entry point TODO condition check
     function forfeit(address _task)
     miner_only(_task)
     public {
@@ -154,6 +156,7 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
 
     //------------------------------------------------------------------------------------------------------------------
     //Dispatcher
+    ///@dev intermediate
     function dispatch_task(address _task, address _worker)
     dispatcher_only
     public {

@@ -119,8 +119,9 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
         (, ,_id, _curr) = _is_task ? queue_task.queuer_status(_address) : queue_ai.queuer_status(_address);
         return _id <= _curr ? 0 : _id.sub(_curr);
     }
-    //@dev internal usage, dispatchable Logic
     /**
+     * @dev internal usage, make change in its own data contract
+     * @dev
      * @param _is_task distinguish a task or worker address
      * @param _address the address of the task or worker
      * @return @param _success whether the pushing to queue is successful
@@ -128,34 +129,36 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
      *         @param _worker address of the worker where the task is assigned to
      *         @param _task address of the task to be dispatched to worker
      */
-    function dispatchable(bool _is_task, address _address) Ready view internal returns (bool _success, bool _dispatchable, address _worker, address _task){
+    function is_dispatchable(bool _is_task, address _address)
+    Ready view internal
+    returns (bool _success, bool _dispatchable, address _worker, address _task){
         if(_is_task){
             if(queue_ai.size() == 0) return (queue_task.push(_address), false, address(0), address(0));
             else{
-                if(queue_task.size() == 0) {
-                    return (true, true, queue_ai.pop(), _address);
-                } else {
-                    return (queue_task.push(_address), true, queue_ai.pop(), queue_task.pop());
-                }
+                if(queue_task.size() == 0) return (true, true, queue_ai.pop(), _address);
+                else return (queue_task.push(_address), true, queue_ai.pop(), queue_task.pop());
             }
         }else{
-            if(queue_task.size() == 0) return (queue_ai.push(_address), false, address(0), address(0));
+            if(queue_task.size() == 0) {
+                client.set_waiting(_address, true);//set waiting
+                return (queue_ai.push(_address), false, address(0), address(0));
+            }
             else{
-                if(queue_ai.size() == 0) {
-                    return (true, true, _address, queue_task.pop());
-                } else{
+                if(queue_ai.size() == 0) return (true, true, _address, queue_task.pop());
+                else {
+                    client.set_waiting(_address, true);// set waiting
                     return (queue_ai.push(_address), true, queue_ai.pop(), queue_task.pop());
                 }
             }
         }
     }
-    ///@dev internal usage
+    ///@dev internal usage, make changes in client accounts and task pool
     ///@dev task and client validation is made at their entry point
     function dispatch(address _task, address _worker) Ready internal returns (bool){
         //Client
-        client.add_job(_worker, true, _task);
+        client.add_job(_worker, true, _task);//set to working
         //Task
-        distributor.dispatch_task(_task, _worker);
+        distributor.dispatch_task(_task, _worker);//change task status to dispatched
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -181,12 +184,18 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
     function join_ai_queue() Ready public returns (bool){
         account_info memory _sender = load_client(msg.sender);
         require(_sender._eligible && !_sender._waiting && !_sender._working);
-        ();
-//        if (dispatchable(false)) {
-//            dispatch(queue_task.pop(), msg.sender);
-//        } else {
-//            client.set_waiting(msg.sender, true);
-//        }
+
+        //make changes in both queue
+        bool _success;
+        bool _dispatchable;
+        address _worker;
+        address _task;
+        (_success, _dispatchable, _worker, _task) = is_dispatchable(false, msg.sender);
+
+        assert(_success);
+
+        //make change in client account and task pool through Client and Distributor
+        return _dispatchable ? dispatch(queue_task.pop(), msg.sender) : false;
     }
     ///@dev entry point
     function leave_ai_queue() Ready public returns (bool){
@@ -205,7 +214,7 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
 
     //------------------------------------------------------------------------------------------------------------------
     //Distributor
-    //@dev intermediate point
+    //@dev intermediate point - task validation has been made by
     function join_task_queue(address _task) Ready public payable returns (bool){
 
     }
