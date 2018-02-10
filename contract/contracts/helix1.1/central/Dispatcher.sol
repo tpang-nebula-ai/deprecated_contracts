@@ -116,7 +116,7 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
     function calculate_position(bool _is_task, address _address) Ready internal view returns (uint256){
         uint _id;
         uint _curr;
-        (, ,_id, _curr) = _is_task ? queue_task.queuer_status(_address) : queue_ai.queuer_status(_address);
+        (, , _id, _curr) = _is_task ? queue_task.queuer_status(_address) : queue_ai.queuer_status(_address);
         return _id <= _curr ? 0 : _id.sub(_curr);
     }
     /**
@@ -192,10 +192,10 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
         address _task;
         (_success, _dispatchable, _worker, _task) = is_dispatchable(false, msg.sender);
 
-        assert(_success);
-
+        assert(_success && dispatch(_task, _worker));
         //make change in client account and task pool through Client and Distributor
-        return _dispatchable ? dispatch(queue_task.pop(), msg.sender) : false;
+
+        return true;
     }
     ///@dev entry point
     function leave_ai_queue() Ready public returns (bool){
@@ -216,17 +216,23 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
     //Distributor
     //@dev intermediate point - task validation has been made by
     function join_task_queue(address _task) Ready public payable returns (bool){
+        bool _success;
+        bool _dispatchable;
+        address _worker;
+        (_success, _dispatchable, _worker, _task) = is_dispatchable(true, _task);
 
+        assert(_success && dispatch(_task, _worker));
+        return true;
     }
-    //@dev intermediate point
+    //@dev intermediate point, condition checked and met in distributor
     function leave_task_queue(address _task_address) Ready public returns (bool){
-
+        assert(queue_task.remove(_task_address));
+        return true;
     }
     //@dev task rejoin to queue after being dispatched
     //@dev intermediate point
     function rejoin(address _task, address _worker, uint _penalty) Ready public returns (bool){
-
+        queue_task.insert(_task, 0);//current insert to head of the queue_task
+        return client.set_misconduct_counter(_worker, true, _penalty);
     }
-
-
 }

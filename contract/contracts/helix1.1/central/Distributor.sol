@@ -88,18 +88,13 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
 
         require(_create_time != 0);
         //task existed
-
-        if (_dispatch_time != 0) return false;
-        //task dispatched cannot cancel
-        else {
-            if (dispatcher_at.leave_task_queue(_task)) {
-                //in queue can be cancelled
-                uint256 _fee;
-                (_fee,) = pool.get_fees(_task);
-                if (pool.set_fee(_task, 0)) _task_owner.transfer(_fee);
-                else return false;
-            } else return false;
-        }
+        if(_dispatch_time == 0 && dispatcher_at.leave_task_queue(_task)){
+            //in queue can be cancelled
+            uint256 _fee;
+            (_fee,) = pool.get_fees(_task);
+            assert(pool.set_fee(_task, 0));
+            return _task_owner.transfer(_fee);
+        } else return false; //task dispatched cannot cancel
     }
     ///@dev entry point TODO verify checker
     function reassignable(address _task)
@@ -141,6 +136,7 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
         pool.set_complete(_task, _complete_fee);
     }
     ///@dev entry point TODO condition check
+    ///Currently the penalty would be pay the full price...
     function report_error(address _task, string _error_msg)
     miner_only(_task)
     public {

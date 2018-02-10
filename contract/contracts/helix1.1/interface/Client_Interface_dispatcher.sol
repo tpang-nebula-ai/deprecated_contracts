@@ -22,7 +22,7 @@ interface ClientInterfaceDispatcher {
 
     function set_banned(address _client, bool _banned) public returns (bool);
 
-    function set_misconduct_counter(address _client, bool _increase) public returns (bool);
+    function set_misconduct_counter(address _client, bool _increase, uint256 _amount) public returns (bool);
 
     function set_level(address _client, uint8 _level) public returns (bool);
 

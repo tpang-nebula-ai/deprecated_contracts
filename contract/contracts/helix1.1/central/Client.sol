@@ -1,5 +1,6 @@
 pragma solidity ^0.4.18;
 import "../ownership/Dispatchable.sol";
+import "../misc/SafeMath.sol";
 import "../interface/Client_Interface_dispatcher.sol";
 import "../interface/Client_Interface_client.sol";
 import "../interface/Client_Interface_miner.sol";
@@ -7,7 +8,7 @@ import "../interface/Client_Interface_dispatcher.sol";
 
 ///@dev logic should be added
 contract Client is Dispatchable, ClientInterfaceClient, ClientInterfaceMiner, ClientInterfaceDispatcher {
-
+    using SafeMath for uint256;
     struct Account {
         //both
         bool banned;
@@ -90,13 +91,13 @@ contract Client is Dispatchable, ClientInterfaceClient, ClientInterfaceMiner, Cl
         return true;
     }
 
-    function set_misconduct_counter(address _client, bool _increase) valid_client(_client) dispatcher_only public returns (bool){
+    function set_misconduct_counter(address _client, bool _increase, uint256 _amount) valid_client(_client) dispatcher_only public returns (bool){
         if (_increase) {
-            accounts[_client].misconduct_counter++;
+            accounts[_client].misconduct_counter.add(_amount);
             if (accounts[_client].misconduct_counter == 3) set_banned(_client, true);
         } else {
             require(accounts[_client].misconduct_counter > 0);
-            accounts[_client].misconduct_counter--;
+            accounts[_client].misconduct_counter.sub(_amount);
             if (accounts[_client].misconduct_counter < 3) set_banned(_client, false);
         }
         return true;
