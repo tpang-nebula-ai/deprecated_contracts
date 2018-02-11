@@ -1,7 +1,5 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.18;
 
-contract Dispatcher_Interface_admin {
-    function Dispatcher_Interface_admin(){
+interface Dispatcher_Interface_admin {
 
-    }
 }

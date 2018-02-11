@@ -14,7 +14,7 @@ contract Dispatchable is Ownable {
         require(dispatcher != address(0) && msg.sender == dispatcher);
         _;
     }
-    function setDispatcher(address _dispatcher) ownerOnly public {
+    function set_dispatcher(address _dispatcher) ownerOnly public {
         dispatcher = _dispatcher;
     }
 }

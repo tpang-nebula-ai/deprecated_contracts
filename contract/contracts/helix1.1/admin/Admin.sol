@@ -1,16 +1,10 @@
 pragma solidity ^0.4.18;
 
-import "../central/Client.sol";
-import "../central/Dispatcher.sol";
-import "../central/Distributor.sol";
 
-import "../model/Accounts.sol";
-import "../model/Queue.sol";
-import "../model/TaskPool.sol";
 
 import "../ownership/Ownable.sol";
 
-contract Deployer is Ownable {
+contract Admin is Ownable {
     address public dispatcher_address;
     address public client_address;
     address public distributor_address;

@@ -1,5 +1,6 @@
 pragma solidity ^0.4.18;
 import "../ownership/Dispatchable.sol";
+import "../ownership/Distributable.sol";
 import "../misc/SafeMath.sol";
 import "../interface/Client_Interface_dispatcher.sol";
 import "../interface/Client_Interface_client.sol";
@@ -7,7 +8,9 @@ import "../interface/Client_Interface_miner.sol";
 import "../interface/Client_Interface_dispatcher.sol";
 
 ///@dev logic should be added
-contract Client is Dispatchable, ClientInterfaceClient, ClientInterfaceMiner, ClientInterfaceDispatcher {
+contract Client is Dispatchable, Distributable, 
+ClientInterfaceClient, ClientInterfaceMiner, ClientInterfaceDispatcher 
+{
     using SafeMath for uint8;
     struct Account {
         //both

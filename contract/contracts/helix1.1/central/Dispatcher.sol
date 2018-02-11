@@ -4,7 +4,6 @@ import "../misc/SafeMath.sol";
 import "../ownership/Ownable.sol";
 import "../interface/Client_Interface_dispatcher.sol";
 import "../interface/Queue_Interface.sol";
-import "../interface/TaskPool_Interface_getters.sol";
 import "../interface/Distributor_Interface_dispatcher.sol";
 import "../interface/Dispatcher_Interface_client.sol";
 import "../interface/Dispatcher_Interface_miner.sol";
@@ -21,17 +20,15 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
     address public client_address;
     ClientInterfaceDispatcher client;
 
+    address public distributor_address;
+    DistributorInterfaceDispatcher distributor;
+
     address public queue_ai_address;
     QueueInterface queue_ai;
 
     address public queue_task_address;
     QueueInterface queue_task;
 
-    address public taskpool_address;  //Not needed 
-    TaskPoolInterfaceGetter taskpool; //Not needed
-
-    address public distributor_address;
-    DistributorInterfaceDispatcher distributor;
 
     //------------------------------------------------------------------------------------------------------------------
     //Constructor
@@ -67,13 +64,6 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
         queue_task = QueueInterface(queue_task_address);
         return ready_check();
     }
-    ///@dev Owner setter for contract preparation
-    function set_taskpool(address _taskpool) ownerOnly public returns (bool){
-        require(_taskpool != address(0));
-        taskpool_address = _taskpool;
-        taskpool = TaskPoolInterfaceGetter(taskpool_address);
-        return ready_check();
-    }
     //@dev Owner setter for contract preparation
     function set_distributor(address _distributor) ownerOnly public returns (bool){
         require(_distributor != address(0));
@@ -86,8 +76,10 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
     //internal helpers
     ///@dev internal usage
     function ready_check() internal returns (bool){
-        return ready = client_address != address(0) && queue_ai_address != address(0) && queue_task_address != address(0)
-        && taskpool_address != address(0) && distributor_address != address(0);
+        return ready = client_address != address(0)
+        && queue_ai_address != address(0)
+        && queue_task_address != address(0)
+        && distributor_address != address(0);
     }
     ///@dev internal usage
     struct account_info {

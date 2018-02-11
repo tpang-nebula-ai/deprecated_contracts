@@ -1,7 +1,6 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.18;
 
-contract Distributor {
-    function Distributor(){
-
-    }
+interface DistributorInterfaceAdmin {
+    function set_distributor(address _distributor) public returns (bool);
+    function set_client(address _client) public returns (bool);
 }

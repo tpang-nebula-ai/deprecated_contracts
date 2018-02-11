@@ -1,7 +1,5 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.18;
 
-contract Queue_Interface_admin {
-    function Queue_Interface_admin(){
-
-    }
+interface Queue_Interface_admin {
+    function set_dispatcher(address _dispatcher) public;
 }

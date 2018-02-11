@@ -1,7 +1,5 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.18;
 
-contract TaskPool_interface_admin {
-    function TaskPool_interface_admin(){
-
-    }
+interface TaskPool_interface_admin {
+    function set_distributor(address _distributor) public returns (bool);
 }

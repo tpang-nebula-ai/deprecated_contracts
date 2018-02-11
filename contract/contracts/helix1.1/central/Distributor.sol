@@ -28,7 +28,7 @@ contract Distributor is Dispatchable, DistributorInterfaceClient, DistributorInt
     //Owner
     //@dev entry point override
     function setDispatcher(address _dispatcher) ownerOnly public {
-        super.setDispatcher(_dispatcher);
+        super.set_dispatcher(_dispatcher);
         dispatcher_at = DispatcherInterfaceDistributor(dispatcher);
     }
     ///@dev entry point

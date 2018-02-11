@@ -1,7 +1,5 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.18;
 
-contract Account_Interface_admin {
-    function Account_Interface_admin(){
-
-    }
+interface AccountInterfaceAdmin {
+//    function set_client(address _client) public returns(bool);
 }
