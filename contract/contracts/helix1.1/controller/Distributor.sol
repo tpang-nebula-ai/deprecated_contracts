@@ -72,7 +72,10 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         //        require(app.valid_id(_app_id)) app_id needs to be valid , TODO a contract that keep tracks of the app id
         require(msg.value >= minimal_fee && _app_id != 0);
         _task = pool.create(_app_id, _name, _data, _script, _output, _params, msg.value, msg.sender);
+
         dispatcher.join_task_queue.value(msg.value)(_task);
+
+        client.add_task(msg.sender, true, _task);
         //TODO this ONLY for testing
     }
 

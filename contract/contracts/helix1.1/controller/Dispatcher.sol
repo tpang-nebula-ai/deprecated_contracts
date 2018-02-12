@@ -112,16 +112,12 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
                 else return (queue_task.push(_address), true, queue_ai.pop(), queue_task.pop());
             }
         }else{
-            if(queue_task.size() == 0) {
-                client.set_waiting(_address, true);//set waiting
-                return (queue_ai.push(_address), false, address(0), address(0));
-            }
+            client.set_waiting(_address, true);
+            //set waiting
+            if (queue_task.size() == 0) return (queue_ai.push(_address), false, address(0), address(0));
             else{
                 if(queue_ai.size() == 0) return (true, true, _address, queue_task.pop());
-                else {
-                    client.set_waiting(_address, true);// set waiting
-                    return (queue_ai.push(_address), true, queue_ai.pop(), queue_task.pop());
-                }
+                else return (queue_ai.push(_address), true, queue_ai.pop(), queue_task.pop());
             }
         }
     }

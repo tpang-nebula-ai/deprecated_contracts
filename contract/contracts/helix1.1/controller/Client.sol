@@ -80,7 +80,8 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
         return account.set_waiting(_client, _waiting);
     }
     ///@dev intermediate
-    function add_job(address _client, bool _working, address _task) valid_client(_client) dispatcher_only public returns (bool){
+    function add_job(address _client, bool _working, address _task) valid_client(_client) public returns (bool){
+        require(msg.sender == dispatcher_address || msg.sender == distributor_address);
         return account.add_job(_client, _working, _task);
     }
     ///@dev intermediate
@@ -96,7 +97,8 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
         return account.set_level(_client, _level);
     }
     ///@dev intermediate
-    function add_task(address _client, bool _new, address _task) valid_client(_client) dispatcher_only public returns (bool){
+    function add_task(address _client, bool _new, address _task) valid_client(_client) public returns (bool){
+        require(msg.sender == dispatcher_address || msg.sender == distributor_address);
         return account.add_task(_client, _new, _task);
     }
 

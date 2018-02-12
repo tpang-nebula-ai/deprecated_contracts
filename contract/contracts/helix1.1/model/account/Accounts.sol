@@ -118,7 +118,7 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
 
     //miner
     function job_history() view public returns (address[]){
-        return accounts[msg.sender].task_history;
+        return accounts[msg.sender].job_history;
     }
 
     function active_job() view public returns (address){

@@ -83,31 +83,31 @@ contract Admin is Ownable {
         return true;
     }
     //internal @dev testing only todo remove for release
-    function set_dispatcher() public returns (bool){
+    function set_dispatcher() internal returns (bool){
         return dispatcher.set_addresses(dispatcher_address, distributor_address, client_address, queue_ai_address, queue_task_address);
     }
 
-    function set_distributor() public returns (bool){
+    function set_distributor() internal returns (bool){
         return distributor.set_addresses(dispatcher_address, distributor_address, client_address, taskpool_address, address(0));
     }
 
-    function set_client() public returns (bool){
+    function set_client() internal returns (bool){
         return client.set_addresses(dispatcher_address, distributor_address, client_address, account_address, address(0));
     }
 
-    function set_account() public returns (bool){
+    function set_account() internal returns (bool){
         return account.set_client(client_address);
     }
 
-    function set_queue_ai() public returns (bool){
+    function set_queue_ai() internal returns (bool){
         return queue_ai.set_dispatcher(dispatcher_address);
     }
 
-    function set_queue_task() public returns (bool){
+    function set_queue_task() internal returns (bool){
         return queue_task.set_dispatcher(dispatcher_address);
     }
 
-    function set_taskpool() public returns (bool){
+    function set_taskpool() internal returns (bool){
         return taskpool.set_distributor(distributor_address);
     }
 }
