@@ -1,20 +1,21 @@
 pragma solidity ^0.4.18;
 
-import "../ownership/Ownable.sol";
+import "./Ownable.sol";
+import "../interface/taskpool/TaskPool_Interface_admin.sol";
 
-contract Distributable is Ownable {
-    address public distributor;
+contract Distributable is Ownable, TaskPoolInterfaceAdmin {
+    address public distributor_address;
 
     function Distributable(address _owner) public Ownable(_owner) {}
 
-    function set_distributor(address _distributor) ownerOnly public returns (bool){
-        require(_distributor != address(0));
-        distributor = _distributor;
-        return true;
+    modifier distributor_only(){
+        require(distributor_address != address(0) && msg.sender == distributor_address);
+        _;
     }
 
-    modifier distributor_only(){
-        require(msg.sender == distributor);
-        _;
+    function set_distributor(address _distributor) ownerOnly public returns (bool){
+        require(_distributor != address(0));
+        distributor_address = _distributor;
+        return true;
     }
 }

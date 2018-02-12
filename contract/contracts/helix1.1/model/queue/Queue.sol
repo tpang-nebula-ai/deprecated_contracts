@@ -1,7 +1,7 @@
 pragma solidity ^0.4.18;
 
-import "../interface/Queue_Interface.sol";
 import "../ownership/Dispatchable.sol";
+import "../interface/Queue_Interface.sol";
 
 contract Queue is QueueInterface, Dispatchable {
     struct Queuer {

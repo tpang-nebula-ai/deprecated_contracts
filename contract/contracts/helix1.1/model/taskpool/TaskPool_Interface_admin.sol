@@ -1,5 +1,5 @@
 pragma solidity ^0.4.18;
 
-interface TaskPool_interface_admin {
+interface TaskPoolInterfaceAdmin {
     function set_distributor(address _distributor) public returns (bool);
 }

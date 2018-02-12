@@ -1,34 +1,24 @@
 pragma solidity ^0.4.18;
-import "../ownership/Dispatchable.sol";
-import "../ownership/Distributable.sol";
+
 import "../misc/SafeMath.sol";
-import "../interface/Client_Interface_dispatcher.sol";
-import "../interface/Client_Interface_client.sol";
-import "../interface/Client_Interface_miner.sol";
-import "../interface/Client_Interface_dispatcher.sol";
+import "../ownership/Controllable.sol";
+
+import "../interface/model/Account_Interface.sol";
+
+import "../interface/client/Client_Interface_dispatcher.sol";
+import "../interface/client/Client_Interface_distributor.sol";
+import "../interface/client/Client_Interface_submitter.sol";
+import "../interface/client/Client_Interface_miner.sol";
+
+import "../interface/distributor/Distributor_Interface_client.sol";
+import "../interface/dispatcher/Dispatcher_Interface_client.sol";
 
 ///@dev logic should be added
-contract Client is Dispatchable, Distributable, 
-ClientInterfaceClient, ClientInterfaceMiner, ClientInterfaceDispatcher 
+contract Client is Controllable,
+ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, ClientInterfaceDistributor
 {
-    using SafeMath for uint8;
-    struct Account {
-        //both
-        bool banned;
-        uint8 misconduct_counter;
-        //client
-        uint8 level;
-        address[] task_history;
-        address[] active_tasks;
-        //worker
-        bool eligible;
-        bool waiting;
-        bool working;
-        address[] job_history;
-        address active_job;
-    }
-
-    mapping(address => Account) accounts;
+    address public account_address;
+    AccountInterface account;
 
     function Client() public Dispatchable(msg.sender) {}
 

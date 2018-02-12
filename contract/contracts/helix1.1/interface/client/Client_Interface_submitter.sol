@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-interface ClientInterfaceClient {
+interface ClientInterfaceSubmitter {
     function get_client_c() view public returns
     (
         bool _banned,

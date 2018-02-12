@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-interface DistributorInterfaceClient {
+interface DistributorInterfaceSubmitter {
 
     function create_task(
         uint256 _app_id, string _name, string _data, string _script, string _output, string _params

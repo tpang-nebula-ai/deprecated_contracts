@@ -1,21 +1,24 @@
 pragma solidity ^0.4.18;
 
 import "../misc/SafeMath.sol";
-import "../ownership/Ownable.sol";
-import "../interface/Client_Interface_dispatcher.sol";
-import "../interface/Queue_Interface.sol";
-import "../interface/Distributor_Interface_dispatcher.sol";
-import "../interface/Dispatcher_Interface_client.sol";
-import "../interface/Dispatcher_Interface_miner.sol";
-import "../interface/Dispatcher_Interface_distributor.sol";
+import "../ownership/Controllable.sol";
+
+import "../interface/model/Queue_Interface.sol";
+
+import "../interface/dispatcher/Dispatcher_Interface_client.sol";
+import "../interface/dispatcher/Dispatcher_Interface_distributor.sol";
+import "../interface/dispatcher/Dispatcher_Interface_submitter.sol";
+import "../interface/dispatcher/Dispatcher_Interface_miner.sol";
+
+import "../interface/client/Client_Interface_dispatcher.sol";
+import "../interface/distributor/Distributor_Interface_dispatcher.sol";
 
 //Dispatcher Logic Module
-contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMiner, DispatcherInterfaceDistributor
+contract Dispatcher is Controllable,
+DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistributor, DispatcherInterfaceClient
 {
     //------------------------------------------------------------------------------------------------------------------
     using SafeMath for uint256;
-    //Required Contracts
-    bool public ready;
 
     address public client_address;
     ClientInterfaceDispatcher client;
@@ -36,51 +39,24 @@ contract Dispatcher is Ownable, DispatcherInterfaceClient, DispatcherInterfaceMi
 
     //------------------------------------------------------------------------------------------------------------------
     //Modifier
-    modifier Ready(){
-        require(ready);
-        _;
-    }
 
     //------------------------------------------------------------------------------------------------------------------
     //Setters
-    ///@dev Owner setter for contract preparation
-    function set_client(address _client) ownerOnly public returns (bool){
-        require(_client != address(0));
-        client_address = _client;
-        client = ClientInterfaceDispatcher(client_address);
-        return ready_check();
-    }
-    ///@dev Owner setter for contract preparation
-    function set_ai_queue(address _queue_ai) ownerOnly public returns (bool){
-        require(_queue_ai != address(0));
-        queue_ai_address = _queue_ai;
+    ///@Override
+    function set_addresses(address _dispatcher, address _distributor, address _client, address _model, address _task_queue) ownerOnly public returns (bool){
+        super.set_address(_dispatcher, _distributor, _client, _model, _task_queue);
+        queue_ai_address = _model;
         queue_ai = QueueInterface(queue_ai_address);
-        return ready_check();
-    }
-    ///@dev Owner setter for contract preparation
-    function set_task_queue(address _queue_task) ownerOnly public returns (bool){
-        require(_queue_task != address(0));
-        queue_task_address = _queue_task;
+        queue_task_address = _task_queue;
         queue_task = QueueInterface(queue_task_address);
-        return ready_check();
-    }
-    //@dev Owner setter for contract preparation
-    function set_distributor(address _distributor) ownerOnly public returns (bool){
-        require(_distributor != address(0));
-        distributor_address = _distributor;
+        client = ClientInterfaceDispatcher(client_address);
         distributor = DistributorInterfaceDispatcher(distributor_address);
-        return ready_check();
+        controller_ready = true;
     }
 
     //------------------------------------------------------------------------------------------------------------------
     //internal helpers
-    ///@dev internal usage
-    function ready_check() internal returns (bool){
-        return ready = client_address != address(0)
-        && queue_ai_address != address(0)
-        && queue_task_address != address(0)
-        && distributor_address != address(0);
-    }
+
     ///@dev internal usage
     struct account_info {
         bool _eligible;

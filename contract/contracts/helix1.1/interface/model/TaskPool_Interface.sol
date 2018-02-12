@@ -22,17 +22,17 @@ interface TaskPoolInterface {
     function get_fees(address _task) view public returns (uint256 _fee, uint256 _completion_fee);
 
     //setter
-    function set_dispatched(address _task, address _worker) public;
+    function set_dispatched(address _task, address _worker) public returns (bool);
 
-    function set_start(address _task) public;
+    function set_start(address _task) public returns (bool);
 
     function set_fee(address _task, uint256 _fee) public returns (bool);
 
-    function set_complete(address _task, uint256 _complete_fee) public;
+    function set_complete(address _task, uint256 _complete_fee) public returns (bool);
 
-    function set_error(address _task, string _error_msg) public;
+    function set_error(address _task, string _error_msg) public returns (bool);
 
-    function set_cancel(address _task) public;
+    function set_cancel(address _task) public returns (bool);
 
-    function set_forfeit(address _task) public;
+    function set_forfeit(address _task) public returns (bool);
 }
