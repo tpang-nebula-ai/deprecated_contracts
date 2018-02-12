@@ -17,8 +17,9 @@ import "../interface/client/Client_Interface_distributor.sol";
 contract Distributor is Controllable,
 DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDispatcher, DistributorInterfaceClient {
     using SafeMath for uint256;
-    DispatcherInterfaceDistributor dispatcher;
 
+    DispatcherInterfaceDistributor dispatcher;
+    ClientInterfaceDistributor client;
     address public pool_address;
     TaskPoolInterface pool;
 
@@ -31,21 +32,18 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
     //------------------------------------------------------------------------------------------------------------------
     //Admin
-    function set_addresses(address _dispatcher, address _distributor, address _client, address _model, address _task_queue) ownerOnly public returns (bool){
-        super.set_address(_dispatcher, _distributor, _client, _model, _task_queue);
+    function set_addresses(address _dispatcher, address _distributor, address _client, address _model, address _task_queue) admin_only public returns (bool){
+        super.set_addresses(_dispatcher, _distributor, _client, _model, _task_queue);
+        
         pool_address = _model;
         pool = TaskPoolInterface(pool_address);
-        client = ClientInterfaceDispatcher(client_address);
-        dispatcher = DispatcherInterfaceDistributor(dispatcher_address);
-        contract_ready = true;
-    }
 
-    ///@dev entry point
-    function set_taskpool_contract(address _pool_address) ownerOnly public {
-        require(_pool_address != 0);
-        pool_address = _pool_address;
-        pool = TaskPoolInterface(pool_address);
-        pool_ready = true;
+        client = ClientInterfaceDistributor(client_address);
+        dispatcher = DispatcherInterfaceDistributor(dispatcher_address);
+        //todo add a checker function
+
+        controller_ready = true;
+        return true;
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -73,7 +71,8 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         //        require(app.valid_id(_app_id)) app_id needs to be valid , TODO a contract that keep tracks of the app id
         require(msg.value >= minimal_fee && _app_id != 0);
         _task = pool.create(_app_id, _name, _data, _script, _output, _params, msg.value, msg.sender);
-        dispatcher_at.join_task_queue.value(msg.value)(_task);//TODO this ONLY for testing
+        dispatcher.join_task_queue.value(msg.value)(_task);
+        //TODO this ONLY for testing
     }
 
     //@dev entry point TODO REVIEW REQUIRED and add assert
@@ -86,7 +85,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
         require(_create_time != 0);
         //task existed
-        if(_dispatch_time == 0 && dispatcher_at.leave_task_queue(_task)){
+        if (_dispatch_time == 0 && dispatcher.leave_task_queue(_task)) {
             //in queue can be cancelled
             uint256 _fee;
             (_fee,) = pool.get_fees(_task);
@@ -115,7 +114,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     public
     returns (bool)
     {
-        if (reassignable(_task)) return dispatcher_at.rejoin(_task, msg.sender, 2);
+        if (reassignable(_task)) return dispatcher.rejoin(_task, msg.sender, 2);
         else return false;
     }
 
@@ -141,7 +140,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     }
     ///@dev entry point TODO condition check, change miner status
     function forfeit(address _task) miner_only(_task) public returns (bool){
-        assert(pool.set_forfeit(_task) && dispatcher_at.rejoin(_task, msg.sender, 1));
+        assert(pool.set_forfeit(_task) && dispatcher.rejoin(_task, msg.sender, 1));
         // client. set miner free and owner free
         return true;
     }

@@ -20,10 +20,7 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
     //------------------------------------------------------------------------------------------------------------------
     using SafeMath for uint256;
 
-    address public client_address;
     ClientInterfaceDispatcher client;
-
-    address public distributor_address;
     DistributorInterfaceDispatcher distributor;
 
     address public queue_ai_address;
@@ -35,25 +32,33 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
 
     //------------------------------------------------------------------------------------------------------------------
     //Constructor
-    function Dispatcher() public Ownable(msg.sender) {}
+    function Dispatcher(address _admin) public Controllable(msg.sender, _admin) {}
 
     //------------------------------------------------------------------------------------------------------------------
     //Modifier
 
     //------------------------------------------------------------------------------------------------------------------
     //Setters
-    ///@Override
-    function set_addresses(address _dispatcher, address _distributor, address _client, address _model, address _task_queue) ownerOnly public returns (bool){
-        super.set_address(_dispatcher, _distributor, _client, _model, _task_queue);
+    //Override
+    function set_addresses(address _dispatcher, address _distributor, address _client, address _model, address _task_queue) admin_only public returns (bool){
+        super.set_addresses(_dispatcher, _distributor, _client, _model, _task_queue);
+
         queue_ai_address = _model;
         queue_ai = QueueInterface(queue_ai_address);
         queue_task_address = _task_queue;
         queue_task = QueueInterface(queue_task_address);
+
         client = ClientInterfaceDispatcher(client_address);
         distributor = DistributorInterfaceDispatcher(distributor_address);
+        //todo add a checker function
+       
         controller_ready = true;
+
+        return true;
     }
 
+    event B(address);
+    event C(address);
     //------------------------------------------------------------------------------------------------------------------
     //internal helpers
 

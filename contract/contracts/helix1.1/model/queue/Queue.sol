@@ -1,7 +1,7 @@
 pragma solidity ^0.4.18;
 
-import "../ownership/Dispatchable.sol";
-import "../interface/Queue_Interface.sol";
+import "../../ownership/Dispatchable.sol";
+import "../../interface/model/Queue_Interface.sol";
 
 contract Queue is QueueInterface, Dispatchable {
     struct Queuer {
@@ -22,9 +22,11 @@ contract Queue is QueueInterface, Dispatchable {
     QueueStruct queue = QueueStruct(0, 0, 0, 0, 0);
 
     ///@dev dispatcher not set at constructor
-    function Queue() public
-    Dispatchable(msg.sender) //set the creator of the contract as owner
+    function Queue(address _admin) public
+    Dispatchable(msg.sender, _admin) //set the creator of the contract as owner
     {}
+
+
 
     //helper viewers
     function has_next() view public returns (bool){
