@@ -14,17 +14,15 @@ interface ClientInterfaceDispatcher {
 
     function submissible(address _address) view public returns (bool);
 
-    function set_eligible(address _client, bool _eligible) public returns (bool);
-
     function set_waiting(address _client, bool _waiting) public returns (bool);
 
     function add_job(address _client, bool _working, address _task) public returns (bool);
 
     function set_banned(address _client, bool _banned) public returns (bool);
 
-    function set_misconduct_counter(address _client, bool _increase, uint256 _amount) public returns (bool);
+    function set_misconduct_counter(address _client, bool _increase, uint8 _amount) public returns (uint8);
 
-    function set_level(address _client, uint8 _level) public returns (bool);
+    function set_level(address _client, uint8 _level) public returns (uint8);
 
     function add_task(address _client, bool _new, address _task) public returns (bool);
 }

@@ -17,6 +17,7 @@ import "../interface/client/Client_Interface_distributor.sol";
 contract Distributor is Controllable,
 DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDispatcher, DistributorInterfaceClient {
     using SafeMath for uint256;
+    using SafeMath for uint8;
 
     DispatcherInterfaceDistributor dispatcher;
     ClientInterfaceDistributor client;
@@ -71,7 +72,10 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         //        require(app.valid_id(_app_id)) app_id needs to be valid , TODO a contract that keep tracks of the app id
         require(msg.value >= minimal_fee && _app_id != 0);
         _task = pool.create(_app_id, _name, _data, _script, _output, _params, msg.value, msg.sender);
+
         dispatcher.join_task_queue.value(msg.value)(_task);
+
+        client.add_task(msg.sender, true, _task);
         //TODO this ONLY for testing
     }
 
@@ -114,8 +118,12 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     public
     returns (bool)
     {
-        if (reassignable(_task)) return dispatcher.rejoin(_task, msg.sender, 2);
-        else return false;
+        if (reassignable(_task)) {
+            uint8 _misconduct_counter;
+            (, ,,, _misconduct_counter,,) = client.get_client(msg.sender);
+            assert(dispatcher.rejoin(_task, msg.sender, uint8(2)) == _misconduct_counter.add(2));
+            return true;
+        }
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -127,22 +135,27 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     }
     ///@dev entry point TODO condition check, change client and worker status
     function report_finish(address _task, uint256 _complete_fee) miner_only(_task) public returns (bool){
-        assert(pool.set_complete(_task, _complete_fee));
+        assert(pool.set_complete(_task, _complete_fee) && set_complete(_task));
         return true;
-        // client. set miner free and owner free
     }
     ///@dev entry point TODO condition check , CHANGE Client and worker status
     ///Currently the penalty would be pay the full price...
     function report_error(address _task, string _error_msg) miner_only(_task) public returns (bool){
-        assert(pool.set_error(_task, _error_msg));
-        // client. set miner free and owner free
+        assert(pool.set_error(_task, _error_msg) && set_complete(_task));
         return true;
     }
     ///@dev entry point TODO condition check, change miner status
     function forfeit(address _task) miner_only(_task) public returns (bool){
-        assert(pool.set_forfeit(_task) && dispatcher.rejoin(_task, msg.sender, 1));
-        // client. set miner free and owner free
+        uint8 _misconduct_counter;
+        (, ,,, _misconduct_counter,,) = client.get_client(msg.sender);
+        assert(pool.set_forfeit(_task) && dispatcher.rejoin(_task, msg.sender, uint8(1)) == _misconduct_counter.add(1) && set_complete(_task));
         return true;
+    }
+    // client. set miner free and owner free
+    function set_complete(address _task) internal returns (bool){
+        return client.add_task(pool.get_owner(_task), false, _task) == false //submitter
+        && client.add_job(pool.get_worker(_task), false, _task) == false;
+        //worker
     }
 
     //------------------------------------------------------------------------------------------------------------------

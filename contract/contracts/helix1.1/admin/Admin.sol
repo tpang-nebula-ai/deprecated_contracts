@@ -5,6 +5,7 @@ import "../model/account/Account_Interface_admin.sol";
 import "../model/queue/Queue_Interface_admin.sol";
 import "../model/taskpool/TaskPool_Interface_admin.sol";
 
+//@dev todo add version
 contract Admin is Ownable {
 
     address public dispatcher_address;
@@ -14,7 +15,6 @@ contract Admin is Ownable {
     ControllerInterfaceAdmin dispatcher;
     ControllerInterfaceAdmin distributor;
     ControllerInterfaceAdmin client;
-
 
     address public queue_ai_address;
     address public queue_task_address;
@@ -67,57 +67,47 @@ contract Admin is Ownable {
         taskpool_address = _address;
         taskpool = TaskPoolInterfaceAdmin(taskpool_address);
     }
-
+    //@dev entry point
     function set_all() ownerOnly public returns (bool){
-        // require(dispatcher_address != address(0) && client_address != address(0) && distributor_address != address(0)
-        // && queue_ai_address != address(0) && queue_task_address != address(0)
-        // && account_address != address(0) && taskpool_address != address(0));
+        require(
+            dispatcher_address != address(0) && client_address != address(0) && distributor_address != address(0)
+            && queue_ai_address != address(0) && queue_task_address != address(0)
+            && account_address != address(0) && taskpool_address != address(0)
+        );
 
-        set_distributor();
-        set_dispatcher();
-        set_client();
-
-        set_account();
-        set_queue_task();
-        set_queue_ai();
-        set_taskpool();
+        assert(
+            set_distributor() && set_dispatcher() && set_client()
+            && set_account() && set_queue_task() && set_queue_ai() && set_taskpool()
+        );
+        
         return true;
     }
-
-    function set_dispatcher() public returns (bool){
+    //internal @dev testing only todo remove for release
+    function set_dispatcher() internal returns (bool){
         return dispatcher.set_addresses(dispatcher_address, distributor_address, client_address, queue_ai_address, queue_task_address);
     }
 
-    function set_distributor() public returns (bool){
+    function set_distributor() internal returns (bool){
         return distributor.set_addresses(dispatcher_address, distributor_address, client_address, taskpool_address, address(0));
     }
 
-    function set_client() public returns (bool){
+    function set_client() internal returns (bool){
         return client.set_addresses(dispatcher_address, distributor_address, client_address, account_address, address(0));
     }
 
-    function set_account() public returns (bool){
+    function set_account() internal returns (bool){
         return account.set_client(client_address);
     }
 
-    function set_queue_ai() public returns (bool){
+    function set_queue_ai() internal returns (bool){
         return queue_ai.set_dispatcher(dispatcher_address);
     }
 
-    function set_queue_task() public returns (bool){
+    function set_queue_task() internal returns (bool){
         return queue_task.set_dispatcher(dispatcher_address);
     }
 
-    function set_taskpool() public returns (bool){
+    function set_taskpool() internal returns (bool){
         return taskpool.set_distributor(distributor_address);
     }
 }
-
-
-
-
-
-
-
-
-

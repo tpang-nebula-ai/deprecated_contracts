@@ -27,10 +27,10 @@ contract Controllable is Administratable, ControllerInterfaceAdmin
     }
 
     ///@dev Override this function with the corresponding class requirement
-    function set_addresses(address _dispatcher, address _distributor, address _client, address _model, address _task_queue) public returns (bool){
+    function set_addresses(address _dispatcher, address _distributor, address _client, address _model, address _task_queue) admin_only public returns (bool){
         require(admin_loaded);
         dispatcher_address = _dispatcher;
         distributor_address = _distributor;
         client_address = _client;
-    }
+    }   
 }

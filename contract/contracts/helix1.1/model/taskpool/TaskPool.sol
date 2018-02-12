@@ -99,8 +99,7 @@ contract TaskPool is Distributable, TaskPoolInterface {
     }
 
     function set_start(address _task) distributor_only public returns (bool){
-        pool[_task].start_time = block.number;
-        return true;
+        return (pool[_task].start_time = block.number) != 0;
     }
 
     function set_fee(address _task, uint256 _fee) distributor_only public returns (bool){
@@ -109,20 +108,17 @@ contract TaskPool is Distributable, TaskPoolInterface {
     }
 
     function set_complete(address _task, uint256 _complete_fee) distributor_only public returns (bool){
-        pool[_task].complete_time = block.number;
         pool[_task].completion_fee = _complete_fee;
-        return true;
+        return (pool[_task].complete_time = block.number) != 0;
     }
 
     function set_error(address _task, string _error_msg) distributor_only public returns (bool){
-        pool[_task].error_time = block.number;
         pool[_task].error_message = _error_msg;
-        return true;
+        return (pool[_task].error_time = block.number) != 0;
     }
 
     function set_cancel(address _task) distributor_only public returns (bool){
-        pool[_task].cancel_time = block.number;
-        return true;
+        return (pool[_task].cancel_time = block.number) != 0;
     }
 
     function set_forfeit(address _task) distributor_only public returns (bool){

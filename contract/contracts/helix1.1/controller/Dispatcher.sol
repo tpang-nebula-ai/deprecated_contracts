@@ -112,16 +112,12 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
                 else return (queue_task.push(_address), true, queue_ai.pop(), queue_task.pop());
             }
         }else{
-            if(queue_task.size() == 0) {
-                client.set_waiting(_address, true);//set waiting
-                return (queue_ai.push(_address), false, address(0), address(0));
-            }
+            client.set_waiting(_address, true);
+            //set waiting
+            if (queue_task.size() == 0) return (queue_ai.push(_address), false, address(0), address(0));
             else{
                 if(queue_ai.size() == 0) return (true, true, _address, queue_task.pop());
-                else {
-                    client.set_waiting(_address, true);// set waiting
-                    return (queue_ai.push(_address), true, queue_ai.pop(), queue_task.pop());
-                }
+                else return (queue_ai.push(_address), true, queue_ai.pop(), queue_task.pop());
             }
         }
     }
@@ -147,12 +143,6 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
 
     //------------------------------------------------------------------------------------------------------------------
     //Miner
-    ///@dev entry point
-    function apply_eligibility() Ready public returns (bool){
-        account_info memory _sender = load_client(msg.sender);
-        require(!_sender._banned && !_sender._eligible);
-        client.set_eligible(msg.sender, true);
-    }
     ///@dev entry point: AI eligibility is checked here
     function join_ai_queue() Ready public returns (bool){
         account_info memory _sender = load_client(msg.sender);
@@ -206,9 +196,9 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
         assert(queue_task.remove(_task_address));
         return true;
     }
-    //@dev task rejoin to queue after being dispatched
+    //@dev task rejoin to queue after being dispatched @dev todo not completed
     //@dev intermediate point
-    function rejoin(address _task, address _worker, uint _penalty) Ready public returns (bool){
+    function rejoin(address _task, address _worker, uint8 _penalty) Ready public returns (uint8){
         queue_task.insert(_task, 0);//current insert to head of the queue_task
         return client.set_misconduct_counter(_worker, true, _penalty);
     }

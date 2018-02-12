@@ -10,7 +10,7 @@ interface ClientInterfaceMiner {
         uint8 _misconduct_counter
     );
 
-    function job_history() view public returns (address[]);
+    function apply_eligibility() public returns (bool);
 
     function active_job() view public returns (address);
 }

@@ -43,7 +43,8 @@ contract Queue is QueueInterface, Dispatchable {
 
     ///@dev function implementation
     function push(address _address) dispatcher_only public returns (bool){
-        require(_address != address(0));
+        require(_address != address(0) && _address != queue.head
+        && queue.line[_address].prev == address(0) && queue.line[_address].next == address(0));
         if (queue.tail != address(0)) {
             queue.line[queue.tail].next = _address;
             queue.line[_address].prev = queue.tail;
