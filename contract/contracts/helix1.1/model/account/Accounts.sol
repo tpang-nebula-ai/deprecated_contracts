@@ -1,8 +1,8 @@
 pragma solidity ^0.4.18;
 
-import "../misc/SafeMath.sol";
-import "../ownership/Clientable.sol";
-import "../interface/model/Account_Interface.sol";
+import "../../misc/SafeMath.sol";
+import "../../ownership/Clientable.sol";
+import "../../interface/model/Account_Interface.sol";
 
 contract Accounts is Clientable, AccountInterface {
     using SafeMath for uint8;
@@ -24,6 +24,6 @@ contract Accounts is Clientable, AccountInterface {
 
     mapping(address => Account) accounts;
 
-    function Accounts() public Clientable(msg.sender) {
+    function Accounts(address _admin) public Clientable(msg.sender, _admin) {
     }
 }

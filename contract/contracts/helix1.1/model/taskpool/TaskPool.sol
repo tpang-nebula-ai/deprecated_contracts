@@ -1,7 +1,7 @@
 pragma solidity ^0.4.18;
 
-import "../ownership/Distributable.sol";
-import "../interface/TaskPool_Interface.sol";
+import "../../ownership/Distributable.sol";
+import "../../interface/model/TaskPool_Interface.sol";
 
 contract TaskPool is Distributable, TaskPoolInterface {
 
@@ -28,7 +28,7 @@ contract TaskPool is Distributable, TaskPoolInterface {
     uint160 public nonce;
     mapping(address => Task) pool;
 
-    function TaskPool(uint160 _nonce) public Distributable(msg.sender) {nonce = _nonce;}
+    function TaskPool(address _admin, uint160 _nonce) public Distributable(msg.sender, _admin) {nonce = _nonce;}
 
     //------------------------------------------------------------------------------------------------------------------
     //Getters
@@ -92,39 +92,46 @@ contract TaskPool is Distributable, TaskPoolInterface {
         pool[_task_address].create_time = block.number;
     }
 
-    function set_dispatched(address _task, address _worker) distributor_only public {
+    function set_dispatched(address _task, address _worker) distributor_only public returns (bool){
         pool[_task].dispatch_time = block.number;
         pool[_task].worker = _worker;
+        return true;
     }
 
-    function set_start(address _task) distributor_only public {
+    function set_start(address _task) distributor_only public returns (bool){
         pool[_task].start_time = block.number;
+        return true;
     }
 
     function set_fee(address _task, uint256 _fee) distributor_only public returns (bool){
         pool[_task].fee = _fee;
         return true;
     }
-    function set_complete(address _task, uint256 _complete_fee) distributor_only public {
+
+    function set_complete(address _task, uint256 _complete_fee) distributor_only public returns (bool){
         pool[_task].complete_time = block.number;
         pool[_task].completion_fee = _complete_fee;
+        return true;
     }
 
-    function set_error(address _task, string _error_msg) distributor_only public {
+    function set_error(address _task, string _error_msg) distributor_only public returns (bool){
         pool[_task].error_time = block.number;
         pool[_task].error_message = _error_msg;
+        return true;
     }
 
-    function set_cancel(address _task) distributor_only public {
+    function set_cancel(address _task) distributor_only public returns (bool){
         pool[_task].cancel_time = block.number;
+        return true;
     }
 
-    function set_forfeit(address _task) distributor_only public {
+    function set_forfeit(address _task) distributor_only public returns (bool){
         pool[_task].worker = 0;
         pool[_task].dispatch_time = 0;
         pool[_task].start_time = 0;
         pool[_task].complete_time = 0;
         pool[_task].error_time = 0;
+        return true;
     }
 
     function generate_address() internal returns (address){
