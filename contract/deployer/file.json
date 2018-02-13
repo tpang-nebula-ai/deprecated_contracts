@@ -1,0 +1,9 @@
+{
+  "admin": "../build/contracts/Admin.json",
+  "dispatcher": "../build/contracts/Dispatcher.json",
+  "distributor": "../build/contracts/Distributor.json",
+  "client": "../build/contracts/Client.json",
+  "queue": "../build/contracts/Queue.json",
+  "taskpool": "../build/contracts/TaskPool.json",
+  "account": "../build/contracts/Accounts.json"
+}
