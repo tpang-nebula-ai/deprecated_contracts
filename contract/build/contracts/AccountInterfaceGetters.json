@@ -1,0 +1,342 @@
+{
+  "contractName": "AccountInterfaceGetters",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "task_history",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "active_tasks",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "job_history",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.4.18;\r\n\r\ninterface AccountInterfaceGetters {\r\n    function task_history() view public returns (address[]);\r\n\r\n    function active_tasks() view public returns (address[]);\r\n\r\n    function job_history() view public returns (address[]);\r\n}\r\n",
+  "sourcePath": "C:\\Users\\tongp\\WebstormProjects\\wormhole\\contract\\contracts\\helix1.1\\interface\\model\\Account_Interface_getters.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/interface/model/Account_Interface_getters.sol",
+      "exportedSymbols": {
+        "AccountInterfaceGetters": [
+          2672
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".18"
+          ]
+        },
+        "id": 2653,
+        "name": "PragmaDirective",
+        "src": "0:24:27"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            2672
+          ],
+          "name": "AccountInterfaceGetters",
+          "scope": 2673
+        },
+        "children": [
+          {
+            "attributes": {
+              "body": null,
+              "constant": true,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "task_history",
+              "payable": false,
+              "scope": 2672,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2654,
+                "name": "ParameterList",
+                "src": "90:2:27"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2659,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address[] memory",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "length": null,
+                          "type": "address[] storage pointer"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "address",
+                              "type": "address"
+                            },
+                            "id": 2655,
+                            "name": "ElementaryTypeName",
+                            "src": "114:7:27"
+                          }
+                        ],
+                        "id": 2656,
+                        "name": "ArrayTypeName",
+                        "src": "114:9:27"
+                      }
+                    ],
+                    "id": 2657,
+                    "name": "VariableDeclaration",
+                    "src": "114:9:27"
+                  }
+                ],
+                "id": 2658,
+                "name": "ParameterList",
+                "src": "113:11:27"
+              }
+            ],
+            "id": 2659,
+            "name": "FunctionDefinition",
+            "src": "69:56:27"
+          },
+          {
+            "attributes": {
+              "body": null,
+              "constant": true,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "active_tasks",
+              "payable": false,
+              "scope": 2672,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2660,
+                "name": "ParameterList",
+                "src": "154:2:27"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2665,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address[] memory",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "length": null,
+                          "type": "address[] storage pointer"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "address",
+                              "type": "address"
+                            },
+                            "id": 2661,
+                            "name": "ElementaryTypeName",
+                            "src": "178:7:27"
+                          }
+                        ],
+                        "id": 2662,
+                        "name": "ArrayTypeName",
+                        "src": "178:9:27"
+                      }
+                    ],
+                    "id": 2663,
+                    "name": "VariableDeclaration",
+                    "src": "178:9:27"
+                  }
+                ],
+                "id": 2664,
+                "name": "ParameterList",
+                "src": "177:11:27"
+              }
+            ],
+            "id": 2665,
+            "name": "FunctionDefinition",
+            "src": "133:56:27"
+          },
+          {
+            "attributes": {
+              "body": null,
+              "constant": true,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "job_history",
+              "payable": false,
+              "scope": 2672,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2666,
+                "name": "ParameterList",
+                "src": "217:2:27"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2671,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address[] memory",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "length": null,
+                          "type": "address[] storage pointer"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "address",
+                              "type": "address"
+                            },
+                            "id": 2667,
+                            "name": "ElementaryTypeName",
+                            "src": "241:7:27"
+                          }
+                        ],
+                        "id": 2668,
+                        "name": "ArrayTypeName",
+                        "src": "241:9:27"
+                      }
+                    ],
+                    "id": 2669,
+                    "name": "VariableDeclaration",
+                    "src": "241:9:27"
+                  }
+                ],
+                "id": 2670,
+                "name": "ParameterList",
+                "src": "240:11:27"
+              }
+            ],
+            "id": 2671,
+            "name": "FunctionDefinition",
+            "src": "197:55:27"
+          }
+        ],
+        "id": 2672,
+        "name": "ContractDefinition",
+        "src": "28:227:27"
+      }
+    ],
+    "id": 2673,
+    "name": "SourceUnit",
+    "src": "0:257:27"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-02-13T17:43:19.573Z"
+}

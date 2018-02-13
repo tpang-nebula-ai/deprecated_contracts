@@ -1,20 +1,22 @@
 pragma solidity ^0.4.18;
 
-import "./Ownable.sol";
+import "./Administratable.sol";
+import "../model/queue/Queue_Interface_admin.sol";
 
-contract Dispatchable is Ownable {
-    address public dispatcher;
+contract Dispatchable is Administratable, QueueInterfaceAdmin {
+    address public dispatcher_address;
 
+    function Dispatchable(address _owner, address _admin) Administratable(_owner, _admin) public {}
 
-    function Dispatchable(address _owner)
-    Ownable(_owner)
-    public {
-    }
     modifier dispatcher_only(){
-        require(dispatcher != address(0) && msg.sender == dispatcher);
+        require(msg.sender == dispatcher_address);
         _;
     }
-    function setDispatcher(address _dispatcher) ownerOnly public {
-        dispatcher = _dispatcher;
+
+    function set_dispatcher(address _dispatcher) admin_only public returns (bool){
+        require(_dispatcher != address(0));
+        dispatcher_address = _dispatcher;
+        controller_ready = true;
+        return true;
     }
 }

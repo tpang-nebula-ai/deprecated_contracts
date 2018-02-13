@@ -1,0 +1,176 @@
+{
+  "contractName": "TaskPoolInterfaceAdmin",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_distributor",
+          "type": "address"
+        }
+      ],
+      "name": "set_distributor",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.4.18;\r\n\r\ninterface TaskPoolInterfaceAdmin {\r\n    function set_distributor(address _distributor) public returns (bool);\r\n}\r\n",
+  "sourcePath": "C:\\Users\\tongp\\WebstormProjects\\wormhole\\contract\\contracts\\helix1.1\\model\\taskpool\\TaskPool_Interface_admin.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/model/taskpool/TaskPool_Interface_admin.sol",
+      "exportedSymbols": {
+        "TaskPoolInterfaceAdmin": [
+          5174
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".18"
+          ]
+        },
+        "id": 5166,
+        "name": "PragmaDirective",
+        "src": "0:24:38"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            5174
+          ],
+          "name": "TaskPoolInterfaceAdmin",
+          "scope": 5175
+        },
+        "children": [
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "set_distributor",
+              "payable": false,
+              "scope": 5174,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_distributor",
+                      "scope": 5173,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 5167,
+                        "name": "ElementaryTypeName",
+                        "src": "93:7:38"
+                      }
+                    ],
+                    "id": 5168,
+                    "name": "VariableDeclaration",
+                    "src": "93:20:38"
+                  }
+                ],
+                "id": 5169,
+                "name": "ParameterList",
+                "src": "92:22:38"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 5173,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 5170,
+                        "name": "ElementaryTypeName",
+                        "src": "131:4:38"
+                      }
+                    ],
+                    "id": 5171,
+                    "name": "VariableDeclaration",
+                    "src": "131:4:38"
+                  }
+                ],
+                "id": 5172,
+                "name": "ParameterList",
+                "src": "130:6:38"
+              }
+            ],
+            "id": 5173,
+            "name": "FunctionDefinition",
+            "src": "68:69:38"
+          }
+        ],
+        "id": 5174,
+        "name": "ContractDefinition",
+        "src": "28:112:38"
+      }
+    ],
+    "id": 5175,
+    "name": "SourceUnit",
+    "src": "0:142:38"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-02-13T17:43:19.578Z"
+}
