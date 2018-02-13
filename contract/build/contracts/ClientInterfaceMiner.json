@@ -1,0 +1,429 @@
+{
+  "contractName": "ClientInterfaceMiner",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "get_client_m",
+      "outputs": [
+        {
+          "name": "_eligible",
+          "type": "bool"
+        },
+        {
+          "name": "_waiting",
+          "type": "bool"
+        },
+        {
+          "name": "_working",
+          "type": "bool"
+        },
+        {
+          "name": "_banned",
+          "type": "bool"
+        },
+        {
+          "name": "_misconduct_counter",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "apply_eligibility",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "active_job",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.4.18;\r\n\r\ninterface ClientInterfaceMiner {\r\n    function get_client_m() view public returns\r\n    (\r\n        bool _eligible,\r\n        bool _waiting,\r\n        bool _working,\r\n        bool _banned,\r\n        uint8 _misconduct_counter\r\n    );\r\n\r\n    function apply_eligibility() public returns (bool);\r\n\r\n    function active_job() view public returns (address);\r\n}\r\n",
+  "sourcePath": "C:\\Users\\tongp\\WebstormProjects\\wormhole\\contract\\contracts\\helix1.1\\interface\\client\\Client_Interface_miner.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/interface/client/Client_Interface_miner.sol",
+      "exportedSymbols": {
+        "ClientInterfaceMiner": [
+          2345
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".18"
+          ]
+        },
+        "id": 2321,
+        "name": "PragmaDirective",
+        "src": "0:24:15"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            2345
+          ],
+          "name": "ClientInterfaceMiner",
+          "scope": 2346
+        },
+        "children": [
+          {
+            "attributes": {
+              "body": null,
+              "constant": true,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "get_client_m",
+              "payable": false,
+              "scope": 2345,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2322,
+                "name": "ParameterList",
+                "src": "87:2:15"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_eligible",
+                      "scope": 2334,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2323,
+                        "name": "ElementaryTypeName",
+                        "src": "126:4:15"
+                      }
+                    ],
+                    "id": 2324,
+                    "name": "VariableDeclaration",
+                    "src": "126:14:15"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_waiting",
+                      "scope": 2334,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2325,
+                        "name": "ElementaryTypeName",
+                        "src": "151:4:15"
+                      }
+                    ],
+                    "id": 2326,
+                    "name": "VariableDeclaration",
+                    "src": "151:13:15"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_working",
+                      "scope": 2334,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2327,
+                        "name": "ElementaryTypeName",
+                        "src": "175:4:15"
+                      }
+                    ],
+                    "id": 2328,
+                    "name": "VariableDeclaration",
+                    "src": "175:13:15"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_banned",
+                      "scope": 2334,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2329,
+                        "name": "ElementaryTypeName",
+                        "src": "199:4:15"
+                      }
+                    ],
+                    "id": 2330,
+                    "name": "VariableDeclaration",
+                    "src": "199:12:15"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_misconduct_counter",
+                      "scope": 2334,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 2331,
+                        "name": "ElementaryTypeName",
+                        "src": "222:5:15"
+                      }
+                    ],
+                    "id": 2332,
+                    "name": "VariableDeclaration",
+                    "src": "222:25:15"
+                  }
+                ],
+                "id": 2333,
+                "name": "ParameterList",
+                "src": "115:139:15"
+              }
+            ],
+            "id": 2334,
+            "name": "FunctionDefinition",
+            "src": "66:189:15"
+          },
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "apply_eligibility",
+              "payable": false,
+              "scope": 2345,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2335,
+                "name": "ParameterList",
+                "src": "289:2:15"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2339,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2336,
+                        "name": "ElementaryTypeName",
+                        "src": "308:4:15"
+                      }
+                    ],
+                    "id": 2337,
+                    "name": "VariableDeclaration",
+                    "src": "308:4:15"
+                  }
+                ],
+                "id": 2338,
+                "name": "ParameterList",
+                "src": "307:6:15"
+              }
+            ],
+            "id": 2339,
+            "name": "FunctionDefinition",
+            "src": "263:51:15"
+          },
+          {
+            "attributes": {
+              "body": null,
+              "constant": true,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "active_job",
+              "payable": false,
+              "scope": 2345,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 2340,
+                "name": "ParameterList",
+                "src": "341:2:15"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2344,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2341,
+                        "name": "ElementaryTypeName",
+                        "src": "365:7:15"
+                      }
+                    ],
+                    "id": 2342,
+                    "name": "VariableDeclaration",
+                    "src": "365:7:15"
+                  }
+                ],
+                "id": 2343,
+                "name": "ParameterList",
+                "src": "364:9:15"
+              }
+            ],
+            "id": 2344,
+            "name": "FunctionDefinition",
+            "src": "322:52:15"
+          }
+        ],
+        "id": 2345,
+        "name": "ContractDefinition",
+        "src": "28:349:15"
+      }
+    ],
+    "id": 2346,
+    "name": "SourceUnit",
+    "src": "0:379:15"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-02-13T17:43:19.571Z"
+}

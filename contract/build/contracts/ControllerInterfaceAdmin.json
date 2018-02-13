@@ -1,0 +1,296 @@
+{
+  "contractName": "ControllerInterfaceAdmin",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_dispatcher",
+          "type": "address"
+        },
+        {
+          "name": "_distributor",
+          "type": "address"
+        },
+        {
+          "name": "_client",
+          "type": "address"
+        },
+        {
+          "name": "_model",
+          "type": "address"
+        },
+        {
+          "name": "_task_queue",
+          "type": "address"
+        }
+      ],
+      "name": "set_addresses",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.4.18;\r\n\r\ninterface ControllerInterfaceAdmin {\r\n    function set_addresses(address _dispatcher, address _distributor, address _client, address _model, address _task_queue) public returns (bool);\r\n}\r\n",
+  "sourcePath": "C:\\Users\\tongp\\WebstormProjects\\wormhole\\contract\\contracts\\helix1.1\\interface\\controller\\Controller_Interface_admin.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/interface/controller/Controller_Interface_admin.sol",
+      "exportedSymbols": {
+        "ControllerInterfaceAdmin": [
+          2384
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".18"
+          ]
+        },
+        "id": 2368,
+        "name": "PragmaDirective",
+        "src": "0:24:17"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            2384
+          ],
+          "name": "ControllerInterfaceAdmin",
+          "scope": 2385
+        },
+        "children": [
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "set_addresses",
+              "payable": false,
+              "scope": 2384,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_dispatcher",
+                      "scope": 2383,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2369,
+                        "name": "ElementaryTypeName",
+                        "src": "93:7:17"
+                      }
+                    ],
+                    "id": 2370,
+                    "name": "VariableDeclaration",
+                    "src": "93:19:17"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_distributor",
+                      "scope": 2383,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2371,
+                        "name": "ElementaryTypeName",
+                        "src": "114:7:17"
+                      }
+                    ],
+                    "id": 2372,
+                    "name": "VariableDeclaration",
+                    "src": "114:20:17"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_client",
+                      "scope": 2383,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2373,
+                        "name": "ElementaryTypeName",
+                        "src": "136:7:17"
+                      }
+                    ],
+                    "id": 2374,
+                    "name": "VariableDeclaration",
+                    "src": "136:15:17"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_model",
+                      "scope": 2383,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2375,
+                        "name": "ElementaryTypeName",
+                        "src": "153:7:17"
+                      }
+                    ],
+                    "id": 2376,
+                    "name": "VariableDeclaration",
+                    "src": "153:14:17"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_task_queue",
+                      "scope": 2383,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2377,
+                        "name": "ElementaryTypeName",
+                        "src": "169:7:17"
+                      }
+                    ],
+                    "id": 2378,
+                    "name": "VariableDeclaration",
+                    "src": "169:19:17"
+                  }
+                ],
+                "id": 2379,
+                "name": "ParameterList",
+                "src": "92:97:17"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2383,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2380,
+                        "name": "ElementaryTypeName",
+                        "src": "206:4:17"
+                      }
+                    ],
+                    "id": 2381,
+                    "name": "VariableDeclaration",
+                    "src": "206:4:17"
+                  }
+                ],
+                "id": 2382,
+                "name": "ParameterList",
+                "src": "205:6:17"
+              }
+            ],
+            "id": 2383,
+            "name": "FunctionDefinition",
+            "src": "70:142:17"
+          }
+        ],
+        "id": 2384,
+        "name": "ContractDefinition",
+        "src": "28:187:17"
+      }
+    ],
+    "id": 2385,
+    "name": "SourceUnit",
+    "src": "0:217:17"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-02-13T17:43:19.571Z"
+}
