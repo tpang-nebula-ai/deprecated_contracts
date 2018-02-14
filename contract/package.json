@@ -1,0 +1,17 @@
+{
+  "name": "wormhole",
+  "version": "1.1.0",
+  "description": "Nebula Ai Framework",
+  "main": "truffle.js",
+  "scripts": {
+    "test": "./test/test.js"
+  },
+  "author": "tpang",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^3.1.0",
+    "log4js": "^2.5.3",
+    "web3": "^1.0.0-beta.30",
+    "zeppelin-solidity": "1.6.0"
+  }
+}

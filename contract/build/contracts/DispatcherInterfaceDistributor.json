@@ -1,0 +1,450 @@
+{
+  "contractName": "DispatcherInterfaceDistributor",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "join_task_queue",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_task_address",
+          "type": "address"
+        }
+      ],
+      "name": "leave_task_queue",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        },
+        {
+          "name": "_worker",
+          "type": "address"
+        },
+        {
+          "name": "_penalty",
+          "type": "uint8"
+        }
+      ],
+      "name": "rejoin",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.4.18;\r\n\r\ninterface DispatcherInterfaceDistributor {\r\n\r\n    function join_task_queue(address _task) public payable returns (bool);\r\n\r\n    function leave_task_queue(address _task_address) public returns (bool);\r\n\r\n    function rejoin(address _task, address _worker, uint8 _penalty) public returns (uint8);\r\n}\r\n",
+  "sourcePath": "C:\\Users\\tongp\\WebstormProjects\\wormhole\\contract\\contracts\\helix1.1\\interface\\dispatcher\\Dispatcher_Interface_distributor.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/interface/dispatcher/Dispatcher_Interface_distributor.sol",
+      "exportedSymbols": {
+        "DispatcherInterfaceDistributor": [
+          2415
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".18"
+          ]
+        },
+        "id": 2389,
+        "name": "PragmaDirective",
+        "src": "0:24:19"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            2415
+          ],
+          "name": "DispatcherInterfaceDistributor",
+          "scope": 2416
+        },
+        "children": [
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "join_task_queue",
+              "payable": true,
+              "scope": 2415,
+              "stateMutability": "payable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_task",
+                      "scope": 2396,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2390,
+                        "name": "ElementaryTypeName",
+                        "src": "103:7:19"
+                      }
+                    ],
+                    "id": 2391,
+                    "name": "VariableDeclaration",
+                    "src": "103:13:19"
+                  }
+                ],
+                "id": 2392,
+                "name": "ParameterList",
+                "src": "102:15:19"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2396,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2393,
+                        "name": "ElementaryTypeName",
+                        "src": "142:4:19"
+                      }
+                    ],
+                    "id": 2394,
+                    "name": "VariableDeclaration",
+                    "src": "142:4:19"
+                  }
+                ],
+                "id": 2395,
+                "name": "ParameterList",
+                "src": "141:6:19"
+              }
+            ],
+            "id": 2396,
+            "name": "FunctionDefinition",
+            "src": "78:70:19"
+          },
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "leave_task_queue",
+              "payable": false,
+              "scope": 2415,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_task_address",
+                      "scope": 2403,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2397,
+                        "name": "ElementaryTypeName",
+                        "src": "182:7:19"
+                      }
+                    ],
+                    "id": 2398,
+                    "name": "VariableDeclaration",
+                    "src": "182:21:19"
+                  }
+                ],
+                "id": 2399,
+                "name": "ParameterList",
+                "src": "181:23:19"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2403,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 2400,
+                        "name": "ElementaryTypeName",
+                        "src": "221:4:19"
+                      }
+                    ],
+                    "id": 2401,
+                    "name": "VariableDeclaration",
+                    "src": "221:4:19"
+                  }
+                ],
+                "id": 2402,
+                "name": "ParameterList",
+                "src": "220:6:19"
+              }
+            ],
+            "id": 2403,
+            "name": "FunctionDefinition",
+            "src": "156:71:19"
+          },
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "rejoin",
+              "payable": false,
+              "scope": 2415,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_task",
+                      "scope": 2414,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2404,
+                        "name": "ElementaryTypeName",
+                        "src": "251:7:19"
+                      }
+                    ],
+                    "id": 2405,
+                    "name": "VariableDeclaration",
+                    "src": "251:13:19"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_worker",
+                      "scope": 2414,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 2406,
+                        "name": "ElementaryTypeName",
+                        "src": "266:7:19"
+                      }
+                    ],
+                    "id": 2407,
+                    "name": "VariableDeclaration",
+                    "src": "266:15:19"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_penalty",
+                      "scope": 2414,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 2408,
+                        "name": "ElementaryTypeName",
+                        "src": "283:5:19"
+                      }
+                    ],
+                    "id": 2409,
+                    "name": "VariableDeclaration",
+                    "src": "283:14:19"
+                  }
+                ],
+                "id": 2410,
+                "name": "ParameterList",
+                "src": "250:48:19"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 2414,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint8",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint8",
+                          "type": "uint8"
+                        },
+                        "id": 2411,
+                        "name": "ElementaryTypeName",
+                        "src": "315:5:19"
+                      }
+                    ],
+                    "id": 2412,
+                    "name": "VariableDeclaration",
+                    "src": "315:5:19"
+                  }
+                ],
+                "id": 2413,
+                "name": "ParameterList",
+                "src": "314:7:19"
+              }
+            ],
+            "id": 2414,
+            "name": "FunctionDefinition",
+            "src": "235:87:19"
+          }
+        ],
+        "id": 2415,
+        "name": "ContractDefinition",
+        "src": "28:297:19"
+      }
+    ],
+    "id": 2416,
+    "name": "SourceUnit",
+    "src": "0:327:19"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-02-13T17:43:19.571Z"
+}
