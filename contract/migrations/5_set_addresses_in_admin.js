@@ -101,7 +101,7 @@ module.exports = function (deployer) {
                         console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " ether");
 
                         return admin.set_client_address(
-                            cleint,
+                            client,
                             {
                                 from: Admin.web3.eth.accounts[0],
                                 gasPrice: gasPrice,
