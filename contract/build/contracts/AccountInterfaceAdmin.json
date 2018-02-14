@@ -32,7 +32,7 @@
       "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/model/account/Account_Interface_admin.sol",
       "exportedSymbols": {
         "AccountInterfaceAdmin": [
-          3562
+          1280
         ]
       }
     },
@@ -46,9 +46,9 @@
             ".18"
           ]
         },
-        "id": 3554,
+        "id": 1272,
         "name": "PragmaDirective",
-        "src": "0:24:33"
+        "src": "0:24:12"
       },
       {
         "attributes": {
@@ -62,10 +62,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            3562
+            1280
           ],
           "name": "AccountInterfaceAdmin",
-          "scope": 3563
+          "scope": 1281
         },
         "children": [
           {
@@ -79,7 +79,7 @@
               ],
               "name": "set_client",
               "payable": false,
-              "scope": 3562,
+              "scope": 1280,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -91,7 +91,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_client",
-                      "scope": 3561,
+                      "scope": 1279,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -104,19 +104,19 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 3555,
+                        "id": 1273,
                         "name": "ElementaryTypeName",
-                        "src": "87:7:33"
+                        "src": "87:7:12"
                       }
                     ],
-                    "id": 3556,
+                    "id": 1274,
                     "name": "VariableDeclaration",
-                    "src": "87:15:33"
+                    "src": "87:15:12"
                   }
                 ],
-                "id": 3557,
+                "id": 1275,
                 "name": "ParameterList",
-                "src": "86:17:33"
+                "src": "86:17:12"
               },
               {
                 "children": [
@@ -124,7 +124,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 3561,
+                      "scope": 1279,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -137,34 +137,34 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 3558,
+                        "id": 1276,
                         "name": "ElementaryTypeName",
-                        "src": "120:4:33"
+                        "src": "120:4:12"
                       }
                     ],
-                    "id": 3559,
+                    "id": 1277,
                     "name": "VariableDeclaration",
-                    "src": "120:4:33"
+                    "src": "120:4:12"
                   }
                 ],
-                "id": 3560,
+                "id": 1278,
                 "name": "ParameterList",
-                "src": "119:6:33"
+                "src": "119:6:12"
               }
             ],
-            "id": 3561,
+            "id": 1279,
             "name": "FunctionDefinition",
-            "src": "67:59:33"
+            "src": "67:59:12"
           }
         ],
-        "id": 3562,
+        "id": 1280,
         "name": "ContractDefinition",
-        "src": "28:101:33"
+        "src": "28:101:12"
       }
     ],
-    "id": 3563,
+    "id": 1281,
     "name": "SourceUnit",
-    "src": "0:131:33"
+    "src": "0:131:12"
   },
   "compiler": {
     "name": "solc",
@@ -172,5 +172,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-02-13T17:43:19.575Z"
+  "updatedAt": "2018-02-14T01:07:10.858Z"
 }
