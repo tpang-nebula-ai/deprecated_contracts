@@ -32,7 +32,7 @@
       "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/model/queue/Queue_Interface_admin.sol",
       "exportedSymbols": {
         "QueueInterfaceAdmin": [
-          4647
+          608
         ]
       }
     },
@@ -46,9 +46,9 @@
             ".18"
           ]
         },
-        "id": 4639,
+        "id": 600,
         "name": "PragmaDirective",
-        "src": "0:24:36"
+        "src": "0:24:4"
       },
       {
         "attributes": {
@@ -62,10 +62,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            4647
+            608
           ],
           "name": "QueueInterfaceAdmin",
-          "scope": 4648
+          "scope": 609
         },
         "children": [
           {
@@ -79,7 +79,7 @@
               ],
               "name": "set_dispatcher",
               "payable": false,
-              "scope": 4647,
+              "scope": 608,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -91,7 +91,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_dispatcher",
-                      "scope": 4646,
+                      "scope": 607,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -104,19 +104,19 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 4640,
+                        "id": 601,
                         "name": "ElementaryTypeName",
-                        "src": "89:7:36"
+                        "src": "89:7:4"
                       }
                     ],
-                    "id": 4641,
+                    "id": 602,
                     "name": "VariableDeclaration",
-                    "src": "89:19:36"
+                    "src": "89:19:4"
                   }
                 ],
-                "id": 4642,
+                "id": 603,
                 "name": "ParameterList",
-                "src": "88:21:36"
+                "src": "88:21:4"
               },
               {
                 "children": [
@@ -124,7 +124,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 4646,
+                      "scope": 607,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -137,34 +137,34 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 4643,
+                        "id": 604,
                         "name": "ElementaryTypeName",
-                        "src": "126:4:36"
+                        "src": "126:4:4"
                       }
                     ],
-                    "id": 4644,
+                    "id": 605,
                     "name": "VariableDeclaration",
-                    "src": "126:4:36"
+                    "src": "126:4:4"
                   }
                 ],
-                "id": 4645,
+                "id": 606,
                 "name": "ParameterList",
-                "src": "125:6:36"
+                "src": "125:6:4"
               }
             ],
-            "id": 4646,
+            "id": 607,
             "name": "FunctionDefinition",
-            "src": "65:67:36"
+            "src": "65:67:4"
           }
         ],
-        "id": 4647,
+        "id": 608,
         "name": "ContractDefinition",
-        "src": "28:107:36"
+        "src": "28:107:4"
       }
     ],
-    "id": 4648,
+    "id": 609,
     "name": "SourceUnit",
-    "src": "0:137:36"
+    "src": "0:137:4"
   },
   "compiler": {
     "name": "solc",
@@ -172,5 +172,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-02-13T17:43:19.577Z"
+  "updatedAt": "2018-02-14T02:25:31.653Z"
 }
