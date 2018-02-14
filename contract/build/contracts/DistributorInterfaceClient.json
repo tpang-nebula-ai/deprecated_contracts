@@ -1,0 +1,69 @@
+{
+  "contractName": "DistributorInterfaceClient",
+  "abi": [],
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820502516fe1fc4746e4245369520aeef3f6f212e947dc1e7c3f71465ec4db6fd590029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820502516fe1fc4746e4245369520aeef3f6f212e947dc1e7c3f71465ec4db6fd590029",
+  "sourceMap": "28:41:9:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "28:41:9:-;;;;;",
+  "source": "pragma solidity ^0.4.18;\r\n\r\ninterface DistributorInterfaceClient {\r\n}\r\n",
+  "sourcePath": "C:\\Users\\tongp\\WebstormProjects\\wormhole\\contract\\contracts\\helix1.1\\interface\\distributor\\Distributor_Interface_client.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/interface/distributor/Distributor_Interface_client.sol",
+      "exportedSymbols": {
+        "DistributorInterfaceClient": [
+          1042
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".18"
+          ]
+        },
+        "id": 1041,
+        "name": "PragmaDirective",
+        "src": "0:24:9"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            1042
+          ],
+          "name": "DistributorInterfaceClient",
+          "nodes": [
+            null
+          ],
+          "scope": 1043
+        },
+        "id": 1042,
+        "name": "ContractDefinition",
+        "src": "28:41:9"
+      }
+    ],
+    "id": 1043,
+    "name": "SourceUnit",
+    "src": "0:71:9"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-02-14T01:07:10.857Z"
+}
