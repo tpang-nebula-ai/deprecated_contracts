@@ -1,9 +1,10 @@
 let log4js = require('log4js');
 log4js.configure({
-    appenders: [
-        {type: 'console'},
-        {type: 'file', filename: 'logs/tx_history.log', category: 'tx'}
-    ]
+    appenders: {
+        tx: {type: 'file', filename: 'logs/tx_history.log'},
+        console: {type: 'console'}
+    },
+    categories: {default: {appenders: ['tx', 'console'], level: 'info'}}
 });
 
 let logger = log4js.getLogger('tx');
@@ -100,7 +101,7 @@ module.exports = function (deployer) {
                         console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " ether");
 
                         return admin.set_client_address(
-                            distributor,
+                            cleint,
                             {
                                 from: Admin.web3.eth.accounts[0],
                                 gasPrice: gasPrice,
@@ -122,7 +123,7 @@ module.exports = function (deployer) {
                         console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " ether");
 
                         return admin.set_task_queue_address(
-                            distributor,
+                            queue_task,
                             {
                                 from: Admin.web3.eth.accounts[0],
                                 gasPrice: gasPrice,
@@ -144,7 +145,7 @@ module.exports = function (deployer) {
                         console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " ether");
 
                         return admin.set_ai_queue_address(
-                            distributor,
+                            queue_ai,
                             {
                                 from: Admin.web3.eth.accounts[0],
                                 gasPrice: gasPrice,
@@ -166,7 +167,7 @@ module.exports = function (deployer) {
                         console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " ether");
 
                         return admin.set_taskpool_address(
-                            distributor,
+                            pool,
                             {
                                 from: Admin.web3.eth.accounts[0],
                                 gasPrice: gasPrice,
@@ -188,7 +189,7 @@ module.exports = function (deployer) {
                         console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " ether");
 
                         return admin.set_account_address(
-                            distributor,
+                            accounts,
                             {
                                 from: Admin.web3.eth.accounts[0],
                                 gasPrice: gasPrice,

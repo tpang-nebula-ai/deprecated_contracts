@@ -31,7 +31,8 @@ module.exports = function (callback) {
     console.log("Task Ai @ " + Queue_Ai.address);
     console.log("Accounts @ " + Accounts.address);
     console.log("TaskPool @ " + TaskPool.address);
-
+    //
+    //
 
     let queue_ai = Queue_Ai.address;
     let queue_task = Queue_Task.address;
@@ -44,6 +45,30 @@ module.exports = function (callback) {
 
     // let admin = Admin.address;
 
+    Admin.deployed().then(function (instance) {
+        instance.dispatcher_address().then(function (result) {
+            console.log("dispatcher " + result + " " + assert(result, dispatcher));
+        });
+        instance.distributor_address().then(function (result) {
+            console.log("distributor " + result + " " + assert(result, distributor));
+        });
+        instance.client_address().then(function (result) {
+            console.log("client " + result + " " + assert(result, client));
+        });
+        instance.taskpool_address().then(function (result) {
+            console.log("taskpool " + result + " " + assert(result, pool));
+        });
+        instance.queue_ai_address().then(function (result) {
+            console.log("queue ai " + result + " " + assert(result, queue_ai));
+        });
+        instance.queue_task_address().then(function (result) {
+            console.log("queue task " + result + " " + assert(result, queue_task));
+        });
+        instance.account_address().then(function (result) {
+            console.log("account " + result + " " + assert(result, accounts));
+        });
+    });
+
     Admin.web3.eth.getGasPrice(function (error, result) {
         let gasPrice = Number(result);
         console.log("Gas Price is " + result + " wei"); // "10000000000000"
@@ -51,156 +76,27 @@ module.exports = function (callback) {
         Admin.deployed()
             .then(function (instance) {
                 let admin = instance;
-                return admin.set_distributor_address.estimateGas(distributor)
+                return admin.set_all.estimateGas()
                     .then(function (result) {
                         let gas = Number(result);
                         console.log("gas estimation = " + gas + " units");
                         console.log("gas cost estimation = " + (gas * gasPrice) + " wei");
                         console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " ether");
 
-                        return admin.set_distributor_address(
-                            distributor,
+                        return admin.set_all(
                             {
                                 from: Admin.web3.eth.accounts[0],
                                 gasPrice: gasPrice,
                                 gas: gas
                             })
                     }).then(function (result) {
-                        logger.info("Distributor : ");
-                        logger.info(result);
-                    }).catch(console.log);
-            }).catch(console.log);
-        Admin.deployed()
-            .then(function (instance) {
-                let admin = instance;
-                return admin.set_dispatcher_address.estimateGas(dispatcher)
-                    .then(function (result) {
-                        let gas = Number(result);
-                        console.log("gas estimation = " + gas + " units");
-                        console.log("gas cost estimation = " + (gas * gasPrice) + " wei");
-                        console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " ether");
-
-                        return admin.set_dispatcher_address(
-                            dispatcher,
-                            {
-                                from: Admin.web3.eth.accounts[0],
-                                gasPrice: gasPrice,
-                                gas: gas
-                            })
-                    }).then(function (result) {
-                        logger.info("Dispatcher : ");
-                        logger.info(result);
-                    }).catch(console.log);
-            }).catch(console.log);
-        Admin.deployed()
-            .then(function (instance) {
-                let admin = instance;
-                return admin.set_client_address.estimateGas(client)
-                    .then(function (result) {
-                        let gas = Number(result);
-                        console.log("gas estimation = " + gas + " units");
-                        console.log("gas cost estimation = " + (gas * gasPrice) + " wei");
-                        console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " ether");
-
-                        return admin.set_client_address(
-                            distributor,
-                            {
-                                from: Admin.web3.eth.accounts[0],
-                                gasPrice: gasPrice,
-                                gas: gas
-                            })
-                    }).then(function (result) {
-                        logger.info("Client : ");
-                        logger.info(result);
-                    }).catch(console.log);
-            }).catch(console.log);
-        Admin.deployed()
-            .then(function (instance) {
-                let admin = instance;
-                return admin.set_task_queue_address.estimateGas(queue_task)
-                    .then(function (result) {
-                        let gas = Number(result);
-                        console.log("gas estimation = " + gas + " units");
-                        console.log("gas cost estimation = " + (gas * gasPrice) + " wei");
-                        console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " ether");
-
-                        return admin.set_task_queue_address(
-                            distributor,
-                            {
-                                from: Admin.web3.eth.accounts[0],
-                                gasPrice: gasPrice,
-                                gas: gas
-                            })
-                    }).then(function (result) {
-                        logger.info("Task Queue : ");
-                        logger.info(result);
-                    }).catch(console.log);
-            }).catch(console.log);
-        Admin.deployed()
-            .then(function (instance) {
-                let admin = instance;
-                return admin.set_ai_queue_address.estimateGas(queue_ai)
-                    .then(function (result) {
-                        let gas = Number(result);
-                        console.log("gas estimation = " + gas + " units");
-                        console.log("gas cost estimation = " + (gas * gasPrice) + " wei");
-                        console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " ether");
-
-                        return admin.set_ai_queue_address(
-                            distributor,
-                            {
-                                from: Admin.web3.eth.accounts[0],
-                                gasPrice: gasPrice,
-                                gas: gas
-                            })
-                    }).then(function (result) {
-                        logger.info("Ai Queue : ");
-                        logger.info(result);
-                    }).catch(console.log);
-            }).catch(console.log);
-        Admin.deployed()
-            .then(function (instance) {
-                let admin = instance;
-                return admin.set_taskpool_address.estimateGas(pool)
-                    .then(function (result) {
-                        let gas = Number(result);
-                        console.log("gas estimation = " + gas + " units");
-                        console.log("gas cost estimation = " + (gas * gasPrice) + " wei");
-                        console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " ether");
-
-                        return admin.set_taskpool_address(
-                            distributor,
-                            {
-                                from: Admin.web3.eth.accounts[0],
-                                gasPrice: gasPrice,
-                                gas: gas
-                            })
-                    }).then(function (result) {
-                        logger.info("Task Pool : ");
-                        logger.info(result);
-                    }).catch(console.log);
-            }).catch(console.log);
-        Admin.deployed()
-            .then(function (instance) {
-                let admin = instance;
-                return admin.set_account_address.estimateGas(accounts)
-                    .then(function (result) {
-                        let gas = Number(result);
-                        console.log("gas estimation = " + gas + " units");
-                        console.log("gas cost estimation = " + (gas * gasPrice) + " wei");
-                        console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " ether");
-
-                        return admin.set_account_address(
-                            distributor,
-                            {
-                                from: Admin.web3.eth.accounts[0],
-                                gasPrice: gasPrice,
-                                gas: gas
-                            })
-                    }).then(function (result) {
-                        logger.info("Accounts : ");
+                        logger.info("Set all : ");
                         logger.info(result);
                     }).catch(console.log);
             }).catch(console.log);
     });
 };
+
+function assert(returned, expected) {
+    return returned === expected;
+}
