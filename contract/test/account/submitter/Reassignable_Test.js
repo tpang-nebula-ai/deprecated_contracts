@@ -1,0 +1,1 @@
+// function reassignable(address _task) view public returns (bool);

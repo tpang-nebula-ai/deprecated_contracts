@@ -51,3 +51,4 @@ fabric.properties
 
 .idea/
 /contract/node_modules/
+/contract/build/
