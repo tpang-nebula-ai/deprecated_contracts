@@ -103,7 +103,7 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
      *         @param _task address of the task to be dispatched to worker
      */
     function is_dispatchable(bool _is_task, address _address)
-    Ready internal
+    Ready public
     returns (bool _success, bool _dispatchable, address _worker, address _task){
         if(_is_task){
             if(queue_ai.size() == 0) return (queue_task.push(_address), false, address(0), address(0));
@@ -181,7 +181,6 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
     //Distributor
     //@dev intermediate point - task validation has been made by
     function join_task_queue(address _task) Ready public payable returns (bool){
-        client.add_task(msg.sender, true, _task);
         bool _success;
         bool _dispatchable;
         address _worker;

@@ -9,45 +9,6 @@
           "type": "address"
         }
       ],
-      "name": "get_task",
-      "outputs": [
-        {
-          "name": "_app_id",
-          "type": "uint256"
-        },
-        {
-          "name": "_name",
-          "type": "string"
-        },
-        {
-          "name": "_data",
-          "type": "string"
-        },
-        {
-          "name": "_script",
-          "type": "string"
-        },
-        {
-          "name": "_output",
-          "type": "string"
-        },
-        {
-          "name": "_params",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "_task",
-          "type": "address"
-        }
-      ],
       "name": "get_status",
       "outputs": [
         {
@@ -78,6 +39,45 @@
       "payable": false,
       "stateMutability": "view",
       "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "get_task",
+      "outputs": [
+        {
+          "name": "_app_id",
+          "type": "uint256"
+        },
+        {
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "name": "_data",
+          "type": "string"
+        },
+        {
+          "name": "_script",
+          "type": "string"
+        },
+        {
+          "name": "_output",
+          "type": "string"
+        },
+        {
+          "name": "_params",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     }
   ],
   "bytecode": "0x",
@@ -85,10 +85,10 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18;\r\n\r\ninterface TaskPoolInterfaceGetter {\r\n    //getter\r\n    function get_task(address _task)\r\n    view public returns (uint256 _app_id, string _name, string _data, string _script, string _output, string _params);\r\n\r\n    function get_status(address _task)\r\n    view public returns (uint _create_time, uint _dispatch_time, uint _start_time, uint _complete_time, uint _cancel_time, uint _error_time);\r\n}\r\n",
-  "sourcePath": "C:\\Users\\tongp\\WebstormProjects\\wormhole\\contract\\contracts\\helix1.1\\interface\\model\\TaskPool_Interface_getters.sol",
+  "sourcePath": "C:\\Users\\tony\\WebstormProjects\\nebula-helix\\contract\\contracts\\helix1.1\\interface\\model\\TaskPool_Interface_getters.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/interface/model/TaskPool_Interface_getters.sol",
+      "absolutePath": "/C/Users/tony/WebstormProjects/nebula-helix/contract/contracts/helix1.1/interface/model/TaskPool_Interface_getters.sol",
       "exportedSymbols": {
         "TaskPoolInterfaceGetter": [
           2908
@@ -575,9 +575,9 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-02-13T17:43:19.573Z"
+  "updatedAt": "2018-02-14T16:19:37.889Z"
 }

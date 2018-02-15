@@ -4,7 +4,7 @@
     {
       "constant": true,
       "inputs": [],
-      "name": "task_history",
+      "name": "active_tasks",
       "outputs": [
         {
           "name": "",
@@ -18,7 +18,7 @@
     {
       "constant": true,
       "inputs": [],
-      "name": "active_tasks",
+      "name": "task_history",
       "outputs": [
         {
           "name": "",
@@ -49,13 +49,13 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18;\r\n\r\ninterface AccountInterfaceGetters {\r\n    function task_history() view public returns (address[]);\r\n\r\n    function active_tasks() view public returns (address[]);\r\n\r\n    function job_history() view public returns (address[]);\r\n}\r\n",
-  "sourcePath": "C:\\Users\\tongp\\WebstormProjects\\wormhole\\contract\\contracts\\helix1.1\\interface\\model\\Account_Interface_getters.sol",
+  "sourcePath": "C:\\Users\\tony\\WebstormProjects\\nebula-helix\\contract\\contracts\\helix1.1\\interface\\model\\Account_Interface_getters.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/interface/model/Account_Interface_getters.sol",
+      "absolutePath": "/C/Users/tony/WebstormProjects/nebula-helix/contract/contracts/helix1.1/interface/model/Account_Interface_getters.sol",
       "exportedSymbols": {
         "AccountInterfaceGetters": [
-          2672
+          2190
         ]
       }
     },
@@ -69,9 +69,9 @@
             ".18"
           ]
         },
-        "id": 2653,
+        "id": 2171,
         "name": "PragmaDirective",
-        "src": "0:24:27"
+        "src": "0:24:18"
       },
       {
         "attributes": {
@@ -85,10 +85,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            2672
+            2190
           ],
           "name": "AccountInterfaceGetters",
-          "scope": 2673
+          "scope": 2191
         },
         "children": [
           {
@@ -102,7 +102,7 @@
               ],
               "name": "task_history",
               "payable": false,
-              "scope": 2672,
+              "scope": 2190,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -115,9 +115,9 @@
                   ]
                 },
                 "children": [],
-                "id": 2654,
+                "id": 2172,
                 "name": "ParameterList",
-                "src": "90:2:27"
+                "src": "90:2:18"
               },
               {
                 "children": [
@@ -125,7 +125,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 2659,
+                      "scope": 2177,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address[] memory",
@@ -144,29 +144,29 @@
                               "name": "address",
                               "type": "address"
                             },
-                            "id": 2655,
+                            "id": 2173,
                             "name": "ElementaryTypeName",
-                            "src": "114:7:27"
+                            "src": "114:7:18"
                           }
                         ],
-                        "id": 2656,
+                        "id": 2174,
                         "name": "ArrayTypeName",
-                        "src": "114:9:27"
+                        "src": "114:9:18"
                       }
                     ],
-                    "id": 2657,
+                    "id": 2175,
                     "name": "VariableDeclaration",
-                    "src": "114:9:27"
+                    "src": "114:9:18"
                   }
                 ],
-                "id": 2658,
+                "id": 2176,
                 "name": "ParameterList",
-                "src": "113:11:27"
+                "src": "113:11:18"
               }
             ],
-            "id": 2659,
+            "id": 2177,
             "name": "FunctionDefinition",
-            "src": "69:56:27"
+            "src": "69:56:18"
           },
           {
             "attributes": {
@@ -179,7 +179,7 @@
               ],
               "name": "active_tasks",
               "payable": false,
-              "scope": 2672,
+              "scope": 2190,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -192,9 +192,9 @@
                   ]
                 },
                 "children": [],
-                "id": 2660,
+                "id": 2178,
                 "name": "ParameterList",
-                "src": "154:2:27"
+                "src": "154:2:18"
               },
               {
                 "children": [
@@ -202,7 +202,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 2665,
+                      "scope": 2183,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address[] memory",
@@ -221,29 +221,29 @@
                               "name": "address",
                               "type": "address"
                             },
-                            "id": 2661,
+                            "id": 2179,
                             "name": "ElementaryTypeName",
-                            "src": "178:7:27"
+                            "src": "178:7:18"
                           }
                         ],
-                        "id": 2662,
+                        "id": 2180,
                         "name": "ArrayTypeName",
-                        "src": "178:9:27"
+                        "src": "178:9:18"
                       }
                     ],
-                    "id": 2663,
+                    "id": 2181,
                     "name": "VariableDeclaration",
-                    "src": "178:9:27"
+                    "src": "178:9:18"
                   }
                 ],
-                "id": 2664,
+                "id": 2182,
                 "name": "ParameterList",
-                "src": "177:11:27"
+                "src": "177:11:18"
               }
             ],
-            "id": 2665,
+            "id": 2183,
             "name": "FunctionDefinition",
-            "src": "133:56:27"
+            "src": "133:56:18"
           },
           {
             "attributes": {
@@ -256,7 +256,7 @@
               ],
               "name": "job_history",
               "payable": false,
-              "scope": 2672,
+              "scope": 2190,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -269,9 +269,9 @@
                   ]
                 },
                 "children": [],
-                "id": 2666,
+                "id": 2184,
                 "name": "ParameterList",
-                "src": "217:2:27"
+                "src": "217:2:18"
               },
               {
                 "children": [
@@ -279,7 +279,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 2671,
+                      "scope": 2189,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address[] memory",
@@ -298,45 +298,45 @@
                               "name": "address",
                               "type": "address"
                             },
-                            "id": 2667,
+                            "id": 2185,
                             "name": "ElementaryTypeName",
-                            "src": "241:7:27"
+                            "src": "241:7:18"
                           }
                         ],
-                        "id": 2668,
+                        "id": 2186,
                         "name": "ArrayTypeName",
-                        "src": "241:9:27"
+                        "src": "241:9:18"
                       }
                     ],
-                    "id": 2669,
+                    "id": 2187,
                     "name": "VariableDeclaration",
-                    "src": "241:9:27"
+                    "src": "241:9:18"
                   }
                 ],
-                "id": 2670,
+                "id": 2188,
                 "name": "ParameterList",
-                "src": "240:11:27"
+                "src": "240:11:18"
               }
             ],
-            "id": 2671,
+            "id": 2189,
             "name": "FunctionDefinition",
-            "src": "197:55:27"
+            "src": "197:55:18"
           }
         ],
-        "id": 2672,
+        "id": 2190,
         "name": "ContractDefinition",
-        "src": "28:227:27"
+        "src": "28:227:18"
       }
     ],
-    "id": 2673,
+    "id": 2191,
     "name": "SourceUnit",
-    "src": "0:257:27"
+    "src": "0:257:18"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-02-13T17:43:19.573Z"
+  "updatedAt": "2018-02-15T20:50:31.574Z"
 }

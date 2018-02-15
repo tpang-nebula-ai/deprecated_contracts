@@ -104,12 +104,12 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
     }
 
     function removeFromActiveList(address _client, address _task) internal returns (bool){
-        var list = accounts[_client].active_tasks;
+        address[] memory list = accounts[_client].active_tasks;
         for (uint index = 0; index < list.length; index++) {
             if (list[index] == _task) {
                 for (uint i = index; i < list.length - 1; i++) list[i] = list[i + 1];
-                delete list[list.length - 1];
-                list.length--;
+                delete accounts[_client].active_tasks[list.length - 1];
+                accounts[_client].active_tasks.length--;
                 return true;
             }
         }
