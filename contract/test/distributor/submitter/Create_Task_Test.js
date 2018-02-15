@@ -103,13 +103,19 @@ module.exports = function (callback) {
                     console.log("Submissible : " + result[3]);
                     console.log("Test : " + assert(result[3], false));
                 });
-            instance.get_active_task();
+            return Accounts.deployed();
+        }).then(function (instance) {
+            instance.task_history().then(function (result) {
+                console.log(result);
+            });
+            instance.active_tasks().then(function (result) {
+                console.log(result);
+            });
             return TaskPool.deployed();
         }).then(function (instance) {
-            instance.get_status(task_address)
-                .then(function (result) {
-                    console.log(result);
-                });
+            instance.get_status(task_address).then(function (result) {
+                console.log(result);
+            });
             instance.nonce().then(function (result) {
                 console.log("Nonce " + result);
             });
@@ -121,7 +127,9 @@ module.exports = function (callback) {
             });
             return Queue_Task.deployed();
         }).then(function (instance) {
-            instance.
+            instance.queue_status().then(function (result) {
+                console.log(result);
+            });
         }).catch(console.log);
     });
 };
@@ -129,5 +137,3 @@ module.exports = function (callback) {
 function assert(returned, expected) {
     return returned === expected;
 }
-
-// 1,"This is test 1","This is data","This is Script","This is output address","A really long parameter list in Json format"
