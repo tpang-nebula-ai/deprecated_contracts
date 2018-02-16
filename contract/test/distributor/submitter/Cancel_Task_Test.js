@@ -111,8 +111,7 @@ module.exports = function (callback) {
         instance.queue_status().then(function (result) {
             console.log("Queue head : " + result[0]);
             console.log("Queue tail : " + result[1]);
-            console.log("Queue size : " + result[2]);
+            console.log("Queue Last Id : " + result[2]);
         });
     }).catch(console.log);
-
 };

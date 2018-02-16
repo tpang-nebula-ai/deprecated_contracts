@@ -34,7 +34,7 @@ module.exports = function (callback) {
             return instance.queue_status().then(function (result) {
                 console.log("Queue head : " + result[0]);
                 console.log("Queue tail : " + result[1]);
-                console.log("Queue size : " + result[2]);
+                console.log("Queue Last Id : " + result[2]);
                 return Client.deployed();
             });
         }).then(function (instance) {
@@ -73,7 +73,7 @@ module.exports = function (callback) {
         return instance.queue_status().then(function (result) {
             console.log("Queue head : " + result[0]);
             console.log("Queue tail : " + result[1]);
-            console.log("Queue size : " + result[2]);
+            console.log("Queue Last Id : " + result[2]);
         }).then(console.log).catch(console.log);
     });
 };

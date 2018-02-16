@@ -13,38 +13,38 @@ let Accounts = artifacts.require("Accounts");
 module.exports = function (deployer) {
     deployer
         .deploy(Migrations, {
-            overwrite: true
+            overwrite: false
         }).then(function () {
         return deployer.deploy(Admin, {
-            overwrite: true
+            overwrite: false
         });
     }).then(function () {
         return deployer.deploy(Client, Admin.address, {
-            overwrite: true
+            overwrite: false
         });
     }).then(function () {
         return deployer.deploy(Dispatcher, Admin.address, {
-            overwrite: true
+            overwrite: false
         });
     }).then(function () {
         return deployer.deploy(Distributor, Admin.address, web3.toWei(5, "ether"), {
-            overwrite: true
+            overwrite: false
         });
     }).then(function () {
         return deployer.deploy(Queue_Ai, Admin.address, {
-            overwrite: true
+            overwrite: false
         });
     }).then(function () {
         return deployer.deploy(Queue_Task, Admin.address, {
-            overwrite: true
+            overwrite: false
         });
     }).then(function () {
         return deployer.deploy(TaskPool, Admin.address, 0, {
-            overwrite: true
+            overwrite: false
         });
     }).then(function () {
         return deployer.deploy(Accounts, Admin.address, {
-            overwrite: true
+            overwrite: false
         });
     }).then(function () {
 
