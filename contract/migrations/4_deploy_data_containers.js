@@ -12,4 +12,5 @@ module.exports = function (deployer) {
     deployer.deploy(Queue_Task, admin);
     deployer.deploy(TaskPool, admin, 0);
     deployer.deploy(Accounts, admin);
+
 };

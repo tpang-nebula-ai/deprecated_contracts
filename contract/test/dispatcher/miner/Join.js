@@ -53,7 +53,10 @@ module.exports = function (callback) {
                 console.log("Applying for eligibility");
                 return instance.apply_eligibility()
                     .then(function (result) {
-                        if (result) return Dispatcher.deployed();
+                        if (result) {
+                            console.log("Miner Eligibility Granted");
+                            return Dispatcher.deployed();
+                        }
                         else throw new Error("Eligibility Application failed");
                     })
             } else return Dispatcher.deployed();

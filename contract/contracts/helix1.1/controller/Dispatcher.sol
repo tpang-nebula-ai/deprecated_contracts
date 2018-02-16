@@ -167,7 +167,14 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
         account_info memory _sender = load_client(msg.sender);
         require(_sender._waiting);
         client.set_waiting(msg.sender, false);
+        queue_ai.remove(msg.sender);
+
+        //TODO add assert();
+        AiLeftQueue(msg.sender);
+        return true;
     }
+
+    event AiLeftQueue(address _worker);
     ///@dev getter
     function ai_queue_length() Ready view public returns (uint256){
         return queue_ai.size();
