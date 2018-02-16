@@ -38,21 +38,6 @@ module.exports = function (callback) {
     let _output = "This is output address";
     let _params = "A really long parameter list in Json format";
 
-    Client.deployed()
-        .then(function (instance) {
-            return instance.get_client_c();
-        }).then(function (result) {
-        console.log("Submissible: " + result[3]);
-    }).catch(console.log);
-
-    Client.deployed()
-        .then(function (instance) {
-            return instance.submissible(web3.eth.accounts[0]);
-        }).then(function (result) {
-        console.log("Submissible: " + result);
-    }).catch(console.log);
-
-
     Distributor.web3.eth.getGasPrice(function (error, result) {
         let gasPrice = Number(result);
         console.log("Gas Price is " + result + " wei"); // "10000000000000"
@@ -91,36 +76,59 @@ module.exports = function (callback) {
             }).then(function (instance) {
             return instance.get_task(task_address)
                 .then(function (result) {
-                    console.log(result);
-                    console.log("Type of result : " + typeof result);
+                    console.log("Get task " + task_address);
+                    console.log("App Id : " + result[0]);
+                    console.log("Task name : " + result[1]);
+                    console.log("Task data address : " + result[2]);
+                    console.log("Task script address : " + result[3]);
+                    console.log("Task output address : " + result[4]);
+                    console.log("Task optional parameters : " + result[5]);
                     console.log("Test: " + assert(result[1], _name));
                     return Client.deployed();
                 })
         }).then(function (instance) {
             instance.get_client_c()
                 .then(function (result) {
-                    console.log(result);
+                    console.log("Client Banned : " + result[0]);
+                    console.log("Misconduct Counter : " + result[1]);
+                    console.log("Client Level : " + result[2]);
                     console.log("Submissible : " + result[3]);
-                    console.log("Test : " + assert(result[3], false));
+                    console.log("Submissible correctness: ");
+                    console.log(result[3] === false);
                 });
             return Accounts.deployed();
         }).then(function (instance) {
             instance.task_history().then(function (result) {
+                console.log("Task History");
                 console.log(result);
             });
             instance.active_tasks().then(function (result) {
+                console.log("Active Task");
                 console.log(result);
+                console.log("Active Task is empty ");
+                console.log(result.length === 1);
             });
             return TaskPool.deployed();
         }).then(function (instance) {
             instance.get_status(task_address).then(function (result) {
-                console.log(result);
+                console.log("Task Status");
+                console.log("Task Created @ " + result[0]);
+                console.log("Task Dispatched @ " + result[1]);
+                console.log("Task Started @ " + result[2]);
+                console.log("Task Completed @ " + result[3]);
+                console.log("Task Cancelled @ " + result[4]);
+                console.log("Task Error @ " + result[5]);
+                console.log("Task Has been created : ");
+                console.log(Number(result[0]) !== 0);
             });
             instance.nonce().then(function (result) {
                 console.log("Nonce " + result);
             });
             instance.get_fees(task_address).then(function (result) {
-                console.log("Fee " + result);
+                console.log("Fee " + result[0]);
+                console.log("Completion Fee " + result[1]);
+                console.log("Fee is 5 : ");
+                console.log(Number(result[0]) === Admin.web3.toWei(5, "ether"));
             });
             instance.get_owner(task_address).then(function (result) {
                 console.log("Owner " + result);
@@ -128,7 +136,9 @@ module.exports = function (callback) {
             return Queue_Task.deployed();
         }).then(function (instance) {
             instance.queue_status().then(function (result) {
-                console.log(result);
+                console.log("Queue head : " + result[0]);
+                console.log("Queue tail : " + result[1]);
+                console.log("Queue size : " + result[2]);
             });
         }).catch(console.log);
     });

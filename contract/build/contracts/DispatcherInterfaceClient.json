@@ -1,18 +1,18 @@
 {
   "contractName": "DispatcherInterfaceClient",
   "abi": [],
-  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820916f03ca219230bf96f8046d4c0f34908beb24c0e8a1bdb233e10ea15e08d8770029",
-  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820916f03ca219230bf96f8046d4c0f34908beb24c0e8a1bdb233e10ea15e08d8770029",
-  "sourceMap": "28:42:9:-;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "28:42:9:-;;;;;",
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a7230582016f546735586c2b77326d4c91228b181a303919e1f53a8f05513a0b1f326d3360029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a7230582016f546735586c2b77326d4c91228b181a303919e1f53a8f05513a0b1f326d3360029",
+  "sourceMap": "28:42:7:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "28:42:7:-;;;;;",
   "source": "pragma solidity ^0.4.18;\r\n\r\ninterface DispatcherInterfaceClient {\r\n\r\n}\r\n",
-  "sourcePath": "C:\\Users\\tony\\WebstormProjects\\nebula-helix\\contract\\contracts\\helix1.1\\interface\\dispatcher\\Dispatcher_Interface_client.sol",
+  "sourcePath": "C:\\Users\\tongp\\WebstormProjects\\wormhole\\contract\\contracts\\helix1.1\\interface\\dispatcher\\Dispatcher_Interface_client.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/Users/tony/WebstormProjects/nebula-helix/contract/contracts/helix1.1/interface/dispatcher/Dispatcher_Interface_client.sol",
+      "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/interface/dispatcher/Dispatcher_Interface_client.sol",
       "exportedSymbols": {
         "DispatcherInterfaceClient": [
-          1905
+          662
         ]
       }
     },
@@ -26,9 +26,9 @@
             ".18"
           ]
         },
-        "id": 1904,
+        "id": 661,
         "name": "PragmaDirective",
-        "src": "0:24:9"
+        "src": "0:24:7"
       },
       {
         "attributes": {
@@ -42,28 +42,28 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            1905
+            662
           ],
           "name": "DispatcherInterfaceClient",
           "nodes": [
             null
           ],
-          "scope": 1906
+          "scope": 663
         },
-        "id": 1905,
+        "id": 662,
         "name": "ContractDefinition",
-        "src": "28:42:9"
+        "src": "28:42:7"
       }
     ],
-    "id": 1906,
+    "id": 663,
     "name": "SourceUnit",
-    "src": "0:72:9"
+    "src": "0:72:7"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-02-15T20:50:31.571Z"
+  "updatedAt": "2018-02-16T04:04:30.310Z"
 }

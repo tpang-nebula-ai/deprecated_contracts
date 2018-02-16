@@ -26,13 +26,13 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18;\r\n\r\ninterface QueueInterfaceAdmin {\r\n    function set_dispatcher(address _dispatcher) public returns (bool);\r\n}\r\n",
-  "sourcePath": "C:\\Users\\tony\\WebstormProjects\\nebula-helix\\contract\\contracts\\helix1.1\\model\\queue\\Queue_Interface_admin.sol",
+  "sourcePath": "C:\\Users\\tongp\\WebstormProjects\\wormhole\\contract\\contracts\\helix1.1\\model\\queue\\Queue_Interface_admin.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/Users/tony/WebstormProjects/nebula-helix/contract/contracts/helix1.1/model/queue/Queue_Interface_admin.sol",
+      "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/model/queue/Queue_Interface_admin.sol",
       "exportedSymbols": {
         "QueueInterfaceAdmin": [
-          3608
+          2098
         ]
       }
     },
@@ -46,9 +46,9 @@
             ".18"
           ]
         },
-        "id": 3600,
+        "id": 2090,
         "name": "PragmaDirective",
-        "src": "0:24:25"
+        "src": "0:24:17"
       },
       {
         "attributes": {
@@ -62,10 +62,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            3608
+            2098
           ],
           "name": "QueueInterfaceAdmin",
-          "scope": 3609
+          "scope": 2099
         },
         "children": [
           {
@@ -79,7 +79,7 @@
               ],
               "name": "set_dispatcher",
               "payable": false,
-              "scope": 3608,
+              "scope": 2098,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -91,7 +91,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_dispatcher",
-                      "scope": 3607,
+                      "scope": 2097,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -104,19 +104,19 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 3601,
+                        "id": 2091,
                         "name": "ElementaryTypeName",
-                        "src": "89:7:25"
+                        "src": "89:7:17"
                       }
                     ],
-                    "id": 3602,
+                    "id": 2092,
                     "name": "VariableDeclaration",
-                    "src": "89:19:25"
+                    "src": "89:19:17"
                   }
                 ],
-                "id": 3603,
+                "id": 2093,
                 "name": "ParameterList",
-                "src": "88:21:25"
+                "src": "88:21:17"
               },
               {
                 "children": [
@@ -124,7 +124,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 3607,
+                      "scope": 2097,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -137,40 +137,40 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 3604,
+                        "id": 2094,
                         "name": "ElementaryTypeName",
-                        "src": "126:4:25"
+                        "src": "126:4:17"
                       }
                     ],
-                    "id": 3605,
+                    "id": 2095,
                     "name": "VariableDeclaration",
-                    "src": "126:4:25"
+                    "src": "126:4:17"
                   }
                 ],
-                "id": 3606,
+                "id": 2096,
                 "name": "ParameterList",
-                "src": "125:6:25"
+                "src": "125:6:17"
               }
             ],
-            "id": 3607,
+            "id": 2097,
             "name": "FunctionDefinition",
-            "src": "65:67:25"
+            "src": "65:67:17"
           }
         ],
-        "id": 3608,
+        "id": 2098,
         "name": "ContractDefinition",
-        "src": "28:107:25"
+        "src": "28:107:17"
       }
     ],
-    "id": 3609,
+    "id": 2099,
     "name": "SourceUnit",
-    "src": "0:137:25"
+    "src": "0:137:17"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-02-15T20:50:31.576Z"
+  "updatedAt": "2018-02-16T04:04:30.316Z"
 }

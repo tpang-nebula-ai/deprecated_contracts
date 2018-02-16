@@ -2,22 +2,17 @@
   "contractName": "DispatcherInterfaceMiner",
   "abi": [
     {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "_worker",
-          "type": "address"
-        }
-      ],
-      "name": "ai_position",
+      "constant": false,
+      "inputs": [],
+      "name": "join_ai_queue",
       "outputs": [
         {
           "name": "",
-          "type": "uint256"
+          "type": "bool"
         }
       ],
       "payable": false,
-      "stateMutability": "view",
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -49,17 +44,22 @@
       "type": "function"
     },
     {
-      "constant": false,
-      "inputs": [],
-      "name": "join_ai_queue",
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_worker",
+          "type": "address"
+        }
+      ],
+      "name": "ai_position",
       "outputs": [
         {
           "name": "",
-          "type": "bool"
+          "type": "uint256"
         }
       ],
       "payable": false,
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function"
     }
   ],
@@ -68,13 +68,13 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.18;\r\n\r\ninterface DispatcherInterfaceMiner {\r\n\r\n    function join_ai_queue() public returns(bool);\r\n\r\n    function leave_ai_queue() public returns(bool);\r\n\r\n    function ai_queue_length() view public returns (uint256);\r\n\r\n    function ai_position(address _worker) view public returns (uint256);\r\n}\r\n",
-  "sourcePath": "C:\\Users\\tony\\WebstormProjects\\nebula-helix\\contract\\contracts\\helix1.1\\interface\\dispatcher\\Dispatcher_Interface_miner.sol",
+  "sourcePath": "C:\\Users\\tongp\\WebstormProjects\\wormhole\\contract\\contracts\\helix1.1\\interface\\dispatcher\\Dispatcher_Interface_miner.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/Users/tony/WebstormProjects/nebula-helix/contract/contracts/helix1.1/interface/dispatcher/Dispatcher_Interface_miner.sol",
+      "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/interface/dispatcher/Dispatcher_Interface_miner.sol",
       "exportedSymbols": {
         "DispatcherInterfaceMiner": [
-          1958
+          2437
         ]
       }
     },
@@ -88,9 +88,9 @@
             ".18"
           ]
         },
-        "id": 1935,
+        "id": 2414,
         "name": "PragmaDirective",
-        "src": "0:24:11"
+        "src": "0:24:14"
       },
       {
         "attributes": {
@@ -104,10 +104,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            1958
+            2437
           ],
           "name": "DispatcherInterfaceMiner",
-          "scope": 1959
+          "scope": 2438
         },
         "children": [
           {
@@ -121,7 +121,7 @@
               ],
               "name": "join_ai_queue",
               "payable": false,
-              "scope": 1958,
+              "scope": 2437,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -134,9 +134,9 @@
                   ]
                 },
                 "children": [],
-                "id": 1936,
+                "id": 2415,
                 "name": "ParameterList",
-                "src": "94:2:11"
+                "src": "94:2:14"
               },
               {
                 "children": [
@@ -144,7 +144,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1940,
+                      "scope": 2419,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -157,24 +157,24 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 1937,
+                        "id": 2416,
                         "name": "ElementaryTypeName",
-                        "src": "112:4:11"
+                        "src": "112:4:14"
                       }
                     ],
-                    "id": 1938,
+                    "id": 2417,
                     "name": "VariableDeclaration",
-                    "src": "112:4:11"
+                    "src": "112:4:14"
                   }
                 ],
-                "id": 1939,
+                "id": 2418,
                 "name": "ParameterList",
-                "src": "111:6:11"
+                "src": "111:6:14"
               }
             ],
-            "id": 1940,
+            "id": 2419,
             "name": "FunctionDefinition",
-            "src": "72:46:11"
+            "src": "72:46:14"
           },
           {
             "attributes": {
@@ -187,7 +187,7 @@
               ],
               "name": "leave_ai_queue",
               "payable": false,
-              "scope": 1958,
+              "scope": 2437,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -200,9 +200,9 @@
                   ]
                 },
                 "children": [],
-                "id": 1941,
+                "id": 2420,
                 "name": "ParameterList",
-                "src": "149:2:11"
+                "src": "149:2:14"
               },
               {
                 "children": [
@@ -210,7 +210,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1945,
+                      "scope": 2424,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -223,24 +223,24 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 1942,
+                        "id": 2421,
                         "name": "ElementaryTypeName",
-                        "src": "167:4:11"
+                        "src": "167:4:14"
                       }
                     ],
-                    "id": 1943,
+                    "id": 2422,
                     "name": "VariableDeclaration",
-                    "src": "167:4:11"
+                    "src": "167:4:14"
                   }
                 ],
-                "id": 1944,
+                "id": 2423,
                 "name": "ParameterList",
-                "src": "166:6:11"
+                "src": "166:6:14"
               }
             ],
-            "id": 1945,
+            "id": 2424,
             "name": "FunctionDefinition",
-            "src": "126:47:11"
+            "src": "126:47:14"
           },
           {
             "attributes": {
@@ -253,7 +253,7 @@
               ],
               "name": "ai_queue_length",
               "payable": false,
-              "scope": 1958,
+              "scope": 2437,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -266,9 +266,9 @@
                   ]
                 },
                 "children": [],
-                "id": 1946,
+                "id": 2425,
                 "name": "ParameterList",
-                "src": "205:2:11"
+                "src": "205:2:14"
               },
               {
                 "children": [
@@ -276,7 +276,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1950,
+                      "scope": 2429,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -289,24 +289,24 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 1947,
+                        "id": 2426,
                         "name": "ElementaryTypeName",
-                        "src": "229:7:11"
+                        "src": "229:7:14"
                       }
                     ],
-                    "id": 1948,
+                    "id": 2427,
                     "name": "VariableDeclaration",
-                    "src": "229:7:11"
+                    "src": "229:7:14"
                   }
                 ],
-                "id": 1949,
+                "id": 2428,
                 "name": "ParameterList",
-                "src": "228:9:11"
+                "src": "228:9:14"
               }
             ],
-            "id": 1950,
+            "id": 2429,
             "name": "FunctionDefinition",
-            "src": "181:57:11"
+            "src": "181:57:14"
           },
           {
             "attributes": {
@@ -319,7 +319,7 @@
               ],
               "name": "ai_position",
               "payable": false,
-              "scope": 1958,
+              "scope": 2437,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -331,7 +331,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_worker",
-                      "scope": 1957,
+                      "scope": 2436,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -344,19 +344,19 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 1951,
+                        "id": 2430,
                         "name": "ElementaryTypeName",
-                        "src": "267:7:11"
+                        "src": "267:7:14"
                       }
                     ],
-                    "id": 1952,
+                    "id": 2431,
                     "name": "VariableDeclaration",
-                    "src": "267:15:11"
+                    "src": "267:15:14"
                   }
                 ],
-                "id": 1953,
+                "id": 2432,
                 "name": "ParameterList",
-                "src": "266:17:11"
+                "src": "266:17:14"
               },
               {
                 "children": [
@@ -364,7 +364,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 1957,
+                      "scope": 2436,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -377,40 +377,40 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 1954,
+                        "id": 2433,
                         "name": "ElementaryTypeName",
-                        "src": "305:7:11"
+                        "src": "305:7:14"
                       }
                     ],
-                    "id": 1955,
+                    "id": 2434,
                     "name": "VariableDeclaration",
-                    "src": "305:7:11"
+                    "src": "305:7:14"
                   }
                 ],
-                "id": 1956,
+                "id": 2435,
                 "name": "ParameterList",
-                "src": "304:9:11"
+                "src": "304:9:14"
               }
             ],
-            "id": 1957,
+            "id": 2436,
             "name": "FunctionDefinition",
-            "src": "246:68:11"
+            "src": "246:68:14"
           }
         ],
-        "id": 1958,
+        "id": 2437,
         "name": "ContractDefinition",
-        "src": "28:289:11"
+        "src": "28:289:14"
       }
     ],
-    "id": 1959,
+    "id": 2438,
     "name": "SourceUnit",
-    "src": "0:319:11"
+    "src": "0:319:14"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-02-15T20:50:31.571Z"
+  "updatedAt": "2018-02-16T01:18:02.250Z"
 }

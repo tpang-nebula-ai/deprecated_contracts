@@ -1,18 +1,18 @@
 {
   "contractName": "DistributorInterfaceClient",
   "abi": [],
-  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a723058200120d475080acdaf8c5399ea08cb0bac80b0dc509cf32ccecf37c2c0ac15530c0029",
-  "deployedBytecode": "0x6060604052600080fd00a165627a7a723058200120d475080acdaf8c5399ea08cb0bac80b0dc509cf32ccecf37c2c0ac15530c0029",
-  "sourceMap": "28:41:13:-;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "28:41:13:-;;;;;",
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820502516fe1fc4746e4245369520aeef3f6f212e947dc1e7c3f71465ec4db6fd590029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820502516fe1fc4746e4245369520aeef3f6f212e947dc1e7c3f71465ec4db6fd590029",
+  "sourceMap": "28:41:8:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "28:41:8:-;;;;;",
   "source": "pragma solidity ^0.4.18;\r\n\r\ninterface DistributorInterfaceClient {\r\n}\r\n",
-  "sourcePath": "C:\\Users\\tony\\WebstormProjects\\nebula-helix\\contract\\contracts\\helix1.1\\interface\\distributor\\Distributor_Interface_client.sol",
+  "sourcePath": "C:\\Users\\tongp\\WebstormProjects\\wormhole\\contract\\contracts\\helix1.1\\interface\\distributor\\Distributor_Interface_client.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/Users/tony/WebstormProjects/nebula-helix/contract/contracts/helix1.1/interface/distributor/Distributor_Interface_client.sol",
+      "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/interface/distributor/Distributor_Interface_client.sol",
       "exportedSymbols": {
         "DistributorInterfaceClient": [
-          1971
+          665
         ]
       }
     },
@@ -26,9 +26,9 @@
             ".18"
           ]
         },
-        "id": 1970,
+        "id": 664,
         "name": "PragmaDirective",
-        "src": "0:24:13"
+        "src": "0:24:8"
       },
       {
         "attributes": {
@@ -42,28 +42,28 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            1971
+            665
           ],
           "name": "DistributorInterfaceClient",
           "nodes": [
             null
           ],
-          "scope": 1972
+          "scope": 666
         },
-        "id": 1971,
+        "id": 665,
         "name": "ContractDefinition",
-        "src": "28:41:13"
+        "src": "28:41:8"
       }
     ],
-    "id": 1972,
+    "id": 666,
     "name": "SourceUnit",
-    "src": "0:71:13"
+    "src": "0:71:8"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-02-15T20:50:31.571Z"
+  "updatedAt": "2018-02-16T04:04:30.312Z"
 }
