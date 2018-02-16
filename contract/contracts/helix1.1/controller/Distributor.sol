@@ -84,7 +84,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
     event TaskCreated(address _client, address _task);
 
-    //@dev entry point TODO REVIEW REQUIRED and add assert
+    //@dev entry point TODO REVIEW REQUIRED and add assert, _dispatch_time==0 should be require not if
     function cancel_task(address _task) Ready public returns (bool){
         address _task_owner = pool.get_owner(_task);
         require(msg.sender == _task_owner);

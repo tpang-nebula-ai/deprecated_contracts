@@ -11,6 +11,4 @@ interface ClientInterfaceMiner {
     );
 
     function apply_eligibility() public returns (bool);
-
-    function active_job() view public returns (address);
 }
