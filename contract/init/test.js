@@ -28,7 +28,7 @@ module.exports = function (callback) {
     console.log("Dispatcher @ " + Dispatcher.address);
     console.log("Distributor @ " + Distributor.address);
     console.log("Task Queue @ " + Queue_Task.address);
-    console.log("Task Ai @ " + Queue_Ai.address);
+    console.log("Ai Queue @ " + Queue_Ai.address);
     console.log("Accounts @ " + Accounts.address);
     console.log("TaskPool @ " + TaskPool.address);
 
