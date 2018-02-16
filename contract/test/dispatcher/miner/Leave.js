@@ -57,7 +57,6 @@ module.exports = function (callback) {
         return instance.leave_ai_queue()
             .then(function (result) {
                 console.log(result);
-
                 return Client.deployed();
             });
     }).then(function (instance) {
@@ -74,6 +73,6 @@ module.exports = function (callback) {
             console.log("Queue head : " + result[0]);
             console.log("Queue tail : " + result[1]);
             console.log("Queue Last Id : " + result[2]);
-        }).then(console.log).catch(console.log);
-    });
+        }).then(console.log);
+    }).catch(console.log);
 };
