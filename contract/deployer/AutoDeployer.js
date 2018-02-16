@@ -23,7 +23,7 @@ class NebulaContract {
             this.json_contract.abi,
             {
                 from: web3.eth.defaultAccount,
-                data: this.json_contract.bytecode,
+                data: this.json_contract.bytecode
             });
         return this;
     }
@@ -134,7 +134,7 @@ class Deployer {
 
         console.log("Loading contract json files");
 
-        const files = require("./file.json");
+        const files = require("../migrations/file.json");
 
         this.CONTRACTS.admin = new NebulaContract(files.admin);
         this.CONTRACTS.client = new NebulaContract(files.client);
