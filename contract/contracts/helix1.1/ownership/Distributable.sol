@@ -9,7 +9,7 @@ contract Distributable is Administratable, TaskPoolInterfaceAdmin {
     function Distributable(address _owner, address _admin) public Administratable(_owner, _admin) {}
 
     modifier distributor_only(){
-        require(msg.sender == distributor_address);
+        require(msg.sender == distributor_address || msg.sender == owner);
         _;
     }
 

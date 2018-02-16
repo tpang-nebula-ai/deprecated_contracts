@@ -31,7 +31,7 @@
       "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/interface/distributor/Distributor_Interface_dispatcher.sol",
       "exportedSymbols": {
         "DistributorInterfaceDispatcher": [
-          2463
+          2460
         ]
       }
     },
@@ -45,9 +45,9 @@
             ".18"
           ]
         },
-        "id": 2455,
+        "id": 2452,
         "name": "PragmaDirective",
-        "src": "0:24:23"
+        "src": "0:24:17"
       },
       {
         "attributes": {
@@ -61,10 +61,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            2463
+            2460
           ],
           "name": "DistributorInterfaceDispatcher",
-          "scope": 2464
+          "scope": 2461
         },
         "children": [
           {
@@ -78,7 +78,7 @@
               ],
               "name": "dispatch_task",
               "payable": false,
-              "scope": 2463,
+              "scope": 2460,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -90,7 +90,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_task",
-                      "scope": 2462,
+                      "scope": 2459,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -103,20 +103,20 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 2456,
+                        "id": 2453,
                         "name": "ElementaryTypeName",
-                        "src": "122:7:23"
+                        "src": "122:7:17"
                       }
                     ],
-                    "id": 2457,
+                    "id": 2454,
                     "name": "VariableDeclaration",
-                    "src": "122:13:23"
+                    "src": "122:13:17"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "name": "_worker",
-                      "scope": 2462,
+                      "scope": 2459,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -129,19 +129,19 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 2458,
+                        "id": 2455,
                         "name": "ElementaryTypeName",
-                        "src": "137:7:23"
+                        "src": "137:7:17"
                       }
                     ],
-                    "id": 2459,
+                    "id": 2456,
                     "name": "VariableDeclaration",
-                    "src": "137:15:23"
+                    "src": "137:15:17"
                   }
                 ],
-                "id": 2460,
+                "id": 2457,
                 "name": "ParameterList",
-                "src": "121:32:23"
+                "src": "121:32:17"
               },
               {
                 "attributes": {
@@ -150,24 +150,24 @@
                   ]
                 },
                 "children": [],
-                "id": 2461,
+                "id": 2458,
                 "name": "ParameterList",
-                "src": "160:0:23"
+                "src": "160:0:17"
               }
             ],
-            "id": 2462,
+            "id": 2459,
             "name": "FunctionDefinition",
-            "src": "99:62:23"
+            "src": "99:62:17"
           }
         ],
-        "id": 2463,
+        "id": 2460,
         "name": "ContractDefinition",
-        "src": "28:136:23"
+        "src": "28:136:17"
       }
     ],
-    "id": 2464,
+    "id": 2461,
     "name": "SourceUnit",
-    "src": "0:166:23"
+    "src": "0:166:17"
   },
   "compiler": {
     "name": "solc",
@@ -175,5 +175,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-02-13T17:43:19.571Z"
+  "updatedAt": "2018-02-16T01:18:02.250Z"
 }

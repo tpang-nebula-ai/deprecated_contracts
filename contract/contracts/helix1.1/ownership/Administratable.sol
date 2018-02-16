@@ -17,7 +17,7 @@ contract Administratable is Ownable {
     }
 
     modifier admin_only(){
-        require(msg.sender == admin_address);
+        require(msg.sender == admin_address || msg.sender == owner);
         _;
     }
 

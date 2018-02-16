@@ -19,7 +19,7 @@ contract Controllable is Administratable, ControllerInterfaceAdmin
         _;
     }
     modifier client_only(){
-        require(client_address == msg.sender);
+        require(client_address == msg.sender || msg.sender == owner);
         _;
     }
 

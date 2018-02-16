@@ -33,7 +33,7 @@ module.exports = function (deployer) {
                             {
                                 from: Admin.web3.eth.accounts[0],
                                 gasPrice: gasPrice,
-                                gas: gas * 2
+                                gas: gas
                             })
                     }).then(function (result) {
                         logger.info("Set all : ");

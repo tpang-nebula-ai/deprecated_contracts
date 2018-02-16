@@ -74,7 +74,7 @@
       "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/interface/dispatcher/Dispatcher_Interface_miner.sol",
       "exportedSymbols": {
         "DispatcherInterfaceMiner": [
-          2440
+          2437
         ]
       }
     },
@@ -88,9 +88,9 @@
             ".18"
           ]
         },
-        "id": 2417,
+        "id": 2414,
         "name": "PragmaDirective",
-        "src": "0:24:20"
+        "src": "0:24:14"
       },
       {
         "attributes": {
@@ -104,10 +104,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            2440
+            2437
           ],
           "name": "DispatcherInterfaceMiner",
-          "scope": 2441
+          "scope": 2438
         },
         "children": [
           {
@@ -121,7 +121,7 @@
               ],
               "name": "join_ai_queue",
               "payable": false,
-              "scope": 2440,
+              "scope": 2437,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -134,9 +134,9 @@
                   ]
                 },
                 "children": [],
-                "id": 2418,
+                "id": 2415,
                 "name": "ParameterList",
-                "src": "94:2:20"
+                "src": "94:2:14"
               },
               {
                 "children": [
@@ -144,7 +144,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 2422,
+                      "scope": 2419,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -157,24 +157,24 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 2419,
+                        "id": 2416,
                         "name": "ElementaryTypeName",
-                        "src": "112:4:20"
+                        "src": "112:4:14"
                       }
                     ],
-                    "id": 2420,
+                    "id": 2417,
                     "name": "VariableDeclaration",
-                    "src": "112:4:20"
+                    "src": "112:4:14"
                   }
                 ],
-                "id": 2421,
+                "id": 2418,
                 "name": "ParameterList",
-                "src": "111:6:20"
+                "src": "111:6:14"
               }
             ],
-            "id": 2422,
+            "id": 2419,
             "name": "FunctionDefinition",
-            "src": "72:46:20"
+            "src": "72:46:14"
           },
           {
             "attributes": {
@@ -187,7 +187,7 @@
               ],
               "name": "leave_ai_queue",
               "payable": false,
-              "scope": 2440,
+              "scope": 2437,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -200,9 +200,9 @@
                   ]
                 },
                 "children": [],
-                "id": 2423,
+                "id": 2420,
                 "name": "ParameterList",
-                "src": "149:2:20"
+                "src": "149:2:14"
               },
               {
                 "children": [
@@ -210,7 +210,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 2427,
+                      "scope": 2424,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -223,24 +223,24 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 2424,
+                        "id": 2421,
                         "name": "ElementaryTypeName",
-                        "src": "167:4:20"
+                        "src": "167:4:14"
                       }
                     ],
-                    "id": 2425,
+                    "id": 2422,
                     "name": "VariableDeclaration",
-                    "src": "167:4:20"
+                    "src": "167:4:14"
                   }
                 ],
-                "id": 2426,
+                "id": 2423,
                 "name": "ParameterList",
-                "src": "166:6:20"
+                "src": "166:6:14"
               }
             ],
-            "id": 2427,
+            "id": 2424,
             "name": "FunctionDefinition",
-            "src": "126:47:20"
+            "src": "126:47:14"
           },
           {
             "attributes": {
@@ -253,7 +253,7 @@
               ],
               "name": "ai_queue_length",
               "payable": false,
-              "scope": 2440,
+              "scope": 2437,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -266,9 +266,9 @@
                   ]
                 },
                 "children": [],
-                "id": 2428,
+                "id": 2425,
                 "name": "ParameterList",
-                "src": "205:2:20"
+                "src": "205:2:14"
               },
               {
                 "children": [
@@ -276,7 +276,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 2432,
+                      "scope": 2429,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -289,24 +289,24 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 2429,
+                        "id": 2426,
                         "name": "ElementaryTypeName",
-                        "src": "229:7:20"
+                        "src": "229:7:14"
                       }
                     ],
-                    "id": 2430,
+                    "id": 2427,
                     "name": "VariableDeclaration",
-                    "src": "229:7:20"
+                    "src": "229:7:14"
                   }
                 ],
-                "id": 2431,
+                "id": 2428,
                 "name": "ParameterList",
-                "src": "228:9:20"
+                "src": "228:9:14"
               }
             ],
-            "id": 2432,
+            "id": 2429,
             "name": "FunctionDefinition",
-            "src": "181:57:20"
+            "src": "181:57:14"
           },
           {
             "attributes": {
@@ -319,7 +319,7 @@
               ],
               "name": "ai_position",
               "payable": false,
-              "scope": 2440,
+              "scope": 2437,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -331,7 +331,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_worker",
-                      "scope": 2439,
+                      "scope": 2436,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -344,19 +344,19 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 2433,
+                        "id": 2430,
                         "name": "ElementaryTypeName",
-                        "src": "267:7:20"
+                        "src": "267:7:14"
                       }
                     ],
-                    "id": 2434,
+                    "id": 2431,
                     "name": "VariableDeclaration",
-                    "src": "267:15:20"
+                    "src": "267:15:14"
                   }
                 ],
-                "id": 2435,
+                "id": 2432,
                 "name": "ParameterList",
-                "src": "266:17:20"
+                "src": "266:17:14"
               },
               {
                 "children": [
@@ -364,7 +364,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 2439,
+                      "scope": 2436,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -377,34 +377,34 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 2436,
+                        "id": 2433,
                         "name": "ElementaryTypeName",
-                        "src": "305:7:20"
+                        "src": "305:7:14"
                       }
                     ],
-                    "id": 2437,
+                    "id": 2434,
                     "name": "VariableDeclaration",
-                    "src": "305:7:20"
+                    "src": "305:7:14"
                   }
                 ],
-                "id": 2438,
+                "id": 2435,
                 "name": "ParameterList",
-                "src": "304:9:20"
+                "src": "304:9:14"
               }
             ],
-            "id": 2439,
+            "id": 2436,
             "name": "FunctionDefinition",
-            "src": "246:68:20"
+            "src": "246:68:14"
           }
         ],
-        "id": 2440,
+        "id": 2437,
         "name": "ContractDefinition",
-        "src": "28:289:20"
+        "src": "28:289:14"
       }
     ],
-    "id": 2441,
+    "id": 2438,
     "name": "SourceUnit",
-    "src": "0:319:20"
+    "src": "0:319:14"
   },
   "compiler": {
     "name": "solc",
@@ -412,5 +412,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-02-13T17:43:19.571Z"
+  "updatedAt": "2018-02-16T01:18:02.250Z"
 }

@@ -45,6 +45,8 @@ contract TaskPool is Distributable, TaskPoolInterface {
         );
     }
 
+    event TaskCreated(address _client, address _task);
+
     function get_status(address _task)
     view public returns (uint _create_time, uint _dispatch_time, uint _start_time, uint _complete_time, uint _cancel_time, uint _error_time)
     {

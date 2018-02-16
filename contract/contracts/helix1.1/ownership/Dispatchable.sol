@@ -9,7 +9,7 @@ contract Dispatchable is Administratable, QueueInterfaceAdmin {
     function Dispatchable(address _owner, address _admin) Administratable(_owner, _admin) public {}
 
     modifier dispatcher_only(){
-        require(msg.sender == dispatcher_address);
+        require(msg.sender == dispatcher_address || msg.sender == owner);
         _;
     }
 

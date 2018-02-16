@@ -103,7 +103,7 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
      *         @param _task address of the task to be dispatched to worker
      */
     function is_dispatchable(bool _is_task, address _address)
-    Ready internal
+    Ready public
     returns (bool _success, bool _dispatchable, address _worker, address _task){
         if(_is_task){
             if(queue_ai.size() == 0) return (queue_task.push(_address), false, address(0), address(0));
@@ -167,7 +167,14 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
         account_info memory _sender = load_client(msg.sender);
         require(_sender._waiting);
         client.set_waiting(msg.sender, false);
+        queue_ai.remove(msg.sender);
+
+        //TODO add assert();
+        AiLeftQueue(msg.sender);
+        return true;
     }
+
+    event AiLeftQueue(address _worker);
     ///@dev getter
     function ai_queue_length() Ready view public returns (uint256){
         return queue_ai.size();
@@ -181,7 +188,6 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
     //Distributor
     //@dev intermediate point - task validation has been made by
     function join_task_queue(address _task) Ready public payable returns (bool){
-        client.add_task(msg.sender, true, _task);
         bool _success;
         bool _dispatchable;
         address _worker;

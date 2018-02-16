@@ -69,15 +69,20 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         string _output,
         string _params
     ) Ready public payable returns (address _task){
-        //        require(app.valid_id(_app_id)) app_id needs to be valid , TODO a contract that keep tracks of the app id
+        //require(app.valid_id(_app_id)) app_id needs to be valid , TODO a contract that keep tracks of the app id
         require(msg.value >= minimal_fee && _app_id != 0);
         _task = pool.create(_app_id, _name, _data, _script, _output, _params, msg.value, msg.sender);
-
-        dispatcher.join_task_queue.value(msg.value)(_task);
-
         client.add_task(msg.sender, true, _task);
-        //TODO this ONLY for testing
+
+        dispatcher.join_task_queue(_task);
+        //TODO this ONLY for testing, to be modified
+
+        TaskCreated(msg.sender, _task);
+
+        return _task;
     }
+
+    event TaskCreated(address _client, address _task);
 
     //@dev entry point TODO REVIEW REQUIRED and add assert
     function cancel_task(address _task) Ready public returns (bool){
@@ -89,15 +94,30 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
         require(_create_time != 0);
         //task existed
-        if (_dispatch_time == 0 && dispatcher.leave_task_queue(_task)) {
+        if (_dispatch_time == 0) {
             //in queue can be cancelled
+
+            assert(dispatcher.leave_task_queue(_task));
+            TaskLeftQueue(_task_owner, _task);
+
+            assert(client.add_task(_task_owner, false, _task));
+            SubmitterFreed(_task_owner);
+            
             uint256 _fee;
             (_fee,) = pool.get_fees(_task);
-            assert(pool.set_fee(_task, 0));
+            pool.set_fee(_task, 0);
+
+            assert(pool.set_cancel(_task));
             _task_owner.transfer(_fee);
+
+            TaskCancelled(_task_owner, _task);
             return true; 
         } else return false; //task dispatched cannot cancel
     }
+
+    event TaskLeftQueue(address _client, address _task);
+    event SubmitterFreed(address _client);
+    event TaskCancelled(address _client, address _task);
     ///@dev entry point TODO verify checker
     function reassignable(address _task)
     Ready
