@@ -57,7 +57,8 @@ module.exports = function (callback) {
                     console.log("Applying for eligibility");
                     return instance.apply_eligibility(
                         {
-                            from: web3.eth.accounts[i]
+                            from: web3.eth.accounts[i],
+                            value: web3.toWei(15, "ether")
                         }).then(function (result) {
                         if (result) {
                             console.log("Miner Eligibility Granted");

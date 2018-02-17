@@ -94,7 +94,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
         require(_create_time != 0 && _dispatch_time == 0);
         //task existed and in queue (not dispatched) => can be cancelled
-        assert(dispatcher.leave_task_queue(_task) && client.add_task(msg.sender, false, _task));
+        assert(dispatcher.leave_task_queue(_task) && !client.add_task(msg.sender, false, _task));
         uint256 _fee;
         (_fee,) = pool.get_fees(_task);
         assert(pool.set_fee(_task, 0) == 0);

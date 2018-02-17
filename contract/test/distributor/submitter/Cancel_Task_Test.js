@@ -94,9 +94,6 @@ module.exports = function (callback) {
             console.log("Task Has been cancelled : ");
             console.log(Number(result[4]) !== 0);
         }).catch(console.log);
-        instance.nonce().then(function (result) {
-            console.log("Nonce " + result);
-        }).catch(console.log);
         instance.get_fees(task_to_cancel).then(function (result) {
             console.log("Fee " + result[0]);
             console.log("Completion Fee " + result[1]);
