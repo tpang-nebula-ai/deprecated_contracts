@@ -27,7 +27,9 @@ interface AccountInterface {
 
     function submissible(address _address) view public returns (bool);//submitter and dispatcher
 
-    function set_eligible(address _worker, bool _eligible) public returns (bool);
+    function set_eligible(address _worker, bool _eligible, uint256 _credit) public returns (bool);
+
+    function set_credits(address _worker, bool _increase, uint256 _credit) public returns (uint256);
 
     //miner
     function active_job() view public returns (address);

@@ -12,6 +12,8 @@ interface DistributorInterfaceSubmitter {
 
     function reassign_task_request(address _task) public returns (bool);
 
+    function pay_completion_fee(address _task) payable public returns (bool);
+
     //@dev is task modification needed
 
 }

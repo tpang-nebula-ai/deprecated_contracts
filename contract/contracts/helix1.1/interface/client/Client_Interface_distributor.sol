@@ -12,7 +12,13 @@ interface ClientInterfaceDistributor {
         bool _submissible
     );
 
+    function submissible(address _client) view public returns (bool);
+
     function add_job(address _client, bool _working, address _task) public returns (bool);
 
     function add_task(address _client, bool _new, address _task) public returns (bool);
+
+    function set_misconduct_counter(address _client, bool _increase, uint8 _amount) public returns (uint8);
+
+    function pay_penalty(address _worker, address _client) public returns (bool);
 }

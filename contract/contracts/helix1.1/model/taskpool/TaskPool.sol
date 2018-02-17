@@ -32,6 +32,9 @@ contract TaskPool is Distributable, TaskPoolInterface {
 
     //------------------------------------------------------------------------------------------------------------------
     //Getters
+    function get_app_id(address _task) view public returns (uint256){
+        return pool[_task].app_id;
+    }
     function get_task(address _task)
     view public returns (uint256 _app_id, string _name, string _data, string _script, string _output, string _params)
     {
@@ -80,9 +83,10 @@ contract TaskPool is Distributable, TaskPoolInterface {
     //------------------------------------------------------------------------------------------------------------------
     //Setters
     function create(uint256 _app_id, string _name, string _data, string _script, string _output, string _params, uint256 _fee, address _owner)
-    public returns (address _task_address)
+    distributor_only public returns (address _task_address)
     {
         _task_address = generate_address();
+        //returned value
         pool[_task_address].app_id = _app_id;
         pool[_task_address].task_name = _name;
         pool[_task_address].data_address = _data;
@@ -95,18 +99,22 @@ contract TaskPool is Distributable, TaskPoolInterface {
     }
 
     function set_dispatched(address _task, address _worker) distributor_only public returns (bool){
-        pool[_task].dispatch_time = block.number;
         pool[_task].worker = _worker;
-        return true;
+        return (pool[_task].dispatch_time = block.number) != 0;
     }
 
     function set_start(address _task) distributor_only public returns (bool){
         return (pool[_task].start_time = block.number) != 0;
     }
 
-    function set_fee(address _task, uint256 _fee) distributor_only public returns (bool){
+    function set_fee(address _task, uint256 _fee) distributor_only public returns (uint256){
         pool[_task].fee = _fee;
-        return true;
+        return pool[_task].fee;
+    }
+
+    function set_completion_fee(address _task, uint256 _fee) distributor_only public returns (uint256){
+        pool[_task].completion_fee = _fee;
+        return pool[_task].completion_fee;
     }
 
     function set_complete(address _task, uint256 _complete_fee) distributor_only public returns (bool){
@@ -129,6 +137,8 @@ contract TaskPool is Distributable, TaskPoolInterface {
         pool[_task].start_time = 0;
         pool[_task].complete_time = 0;
         pool[_task].error_time = 0;
+        pool[_task].error_message = "";
+        pool[_task].completion_fee = 0;
         return true;
     }
 

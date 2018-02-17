@@ -26,8 +26,6 @@ contract Admin is Ownable {
     QueueInterfaceAdmin queue_task;
     TaskPoolInterfaceAdmin taskpool;
 
-    bool ready;
-
     function Admin() Ownable(msg.sender) public {}
 
     modifier valid_address(address _address){
@@ -105,12 +103,8 @@ contract Admin is Ownable {
     //@dev entry point
     function set_all() ownerOnly public returns (bool){
         require(ready_to_set_all());
-        if (
-            set_distributor() && set_dispatcher() && set_client()
-            && set_account() && set_queue_task() && set_queue_ai() && set_taskpool()
-        ) {
-
-        }
+        assert(set_distributor() && set_dispatcher() && set_client()
+        && set_account() && set_queue_task() && set_queue_ai() && set_taskpool());
         AddressesSetInAllContracts();
         return true;
     }
@@ -144,4 +138,11 @@ contract Admin is Ownable {
     function set_taskpool() internal returns (bool){
         return taskpool.set_distributor(distributor_address);
     }
+
+    ///@dev More administrator functions to be added
+    //function ban_client(address _client, bool _ban) owner_only public returns(bool);
+    //    function remove_task();
+    //    function remove_ai_from_queue();
+    //    function close_task();
+    //etc...
 }

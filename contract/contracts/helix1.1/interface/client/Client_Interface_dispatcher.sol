@@ -20,8 +20,6 @@ interface ClientInterfaceDispatcher {
 
     function set_banned(address _client, bool _banned) public returns (bool);
 
-    function set_misconduct_counter(address _client, bool _increase, uint8 _amount) public returns (uint8);
-
     function set_level(address _client, uint8 _level) public returns (uint8);
 
     function add_task(address _client, bool _new, address _task) public returns (bool);

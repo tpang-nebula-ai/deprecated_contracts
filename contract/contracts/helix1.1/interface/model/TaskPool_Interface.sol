@@ -7,6 +7,8 @@ interface TaskPoolInterface {
     public returns (address _task_address);
 
     //getter
+    function get_app_id(address _task) view public returns (uint256);
+
     function get_task(address _task)
     view public returns (uint256 _app_id, string _name, string _data, string _script, string _output, string _params);
 
@@ -26,7 +28,9 @@ interface TaskPoolInterface {
 
     function set_start(address _task) public returns (bool);
 
-    function set_fee(address _task, uint256 _fee) public returns (bool);
+    function set_fee(address _task, uint256 _fee) public returns (uint256);
+
+    function set_completion_fee(address _task, uint256 _complete_fee) public returns (uint256);
 
     function set_complete(address _task, uint256 _complete_fee) public returns (bool);
 

@@ -202,10 +202,11 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
         assert(queue_task.remove(_task_address));
         return true;
     }
-    //@dev task rejoin to queue after being dispatched @dev todo not completed
+    //@dev task rejoin to queue after being dispatched
+    //@dev todo not completed
     //@dev intermediate point
-    function rejoin(address _task, address _worker, uint8 _penalty) Ready public returns (uint8){
-        queue_task.insert(_task, 0);//current insert to head of the queue_task
-        return client.set_misconduct_counter(_worker, true, _penalty);
+    function rejoin(address _task) Ready public returns (bool){
+        return queue_task.insert(_task, 0);
+        //current insert to head of the queue_task
     }
 }

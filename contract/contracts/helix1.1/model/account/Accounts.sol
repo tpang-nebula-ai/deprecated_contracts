@@ -7,20 +7,28 @@ import "../../interface/model/Account_Interface_getters.sol";
 
 contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
     using SafeMath for uint8;
+    using SafeMath for uint256;
     struct Account {
         //both
         bool banned;
         uint8 misconduct_counter;
         //client
         uint8 level;
-        address[] task_history;
-        address[] active_tasks;
+        address[] task_history;//todo remove
+        address[] active_tasks;//todo remove
+        mapping(uint256 => AppTask) app_tasks;
         //worker
+        uint256 credits;
         bool eligible;
         bool waiting;
         bool working;
         address[] job_history;
         address active_job;
+    }
+
+    struct AppTask {
+        address[] task_history;
+        address[] active_tasks;
     }
 
     mapping(address => Account) accounts;
@@ -42,22 +50,34 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
         return (accounts[_address].eligible, accounts[_address].waiting, accounts[_address].working,
         accounts[_address].banned, accounts[_address].misconduct_counter, accounts[_address].level, submissible(_address));
     }
-
+    //todo update for task by app
     function submissible(address _address) view public returns (bool){
         return accounts[_address].active_tasks.length < accounts[_address].level + 1;
     }
 
-    function set_eligible(address _client, bool _eligible) client_only public returns (bool){
+    function set_eligible(address _client, bool _eligible, uint256 _credit) client_only public returns (bool){
+        accounts[_client].credits = _credit;
         return accounts[_client].eligible = _eligible;
+    }
+
+    function set_credits(address _client, bool _increase, uint256 _credit) client_only public returns (uint256){
+        if (_increase) accounts[_client].credits.add(_credit);
+        else accounts[_client].credits.sub(_credit);
+        // safemath throws when _credit > credits
+        return accounts[_client].credits;
     }
 
     function set_waiting(address _client, bool _waiting) client_only public returns (bool){
         return accounts[_client].waiting = _waiting;
     }
+    //entry @ distributor
+    function set_working(address _worker, bool _working) client_only public returns (bool){
+        return accounts[_worker].working = _working;
+    }
 
     function add_job(address _client, bool _working, address _task) client_only public returns (bool){
         if (_working) {
-            require(accounts[_client].waiting && _task != address(0));
+            //            require(accounts[_client].waiting && _task != address(0)); //TODO Client should have this checked
             accounts[_client].waiting = false;
             accounts[_client].job_history.push(_task);
             accounts[_client].active_job = _task;
@@ -81,9 +101,9 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
             accounts[_client].misconduct_counter.add(_amount);
             if (accounts[_client].misconduct_counter == 3) set_banned(_client, true);
         } else {
-            require(accounts[_client].misconduct_counter > 0);
-            accounts[_client].misconduct_counter.sub(_amount);
-            if (accounts[_client].misconduct_counter < 3) set_banned(_client, false);
+            if (accounts[_client].misconduct_counter >= 3) set_banned(_client, false);
+            if (accounts[_client].misconduct_counter < _amount) accounts[_client].misconduct_counter = 0;
+            else accounts[_client].misconduct_counter.sub(_amount);
         }
         return accounts[_client].misconduct_counter;
     }
@@ -91,18 +111,20 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
     function set_level(address _client, uint8 _level) client_only public returns (uint8){
         return accounts[_client].level = _level;
     }
-
+    //In case of cancellation, task remain in the history
+    //todo update for task by app
     function add_task(address _client, bool _new, address _task) client_only public returns (bool){
         if (_new) {
-            require(submissible(_client));
+            //            require(submissible(_client)); //todo should be done by Entry point
             accounts[_client].task_history.push(_task);
             accounts[_client].active_tasks.push(_task);
             return true;
         } else {
-            return removeFromActiveList(_client, _task);
+            return !removeFromActiveList(_client, _task);
+            //return false => removed , in accord with logic of using return as confirmation
         }
     }
-
+    //todo update for task by app
     function removeFromActiveList(address _client, address _task) internal returns (bool){
         address[] memory list = accounts[_client].active_tasks;
         for (uint index = 0; index < list.length; index++) {
@@ -126,16 +148,12 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
     }
 
     //submitter
+    //todo update for task by app
     function task_history() view public returns (address[]){
         return accounts[msg.sender].task_history;
     }
-
+    //todo update for task by app
     function active_tasks() view public returns (address[]){
         return accounts[msg.sender].active_tasks;
-    }
-
-    //distributor
-    function set_working(address _worker, bool _working) client_only public returns (bool){
-        return accounts[_worker].working = _working;
     }
 }

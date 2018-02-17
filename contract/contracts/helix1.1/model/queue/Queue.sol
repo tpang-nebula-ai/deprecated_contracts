@@ -95,7 +95,9 @@ contract Queue is QueueInterface, Dispatchable {
         return true;
     }
 
+    //TODO NOT IMPLEMENTED
     function insert(address _address, uint _position) dispatcher_only public returns (bool){
+        if (_position >= queue.size) push(_address);
         require(_position <= queue.size);
         _address = 0;
         return true;
@@ -107,12 +109,7 @@ contract Queue is QueueInterface, Dispatchable {
         QueueForceReset();
         //TODO to be revisited
     }
-
     event QueueForceReset();
-
-    //    function get_position() view public returns(uint){
-    //        return queue.line[msg.sender].position_id ;
-    //    }
 
     //@debug
     function queue_status() public view returns (address _head, address _tail, uint _last_id){
