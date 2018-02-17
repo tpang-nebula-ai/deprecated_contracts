@@ -17,6 +17,8 @@ import "../interface/dispatcher/Dispatcher_Interface_client.sol";
 contract Client is Controllable,
 ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, ClientInterfaceDistributor
 {
+    using SafeMath for uint256;
+
     address account_address;
     AccountInterface account;
 
@@ -114,7 +116,7 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
 
     //@dev intermediate
     function pay_penalty(address _worker, address _client) controllers_only public returns (bool){
-        account.set_credit(_worker, false, penalty);
+        account.set_credits(_worker, false, penalty);
         _client.transfer(penalty.mul(8).div(10));
         return true;
     }

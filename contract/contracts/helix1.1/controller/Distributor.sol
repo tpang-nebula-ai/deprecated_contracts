@@ -196,7 +196,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         return true;
     }
     ///@dev entry point
-    //TODO add initial deposit for workers, in case of forfeit a penalty should be paid
+    //TODO to be continued
     //Current penalty is too cheap for ddos
     function forfeit(address _task) miner_only(_task) public returns (bool){
         //task can be forfeited at anytime, as long as the task does exist (checked by miner_only modifier)
