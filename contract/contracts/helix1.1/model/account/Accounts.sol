@@ -37,7 +37,7 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
     }
 
     //Dispatcher interface
-    function get_client(address _address) view public returns
+    function get_client(address _address) view external returns
     (
         bool _eligible,
         bool _waiting,
@@ -55,27 +55,27 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
         return accounts[_address].active_tasks.length < accounts[_address].level + 1;
     }
 
-    function set_eligible(address _client, bool _eligible, uint256 _credit) client_only public returns (bool){
+    function set_eligible(address _client, bool _eligible, uint256 _credit) client_only external returns (bool){
         accounts[_client].credits = _credit;
         return accounts[_client].eligible = _eligible;
     }
 
-    function set_credits(address _client, bool _increase, uint256 _credit) client_only public returns (uint256){
+    function set_credits(address _client, bool _increase, uint256 _credit) client_only external returns (uint256){
         if (_increase) accounts[_client].credits.add(_credit);
         else accounts[_client].credits.sub(_credit);
         // safemath throws when _credit > credits
         return accounts[_client].credits;
     }
 
-    function set_waiting(address _client, bool _waiting) client_only public returns (bool){
+    function set_waiting(address _client, bool _waiting) client_only external returns (bool){
         return accounts[_client].waiting = _waiting;
     }
     //entry @ distributor
-    function set_working(address _worker, bool _working) client_only public returns (bool){
+    function set_working(address _worker, bool _working) client_only external returns (bool){
         return accounts[_worker].working = _working;
     }
 
-    function add_job(address _client, bool _working, address _task) client_only public returns (bool){
+    function add_job(address _client, bool _working, address _task) client_only external returns (bool){
         if (_working) {
             //            require(accounts[_client].waiting && _task != address(0)); //TODO Client should have this checked
             accounts[_client].waiting = false;
@@ -87,7 +87,7 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
         return accounts[_client].working = _working;
     }
 
-    function set_banned(address _client, bool _banned) client_only public returns (bool){
+    function set_banned(address _client, bool _banned) client_only external returns (bool){
         if (_banned) {
             accounts[_client].eligible = false;
             accounts[_client].waiting = false;
@@ -96,24 +96,24 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
         return accounts[_client].banned = _banned;
     }
 
-    function set_misconduct_counter(address _client, bool _increase, uint8 _amount) client_only public returns (uint8){
-        if (_increase) {
-            accounts[_client].misconduct_counter.add(_amount);
-            if (accounts[_client].misconduct_counter == 3) set_banned(_client, true);
-        } else {
-            if (accounts[_client].misconduct_counter >= 3) set_banned(_client, false);
-            if (accounts[_client].misconduct_counter < _amount) accounts[_client].misconduct_counter = 0;
-            else accounts[_client].misconduct_counter.sub(_amount);
-        }
-        return accounts[_client].misconduct_counter;
-    }
+    //    function set_misconduct_counter(address _client, bool _increase, uint8 _amount) client_only external returns (uint8){
+    //        if (_increase) {
+    //            accounts[_client].misconduct_counter.add(_amount);
+    //            if (accounts[_client].misconduct_counter == 3) set_banned(_client, true);
+    //        } else {
+    //            if (accounts[_client].misconduct_counter >= 3) set_banned(_client, false);
+    //            if (accounts[_client].misconduct_counter < _amount) accounts[_client].misconduct_counter = 0;
+    //            else accounts[_client].misconduct_counter.sub(_amount);
+    //        }
+    //        return accounts[_client].misconduct_counter;
+    //    }
 
-    function set_level(address _client, uint8 _level) client_only public returns (uint8){
+    function set_level(address _client, uint8 _level) client_only external returns (uint8){
         return accounts[_client].level = _level;
     }
     //In case of cancellation, task remain in the history
     //todo update for task by app
-    function add_task(address _client, bool _new, address _task) client_only public returns (bool){
+    function add_task(address _client, bool _new, address _task) client_only external returns (bool){
         if (_new) {
             //            require(submissible(_client)); //todo should be done by Entry point
             accounts[_client].task_history.push(_task);
@@ -139,21 +139,21 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
     }
 
     //miner
-    function job_history() view public returns (address[]){
+    function job_history() view external returns (address[]){
         return accounts[msg.sender].job_history;
     }
 
-    function active_job() view public returns (address){
+    function active_job() view external returns (address){
         return accounts[msg.sender].active_job;
     }
 
     //submitter
     //todo update for task by app
-    function task_history() view public returns (address[]){
+    function task_history() view external returns (address[]){
         return accounts[msg.sender].task_history;
     }
     //todo update for task by app
-    function active_tasks() view public returns (address[]){
+    function active_tasks() view external returns (address[]){
         return accounts[msg.sender].active_tasks;
     }
 }

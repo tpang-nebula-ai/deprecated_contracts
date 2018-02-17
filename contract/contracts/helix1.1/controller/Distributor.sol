@@ -1,7 +1,8 @@
 pragma solidity ^0.4.18;
 
-import "../misc/SafeMath.sol";
+// import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "../ownership/Controllable.sol";
+import "../misc/SafeMath.sol";
 
 import "../interface/model/TaskPool_Interface.sol";
 
@@ -25,7 +26,6 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     TaskPoolInterface pool;
 
     uint256 public minimal_fee;
-    uint256 public MAX_WAITING_BLOCK_COUNT = 15;
 
     function Distributor(address _admin, uint256 _minimal_fee) public Controllable(msg.sender, _admin) {
         minimal_fee = _minimal_fee;
@@ -85,8 +85,8 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
     event TaskCreated(address _client, address _task);
 
-    //@dev entry point TODO REVIEW REQUIRED and add assert
-    function cancel_task(address _task) Ready public returns (bool){
+    //@dev entry point
+    function cancel_task(address _task) Ready external returns (bool){
         require(msg.sender == pool.get_owner(_task));
         uint _create_time;
         uint _dispatch_time;
@@ -94,13 +94,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
         require(_create_time != 0 && _dispatch_time == 0);
         //task existed and in queue (not dispatched) => can be cancelled
-
-        assert(dispatcher.leave_task_queue(_task));
-        TaskLeftQueue(msg.sender, _task);
-
-        assert(client.add_task(msg.sender, false, _task));
-        SubmitterFreed(msg.sender);
-
+        assert(dispatcher.leave_task_queue(_task) && client.add_task(msg.sender, false, _task));
         uint256 _fee;
         (_fee,) = pool.get_fees(_task);
         assert(pool.set_fee(_task, 0) == 0);
@@ -109,49 +103,26 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         TaskCancelled(msg.sender, _task);
         return true;
     }
-    event TaskLeftQueue(address _client, address _task);
-    event SubmitterFreed(address _client);
+    //    event TaskLeftQueue(address _client, address _task);
+    //    event SubmitterFreed(address _client);
     event TaskCancelled(address _client, address _task);
-    ///@dev entry point TODO verify checker
-    function reassignable(address _task)
-    Ready
-    task_owner_only(_task)
-    view
-    public
-    returns (bool){
-        uint _create_time;
-        uint _dispatch_time;
-        (_create_time, _dispatch_time, ,,,) = pool.get_status(_task);
-        require(_create_time != 0 && _dispatch_time != 0);
-        return block.number - _dispatch_time > MAX_WAITING_BLOCK_COUNT;
-    }
-    ///@dev entry point TODO verify checker and change to assert
-    function reassign_task_request(address _task)
-    Ready
-    task_owner_only(_task)
-    public
-    returns (bool)
-    {
-        if (reassignable(_task)) {
-            uint8 _misconduct_counter;
-            (, ,,, _misconduct_counter,,) = client.get_client(msg.sender);
-            //            assert(dispatcher.rejoin(_task, msg.sender, uint8(2)) == _misconduct_counter.add(2));
-            return true;
-        }
-    }
 
-    //@dev entry point TODO
-    function pay_completion_fee(address _task) task_owner_only(msg.sender) payable public returns (bool){
+    ///@dev entry point
+    function reassign_task_request(address _task) Ready task_owner_only(_task) external returns (bool){
+        require(pool.reassignable(_task));
+        assert(change_worker(_task, pool.get_worker(_task), msg.sender));
+        TaskRejoinedQueue(_task);
+        return true;
+    }
+    //@dev entry point
+    function pay_completion_fee(address _task) task_owner_only(msg.sender) payable external returns (bool){
         uint256 _fee;
         (, _fee) = pool.get_fees(_task);
         require(_fee != 0 && msg.value == _fee);
         assert(pool.set_completion_fee(_task, 0) == 0);
         pool.get_worker(_task).transfer(msg.value);
-        CompletionFeePaid(_task);
         return true;
     }
-
-    event CompletionFeePaid(address _task);
 
     //------------------------------------------------------------------------------------------------------------------
     //Miner
@@ -163,7 +134,6 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         TaskStarted(_task);
         return true;
     }
-
     event TaskStarted(address _task);
 
     ///@dev entry point
@@ -175,63 +145,48 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         (_fee,) = pool.get_fees(_task);
         assert(pool.set_fee(_task, 0) == 0);
         msg.sender.transfer(_fee);
-
         TaskCompleted(_task);
         return true;
     }
-
     event TaskCompleted(address _task);
-    ///@dev entry point
-    ///Currently the penalty would be pay the 1/3 price...
+    //@dev entry point
+    //Currently the penalty would be pay the 1/3 price...
+    //task can be reported error at anytime, as long as the task does exist (checked by miner_only modifier)
     function report_error(address _task, string _error_msg) miner_only(_task) public returns (bool){
-        //task can be reported error at anytime, as long as the task does exist (checked by miner_only modifier)
-        assert(pool.set_error(_task, _error_msg));
-        assert(complete_procedure(_task, msg.sender));
         uint256 _fee;
         (_fee,) = pool.get_fees(_task);
-        assert(pool.set_fee(_task, 0) == 0);
+        assert(pool.set_error(_task, _error_msg) && complete_procedure(_task, msg.sender) && pool.set_fee(_task, 0) == 0);
         uint256 _to_worker = _fee.div(3);
         msg.sender.transfer(_to_worker);
         pool.get_owner(_task).transfer(_fee.sub(_to_worker));
+        ErrorReported(_task);
         return true;
     }
+
+    event ErrorReported(address _task);
     ///@dev entry point
-    //TODO to be continued
-    //Current penalty is too cheap for ddos
+    //task can be forfeited at anytime, as long as the task does exist (checked by miner_only modifier)
     function forfeit(address _task) miner_only(_task) public returns (bool){
-        //task can be forfeited at anytime, as long as the task does exist (checked by miner_only modifier)
-        assert(pool.set_forfeit(_task));
-        assert(!client.add_job(msg.sender, false, _task));
-        TaskForfeited(_task, msg.sender);
-
-        assert(dispatcher.rejoin(_task));
+        assert(change_worker(_task, msg.sender, pool.get_owner(_task)));
         TaskRejoinedQueue(_task);
-
-        uint8 _misconduct_counter;
-        (, ,,, _misconduct_counter,,) = client.get_client(msg.sender);
-        assert(client.set_misconduct_counter(msg.sender, true, uint8(1)) == _misconduct_counter.add(1));
-
-        //TODO add pay the task owner the deposit
-        assert(client.pay_penalty(msg.sender, pool.get_worker(_task)));
-
         return true;
     }
 
-    event TaskForfeited(address _task, address _worker);
+    function change_worker(address _task, address _worker, address _owner) internal returns (bool){
+        return pool.set_forfeit(_task) && !client.add_job(_worker, false, _task)
+        && dispatcher.rejoin(_task) && client.pay_penalty(_worker, _owner);
+    }
     event TaskRejoinedQueue(address _task);
     //todo update for task_list by app
     //Release submitter from its active task; list #add_task should return false, indicating success
     //Release miner from its active job ; #add_job should return false, indicating success
     function complete_procedure(address _task, address _worker) internal returns (bool){
-        //        pool.get_app_id(_task);
         return !client.add_task(pool.get_owner(_task), false, _task) && !client.add_job(_worker, false, _task);
     }
-
     //------------------------------------------------------------------------------------------------------------------
     //Dispatcher
     ///@dev intermediate
-    function dispatch_task(address _task, address _worker) dispatcher_only public {
-        pool.set_dispatched(_task, _worker);
+    function dispatch_task(address _task, address _worker) dispatcher_only public returns (bool){
+        return pool.set_dispatched(_task, _worker);
     }
-
 }

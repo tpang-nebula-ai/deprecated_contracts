@@ -97,9 +97,9 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
         return account.set_banned(_client, _banned);
     }
     ///@dev intermediate
-    function set_misconduct_counter(address _client, bool _increase, uint8 _amount) controllers_only public returns (uint8){
-        return account.set_misconduct_counter(_client, _increase, _amount);
-    }
+    //    function set_misconduct_counter(address _client, bool _increase, uint8 _amount) controllers_only public returns (uint8){
+    //        return account.set_misconduct_counter(_client, _increase, _amount);
+    //    }
     ///@dev intermediate
     function set_level(address _client, uint8 _level) controllers_only public returns (uint8){
         return account.set_level(_client, _level);

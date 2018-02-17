@@ -12,7 +12,7 @@ contract Ownable {
         _;
     }
 
-    function change_owner(address _owner) ownerOnly public {
+    function change_owner(address _owner) ownerOnly external {
         owner = _owner;
     }
 }

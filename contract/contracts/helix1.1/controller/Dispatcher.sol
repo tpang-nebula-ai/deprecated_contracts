@@ -56,9 +56,6 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
 
         return true;
     }
-
-    event B(address);
-    event C(address);
     //------------------------------------------------------------------------------------------------------------------
     //internal helpers
 
@@ -203,7 +200,6 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
         return true;
     }
     //@dev task rejoin to queue after being dispatched
-    //@dev todo not completed
     //@dev intermediate point
     function rejoin(address _task) Ready public returns (bool){
         return queue_task.insert(_task, 0);

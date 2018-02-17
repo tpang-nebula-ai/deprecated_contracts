@@ -25,18 +25,20 @@ contract TaskPool is Distributable, TaskPoolInterface {
         string error_message;
     }
 
-    uint160 public nonce;
+    uint160 nonce;
     mapping(address => Task) pool;
+
+    uint256 MAX_WAITING_BLOCK_COUNT = 25;
 
     function TaskPool(address _admin, uint160 _nonce) public Distributable(msg.sender, _admin) {nonce = _nonce;}
 
     //------------------------------------------------------------------------------------------------------------------
     //Getters
-    function get_app_id(address _task) view public returns (uint256){
+    function get_app_id(address _task) view external returns (uint256){
         return pool[_task].app_id;
     }
     function get_task(address _task)
-    view public returns (uint256 _app_id, string _name, string _data, string _script, string _output, string _params)
+    view external returns (uint256 _app_id, string _name, string _data, string _script, string _output, string _params)
     {
         return (
         pool[_task].app_id,
@@ -51,7 +53,7 @@ contract TaskPool is Distributable, TaskPoolInterface {
     event TaskCreated(address _client, address _task);
 
     function get_status(address _task)
-    view public returns (uint _create_time, uint _dispatch_time, uint _start_time, uint _complete_time, uint _cancel_time, uint _error_time)
+    view external returns (uint _create_time, uint _dispatch_time, uint _start_time, uint _complete_time, uint _cancel_time, uint _error_time)
     {
         return (
         pool[_task].create_time,
@@ -63,19 +65,19 @@ contract TaskPool is Distributable, TaskPoolInterface {
         );
     }
 
-    function get_worker(address _task) view public returns (address){
+    function get_worker(address _task) view external returns (address){
         return pool[_task].worker;
     }
 
-    function get_owner(address _task) view public returns (address){
+    function get_owner(address _task) view external returns (address){
         return pool[_task].owner;
     }
 
-    function get_error_msg(address _task) view public returns (string){
+    function get_error_msg(address _task) view external returns (string){
         return pool[_task].error_message;
     }
 
-    function get_fees(address _task) view public returns (uint256 _fee, uint256 _completion_fee){
+    function get_fees(address _task) view external returns (uint256 _fee, uint256 _completion_fee){
         return (pool[_task].fee, pool[_task].completion_fee);
     }
 
@@ -83,7 +85,7 @@ contract TaskPool is Distributable, TaskPoolInterface {
     //------------------------------------------------------------------------------------------------------------------
     //Setters
     function create(uint256 _app_id, string _name, string _data, string _script, string _output, string _params, uint256 _fee, address _owner)
-    distributor_only public returns (address _task_address)
+    distributor_only external returns (address _task_address)
     {
         _task_address = generate_address();
         //returned value
@@ -98,40 +100,40 @@ contract TaskPool is Distributable, TaskPoolInterface {
         pool[_task_address].create_time = block.number;
     }
 
-    function set_dispatched(address _task, address _worker) distributor_only public returns (bool){
+    function set_dispatched(address _task, address _worker) distributor_only external returns (bool){
         pool[_task].worker = _worker;
         return (pool[_task].dispatch_time = block.number) != 0;
     }
 
-    function set_start(address _task) distributor_only public returns (bool){
+    function set_start(address _task) distributor_only external returns (bool){
         return (pool[_task].start_time = block.number) != 0;
     }
 
-    function set_fee(address _task, uint256 _fee) distributor_only public returns (uint256){
+    function set_fee(address _task, uint256 _fee) distributor_only external returns (uint256){
         pool[_task].fee = _fee;
         return pool[_task].fee;
     }
 
-    function set_completion_fee(address _task, uint256 _fee) distributor_only public returns (uint256){
+    function set_completion_fee(address _task, uint256 _fee) distributor_only external returns (uint256){
         pool[_task].completion_fee = _fee;
         return pool[_task].completion_fee;
     }
 
-    function set_complete(address _task, uint256 _complete_fee) distributor_only public returns (bool){
+    function set_complete(address _task, uint256 _complete_fee) distributor_only external returns (bool){
         pool[_task].completion_fee = _complete_fee;
         return (pool[_task].complete_time = block.number) != 0;
     }
 
-    function set_error(address _task, string _error_msg) distributor_only public returns (bool){
+    function set_error(address _task, string _error_msg) distributor_only external returns (bool){
         pool[_task].error_message = _error_msg;
         return (pool[_task].error_time = block.number) != 0;
     }
 
-    function set_cancel(address _task) distributor_only public returns (bool){
+    function set_cancel(address _task) distributor_only external returns (bool){
         return (pool[_task].cancel_time = block.number) != 0;
     }
 
-    function set_forfeit(address _task) distributor_only public returns (bool){
+    function set_forfeit(address _task) distributor_only external returns (bool){
         pool[_task].worker = 0;
         pool[_task].dispatch_time = 0;
         pool[_task].start_time = 0;
@@ -144,5 +146,10 @@ contract TaskPool is Distributable, TaskPoolInterface {
 
     function generate_address() internal returns (address){
         return address(bytes20(++nonce));
+    }
+
+    function reassignable(address _task) view external returns (bool){
+        return pool[_task].create_time != 0 && pool[_task].dispatch_time != 0
+        && block.number - pool[_task].dispatch_time > MAX_WAITING_BLOCK_COUNT;
     }
 }
