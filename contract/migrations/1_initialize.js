@@ -69,6 +69,6 @@ module.exports = function (deployer) {
             }).then(function (result) {
                 console.log(result);
                 return admin_instance.set_all();
-            });
+            }).catch(console.log);
     }).then(console.log).catch(console.log);
 };

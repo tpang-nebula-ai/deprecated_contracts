@@ -50,10 +50,7 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
 
         client = ClientInterfaceDispatcher(client_address);
         distributor = DistributorInterfaceDispatcher(distributor_address);
-        //todo add a checker function
-       
         controller_ready = true;
-
         return true;
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -65,7 +62,6 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
         bool _waiting;
         bool _working;
         bool _banned;
-        uint8 _misconduct_counter;
         uint8 _level;
         bool _submissible;
     }
@@ -76,11 +72,10 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
         bool _waiting;
         bool _working;
         bool _banned;
-        uint8 _misconduct_counter;
         uint8 _level;
         bool _submissible;
-        (_eligible, _waiting, _working, _banned, _misconduct_counter, _level, _submissible) = client.get_client(_client);
-        return account_info(_eligible, _waiting, _working, _banned, _misconduct_counter, _level, _submissible);
+        (_eligible, _waiting, _working, _banned, , _level, _submissible) = client.get_client(_client);
+        return account_info(_eligible, _waiting, _working, _banned, _level, _submissible);
     }
     //@dev internal usage
     function calculate_position(bool _is_task, address _address) Ready internal view returns (uint256){
@@ -201,8 +196,8 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
     }
     //@dev task rejoin to queue after being dispatched
     //@dev intermediate point
+    //current insert to head of the queue_task
     function rejoin(address _task) Ready public returns (bool){
         return queue_task.insert(_task, 0);
-        //current insert to head of the queue_task
     }
 }
