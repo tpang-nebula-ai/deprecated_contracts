@@ -67,6 +67,10 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
         return accounts[_client].credits;
     }
 
+    function get_credits(address _client) client_only view external returns (uint256){
+        return accounts[_client].credits;
+    }
+
     function set_waiting(address _client, bool _waiting) client_only external returns (bool){
         return accounts[_client].waiting = _waiting;
     }

@@ -6,8 +6,10 @@ contract Administratable is Ownable {
     address public admin_address;
     bool public admin_loaded;
     bool public controller_ready;
+    bool public valid; //once invalidated, can no longer be revalidated
 
     function Administratable(address _owner, address _admin) public Ownable(_owner) {
+        valid = true;
         if (_admin != address(0)) set_admin(_admin);
     }
 
@@ -25,4 +27,25 @@ contract Administratable is Ownable {
         admin_address = _admin;
         admin_loaded = true;
     }
+
+
+    modifier invalidated_only{
+        require(!valid);
+        _;
+    }
+
+    function invalidate_contract() public ownerOnly returns (bool){
+        valid = false;
+    }
+
+    //@dev a requirement must be set!!! balance can only be withdrawn when this contract is no longer in use
+    function owner_withdraw(uint256 _amount) external ownerOnly invalidated_only returns (uint256){
+        owner.transfer(_amount);
+    }
+
+    function owner_get_balance() external ownerOnly view returns (uint256){
+        return this.balance;
+    }
+    
+    
 }

@@ -55,6 +55,11 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
         controller_ready = true;
         return true;
     }
+
+    function() public {
+
+    }
+    
     //------------------------------------------------------------------------------------------------------------------
     //internal helpers
 
@@ -205,5 +210,4 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
     function task_queue_length() external view Ready returns (uint256){
         return queue_task.size();
     }
-
 }

@@ -11,4 +11,6 @@ interface ClientInterfaceMiner {
     );
 
     function apply_eligibility() public payable returns (bool);
+
+    function withdrawal(uint256 _amount) external returns (uint256);
 }

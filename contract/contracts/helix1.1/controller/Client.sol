@@ -30,6 +30,9 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
 
     function Client(address _admin) public Controllable(msg.sender, _admin) {}
 
+    function() {
+        revert();
+    }
     modifier valid_client(address _address){
         require(_address != address(0));
         _;
@@ -69,7 +72,7 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
     }
 
     ///@dev entry point
-    function apply_eligibility() Ready public payable returns (bool){
+    function apply_eligibility() public Ready payable returns (bool){
         require(msg.value == minimal_credit);
         bool _banned;
         bool _eligible;
@@ -134,15 +137,25 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
 
     //Miner Interface
     ///@dev getter
-    function get_client_m() view public returns
-    (
+    function get_client_m() view public returns (
         bool _eligible,
         bool _waiting,
         bool _working,
         bool _banned,
-        uint8 _misconduct_counter
-    ){
+        uint8 _misconduct_counter){
         (_eligible, _waiting, _working, _banned, _misconduct_counter, , ) = account.get_client(msg.sender);
     }
 
+    function get_credits() external view returns (uint256){
+        return account.get_credits(msg.sender);
+    }
+
+    function withdrawal(uint256 _amount) external returns (uint256){
+        uint256 _balance = account.get_credits(msg.sender);
+        _balance = _balance.sub(_amount);
+        //safemath throws if _amount > _balance
+        assert(account.set_credits(msg.sender, false, _amount) == _balance);
+        msg.sender.transfer(_amount);
+        return _balance;
+    }
 }

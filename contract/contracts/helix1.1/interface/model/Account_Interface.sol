@@ -31,6 +31,8 @@ interface AccountInterface {
 
     function set_credits(address _worker, bool _increase, uint256 _credit) external returns (uint256);
 
+    function get_credits(address _client) external view returns (uint256);
+
     //miner
     function active_job() view external returns (address);
 
