@@ -13,7 +13,7 @@ contract Dispatchable is Administratable, QueueInterfaceAdmin {
         _;
     }
 
-    function set_dispatcher(address _dispatcher) admin_only public returns (bool){
+    function set_dispatcher(address _dispatcher) admin_only external returns (bool){
         require(_dispatcher != address(0));
         dispatcher_address = _dispatcher;
         controller_ready = true;

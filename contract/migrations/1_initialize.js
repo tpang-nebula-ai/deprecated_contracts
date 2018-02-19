@@ -10,41 +10,42 @@ let Queue_Task = artifacts.require("Queue_Task");
 let TaskPool = artifacts.require("TaskPool");
 let Accounts = artifacts.require("Accounts");
 
+let ow = true;
+
 module.exports = function (deployer) {
-    deployer
-        .deploy(Migrations, {
-            overwrite: false
-        }).then(function () {
+    deployer.deploy(Migrations, {
+        overwrite: ow
+    }).then(function () {
         return deployer.deploy(Admin, {
-            overwrite: false
-        });
-    }).then(function () {
-        return deployer.deploy(Client, Admin.address, {
-            overwrite: false
-        });
-    }).then(function () {
-        return deployer.deploy(Dispatcher, Admin.address, {
-            overwrite: false
+            overwrite: ow
         });
     }).then(function () {
         return deployer.deploy(Distributor, Admin.address, web3.toWei(5, "ether"), {
-            overwrite: false
+            overwrite: ow
+        });
+    }).then(function () {
+        return deployer.deploy(Client, Admin.address, {
+            overwrite: ow
+        });
+    }).then(function () {
+        return deployer.deploy(Dispatcher, Admin.address, {
+            overwrite: ow
         });
     }).then(function () {
         return deployer.deploy(Queue_Ai, Admin.address, {
-            overwrite: false
+            overwrite: ow
         });
     }).then(function () {
         return deployer.deploy(Queue_Task, Admin.address, {
-            overwrite: false
+            overwrite: ow
         });
     }).then(function () {
         return deployer.deploy(TaskPool, Admin.address, 0, {
-            overwrite: false
+            overwrite: ow
         });
     }).then(function () {
         return deployer.deploy(Accounts, Admin.address, {
-            overwrite: false
+            overwrite: ow
         });
     }).then(function () {
 
@@ -68,6 +69,6 @@ module.exports = function (deployer) {
             }).then(function (result) {
                 console.log(result);
                 return admin_instance.set_all();
-            });
+            }).catch(console.log);
     }).then(console.log).catch(console.log);
 };

@@ -10,5 +10,5 @@ interface ClientInterfaceMiner {
         uint8 _misconduct_counter
     );
 
-    function apply_eligibility() public returns (bool);
+    function apply_eligibility() public payable returns (bool);
 }

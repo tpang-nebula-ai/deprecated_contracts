@@ -2,7 +2,7 @@ pragma solidity ^0.4.18;
 
 interface AccountInterface {
     //dispatcher
-    function get_client(address _address) view public returns
+    function get_client(address _address) view external returns
     (
         bool _eligible,
         bool _waiting,
@@ -13,25 +13,27 @@ interface AccountInterface {
         bool _submissible
     );
 
-    function set_waiting(address _client, bool _waiting) public returns (bool);
+    function set_waiting(address _client, bool _waiting) external returns (bool);
 
-    function add_job(address _client, bool _working, address _task) public returns (bool);
+    function add_job(address _client, bool _working, address _task) external returns (bool);
 
-    function set_banned(address _client, bool _banned) public returns (bool);
+    function set_banned(address _client, bool _banned) external returns (bool);
 
-    function set_misconduct_counter(address _client, bool _increase, uint8 _amount) public returns (uint8);
+    //    function set_misconduct_counter(address _client, bool _increase, uint8 _amount) external returns (uint8);
 
-    function set_level(address _client, uint8 _level) public returns (uint8);
+    function set_level(address _client, uint8 _level) external returns (uint8);
 
-    function add_task(address _client, bool _new, address _task) public returns (bool);
+    function add_task(address _client, bool _new, address _task) external returns (bool);
 
     function submissible(address _address) view public returns (bool);//submitter and dispatcher
 
-    function set_eligible(address _worker, bool _eligible) public returns (bool);
+    function set_eligible(address _worker, bool _eligible, uint256 _credit) external returns (bool);
+
+    function set_credits(address _worker, bool _increase, uint256 _credit) external returns (uint256);
 
     //miner
-    function active_job() view public returns (address);
+    function active_job() view external returns (address);
 
     //distributor
-    function set_working(address _worker, bool _working) public returns (bool);
+    function set_working(address _worker, bool _working) external returns (bool);
 }
