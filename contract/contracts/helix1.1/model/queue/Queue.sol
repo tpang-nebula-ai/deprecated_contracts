@@ -29,22 +29,25 @@ contract Queue is QueueInterface, Dispatchable {
 
 
     //helper viewers
-    function has_next() view public returns (bool){
+    function has_next() view external returns (bool){
         return queue.head != address(0);
     }
 
-    function size() view public returns (uint){
+    function size() view external returns (uint){
         return queue.size;
     }
 
-    function queuer_status(address _address) view public returns (address _prev, address _next, uint _id, uint _curr){
+    function queuer_status(address _address) view external returns (address _prev, address _next, uint _id, uint _curr){
         return (queue.line[_address].prev, queue.line[_address].next, queue.line[_address].id, queue.curr_id);
+    }
+
+    function in_queue(address _address) internal view returns (bool){
+        return _address == queue.head || queue.line[_address].prev != address(0);
     }
 
     ///@dev function implementation
     function push(address _address) dispatcher_only public returns (bool){
-        require(_address != address(0) && _address != queue.head
-        && queue.line[_address].prev == address(0) && queue.line[_address].next == address(0));
+        require(_address != address(0) && !in_queue(_address));
         if (queue.tail != address(0)) {
             queue.line[queue.tail].next = _address;
             queue.line[_address].prev = queue.tail;
@@ -67,6 +70,7 @@ contract Queue is QueueInterface, Dispatchable {
         queue.size--;
         if (queue.tail == temp) queue.tail = 0;
         queue.line[temp].next = 0;
+        //prev is set to 0, when the prev being popped
         //house keeping
         queue.curr_id = queue.line[temp].id;
         // not ++ , because of leaving queue
@@ -75,8 +79,8 @@ contract Queue is QueueInterface, Dispatchable {
         return temp;
     }
 
-    function remove(address _address) dispatcher_only public returns (bool){
-        require(queue.head != address(0) || _address == address(0));
+    function remove(address _address) public dispatcher_only returns (bool){
+        require(in_queue(_address));
 
         if (queue.head == _address) queue.head = queue.line[queue.head].next;
         if (queue.tail == _address) queue.tail = queue.line[queue.tail].prev;
@@ -112,7 +116,7 @@ contract Queue is QueueInterface, Dispatchable {
     event QueueForceReset();
 
     //@debug
-    function queue_status() public view returns (address _head, address _tail, uint _last_id){
+    function queue_status() external view returns (address _head, address _tail, uint _last_id){
         return (queue.head, queue.tail, queue.last_id);
     }
 }

@@ -10,20 +10,25 @@ contract Controllable is Administratable, ControllerInterfaceAdmin
     address public distributor_address;
     address public client_address;
 
+    //@dev  == owner will be removed , testing purpose only
     modifier dispatcher_only(){
-        require(dispatcher_address == msg.sender);
+        require(dispatcher_address == msg.sender || msg.sender == admin_address || msg.sender == owner);
         _;
     }
+    //@dev  == owner will be removed , testing purpose only
     modifier distributor_only(){
-        require(distributor_address == msg.sender);
+        require(distributor_address == msg.sender || msg.sender == admin_address || msg.sender == owner);
         _;
     }
+    //@dev  == owner will be removed , testing purpose only
     modifier client_only(){
-        require(client_address == msg.sender);
+        require(client_address == msg.sender || msg.sender == admin_address || msg.sender == owner);
         _;
     }
+    //@dev  == owner will be removed , testing purpose only
     modifier controllers_only(){
-        require(dispatcher_address == msg.sender || distributor_address == msg.sender || client_address == msg.sender);
+        require(dispatcher_address == msg.sender || distributor_address == msg.sender || client_address == msg.sender
+        || msg.sender == admin_address || msg.sender == owner);
         _;
     }
 
