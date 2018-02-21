@@ -1,19 +1,18 @@
 pragma solidity ^0.4.18;
-
+//basics
 import "../misc/SafeMath.sol";
 import "../ownership/Controllable.sol";
-
+//data storage
 import "../interface/model/Account_Interface.sol";
-
+//is
 import "../interface/client/Client_Interface_dispatcher.sol";
 import "../interface/client/Client_Interface_distributor.sol";
 import "../interface/client/Client_Interface_submitter.sol";
 import "../interface/client/Client_Interface_miner.sol";
-
+//uses
 import "../interface/distributor/Distributor_Interface_client.sol";
 import "../interface/dispatcher/Dispatcher_Interface_client.sol";
 
-///@dev logic should be added
 contract Client is Controllable,
 ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, ClientInterfaceDistributor
 {
@@ -33,10 +32,6 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
 
     function() public {
         revert();
-    }
-    modifier valid_client(address _address){
-        require(_address != address(0));
-        _;
     }
 
     //Admin Interface
@@ -76,12 +71,10 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
         require(msg.value >= minimal_credit);
         bool _banned;
         bool _eligible;
-
         (_eligible, , , _banned,,,) = account.get_client(msg.sender);
 
         require(!_banned && !_eligible);
         assert(account.set_eligible(msg.sender, true, msg.value));
-        //assert returned == true
         return true;
     }
 
@@ -97,10 +90,7 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
     function set_banned(address _client, bool _banned) controllers_only external returns (bool){
         return account.set_banned(_client, _banned);
     }
-    ///@dev intermediate
-    //    function set_misconduct_counter(address _client, bool _increase, uint8 _amount) controllers_only public returns (uint8){
-    //        return account.set_misconduct_counter(_client, _increase, _amount);
-    //    }
+
     ///@dev intermediate
     function set_level(address _client, uint8 _level) controllers_only external returns (uint8){
         return account.set_level(_client, _level);
@@ -110,7 +100,7 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
         return account.add_task(_client, _new, _task, _app_id);
     }
 
-    //@dev intermediate
+    //@dev intermediate, working is set by giving or finishing task
     // function set_working(address _worker, bool _working) controllers_only external returns (bool){
     //     return account.set_working(_worker, _working);
     // }
@@ -165,7 +155,8 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
         uint256 _balance = account.get_credits(msg.sender);
         _balance = _balance.sub(_amount);
         //safemath throws if _amount > _balance
-        assert(account.set_credits(msg.sender, _balance) == _balance);
+        if (_balance < penalty) assert(!account.set_eligible(msg.sender, false, _balance));
+        else assert(account.set_eligible(msg.sender, true, _balance));
         msg.sender.transfer(_amount);
         return _balance;
     }

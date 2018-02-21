@@ -1,15 +1,15 @@
 pragma solidity ^0.4.18;
-
+//basics
 import "../misc/SafeMath.sol";
 import "../ownership/Controllable.sol";
-
+//data storage contract
 import "../interface/model/Queue_Interface.sol";
-
+//is
 import "../interface/dispatcher/Dispatcher_Interface_client.sol";
 import "../interface/dispatcher/Dispatcher_Interface_distributor.sol";
 import "../interface/dispatcher/Dispatcher_Interface_submitter.sol";
 import "../interface/dispatcher/Dispatcher_Interface_miner.sol";
-
+//uses
 import "../interface/client/Client_Interface_dispatcher.sol";
 import "../interface/distributor/Distributor_Interface_dispatcher.sol";
 
@@ -177,7 +177,7 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
     //------------------------------------------------------------------------------------------------------------------
     //Distributor
     //@dev intermediate point - task validation has been made by
-    function join_task_queue(address _task) external Ready distributor_only payable returns (bool){
+    function join_task_queue(address _task) external Ready distributor_only returns (bool){
         assert(dispatch_or_join(true, _task));
         return true;
     }

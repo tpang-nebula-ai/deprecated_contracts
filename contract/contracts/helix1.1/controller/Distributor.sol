@@ -1,20 +1,19 @@
 pragma solidity ^0.4.18;
 
-// import "zeppelin-solidity/contracts/math/SafeMath.sol";
+//basics
 import "../ownership/Controllable.sol";
 import "../misc/SafeMath.sol";
-
+//data storage
 import "../interface/model/TaskPool_Interface.sol";
-
+//is
 import "../interface/distributor/Distributor_Interface_submitter.sol";
 import "../interface/distributor/Distributor_Interface_miner.sol";
 import "../interface/distributor/Distributor_Interface_dispatcher.sol";
 import "../interface/distributor/Distributor_Interface_client.sol";
-
+//uses
 import "../interface/dispatcher/Dispatcher_Interface_distributor.sol";
 import "../interface/client/Client_Interface_distributor.sol";
 
-//@dev used to access, store and modify ALL submitted task related functions
 contract Distributor is Controllable,
 DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDispatcher, DistributorInterfaceClient {
     using SafeMath for uint256;
@@ -52,11 +51,13 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
     //------------------------------------------------------------------------------------------------------------------
     modifier task_owner_only(address _task){
+        require(_task != address(0));
         require(pool.get_owner(_task) == msg.sender);
         _;
     }
-    //@dev this made sure that the _task exists
+    //@dev this also makes sure that the _task exists
     modifier miner_only(address _task){
+        require(_task != address(0));
         require(pool.get_worker(_task) == msg.sender);
         _;
     }
@@ -75,7 +76,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         require(msg.value >= minimal_fee);
         //require(app.valid_id(_app_id)) app_id needs to be valid
         require(_app_id != 0);
-        //temp TODO a contract that keep tracks of the app id
+        //temp TODO to be implemented a contract that keep tracks of the app id
         require(client.submissible(msg.sender, _app_id));
 
         _task = pool.create(_app_id, _name, _data, _script, _output, _params, msg.value, msg.sender);
