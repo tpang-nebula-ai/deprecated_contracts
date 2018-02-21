@@ -34,9 +34,9 @@ module.exports = function (callback) {
             }).then(function (result) {
                 _task = result;
                 console.log("worker " + index + " working on " + _task);
-                //todo test result not empty
-                // return TaskPool.deployed();
-                return Distributor.deployed();
+                if (result !== "0x0000000000000000000000000000000000000000") {
+                    return Distributor.deployed();
+                }
             });
         }).then(function (instance) {
             return instance.report_start(

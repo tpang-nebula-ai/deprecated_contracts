@@ -72,8 +72,8 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
         bool _banned;
         bool _eligible;
         (_eligible, , , _banned,,,) = account.get_client(msg.sender);
-
         require(!_banned && !_eligible);
+
         assert(account.set_eligible(msg.sender, true, msg.value));
         return true;
     }

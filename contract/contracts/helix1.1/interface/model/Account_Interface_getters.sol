@@ -9,5 +9,5 @@ interface AccountInterfaceGetters {
 
     function active_job() view external returns (address);
 
-    function get_credits() external view returns (uint256);
+    function get_credits(address _worker) external view returns (uint256);
 }

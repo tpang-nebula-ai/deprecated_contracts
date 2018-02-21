@@ -29,7 +29,7 @@ let Admin = artifacts.require("Admin");
 
 module.exports = function (callback) {
     for (let index = 1; index < 11; index++) {
-        A.deployed()
+        Client.deployed()
             .then(function (instance) {
                 instance.submissible(web3.eth.accounts[0], index).then(function (result) {
                     console.log("App ID " + index + "'s eligibility : ");

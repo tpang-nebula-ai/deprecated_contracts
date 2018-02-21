@@ -62,11 +62,7 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
         return accounts[_client].credits;
     }
 
-    function get_credits() client_only view external returns (uint256){
-        return accounts[msg.sender].credits;
-    }
-
-    function get_credits(address _client) client_only view external returns (uint256){
+    function get_credits(address _client) view external returns (uint256){
         return accounts[_client].credits;
     }
 
