@@ -25,14 +25,14 @@
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "pragma solidity ^0.4.18;\r\n\r\ninterface AccountInterfaceAdmin {\r\n    function set_client(address _client) public returns (bool);\r\n}\r\n",
-  "sourcePath": "C:\\Users\\tongp\\WebstormProjects\\wormhole\\contract\\contracts\\helix1.1\\model\\account\\Account_Interface_admin.sol",
+  "source": "pragma solidity ^0.4.18;\r\n\r\ninterface AccountInterfaceAdmin {\r\n    function set_client(address _client) external returns (bool);\r\n}\r\n",
+  "sourcePath": "C:\\Users\\tony\\WebstormProjects\\nebula-helix\\contract\\contracts\\helix1.1\\model\\account\\Account_Interface_admin.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/Users/tongp/WebstormProjects/wormhole/contract/contracts/helix1.1/model/account/Account_Interface_admin.sol",
+      "absolutePath": "/C/Users/tony/WebstormProjects/nebula-helix/contract/contracts/helix1.1/model/account/Account_Interface_admin.sol",
       "exportedSymbols": {
         "AccountInterfaceAdmin": [
-          978
+          988
         ]
       }
     },
@@ -46,9 +46,9 @@
             ".18"
           ]
         },
-        "id": 970,
+        "id": 980,
         "name": "PragmaDirective",
-        "src": "0:24:13"
+        "src": "0:24:11"
       },
       {
         "attributes": {
@@ -62,10 +62,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            978
+            988
           ],
           "name": "AccountInterfaceAdmin",
-          "scope": 979
+          "scope": 989
         },
         "children": [
           {
@@ -79,10 +79,10 @@
               ],
               "name": "set_client",
               "payable": false,
-              "scope": 978,
+              "scope": 988,
               "stateMutability": "nonpayable",
               "superFunction": null,
-              "visibility": "public"
+              "visibility": "external"
             },
             "children": [
               {
@@ -91,7 +91,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_client",
-                      "scope": 977,
+                      "scope": 987,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -104,19 +104,19 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 971,
+                        "id": 981,
                         "name": "ElementaryTypeName",
-                        "src": "87:7:13"
+                        "src": "87:7:11"
                       }
                     ],
-                    "id": 972,
+                    "id": 982,
                     "name": "VariableDeclaration",
-                    "src": "87:15:13"
+                    "src": "87:15:11"
                   }
                 ],
-                "id": 973,
+                "id": 983,
                 "name": "ParameterList",
-                "src": "86:17:13"
+                "src": "86:17:11"
               },
               {
                 "children": [
@@ -124,7 +124,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 977,
+                      "scope": 987,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -137,40 +137,40 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 974,
+                        "id": 984,
                         "name": "ElementaryTypeName",
-                        "src": "120:4:13"
+                        "src": "122:4:11"
                       }
                     ],
-                    "id": 975,
+                    "id": 985,
                     "name": "VariableDeclaration",
-                    "src": "120:4:13"
+                    "src": "122:4:11"
                   }
                 ],
-                "id": 976,
+                "id": 986,
                 "name": "ParameterList",
-                "src": "119:6:13"
+                "src": "121:6:11"
               }
             ],
-            "id": 977,
+            "id": 987,
             "name": "FunctionDefinition",
-            "src": "67:59:13"
+            "src": "67:61:11"
           }
         ],
-        "id": 978,
+        "id": 988,
         "name": "ContractDefinition",
-        "src": "28:101:13"
+        "src": "28:103:11"
       }
     ],
-    "id": 979,
+    "id": 989,
     "name": "SourceUnit",
-    "src": "0:131:13"
+    "src": "0:133:11"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-02-16T04:04:30.314Z"
+  "updatedAt": "2018-02-21T16:56:52.167Z"
 }
