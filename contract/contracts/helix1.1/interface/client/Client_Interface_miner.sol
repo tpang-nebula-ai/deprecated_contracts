@@ -1,7 +1,7 @@
 pragma solidity ^0.4.18;
 
 interface ClientInterfaceMiner {
-    function get_client_m() view public returns
+    function get_client_m() view external returns
     (
         bool _eligible,
         bool _waiting,
@@ -10,5 +10,7 @@ interface ClientInterfaceMiner {
         uint8 _misconduct_counter
     );
 
-    function apply_eligibility() public payable returns (bool);
+    function apply_eligibility() external payable returns (bool);
+
+    function withdrawal(uint256 _amount) external returns (uint256);
 }

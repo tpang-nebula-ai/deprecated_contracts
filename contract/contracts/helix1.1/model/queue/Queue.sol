@@ -1,9 +1,11 @@
 pragma solidity ^0.4.18;
 
+import "../../misc/SafeMath.sol";
 import "../../ownership/Dispatchable.sol";
 import "../../interface/model/Queue_Interface.sol";
 
 contract Queue is QueueInterface, Dispatchable {
+    using SafeMath for uint256;
     struct Queuer {
         address prev;
         address next;
@@ -54,8 +56,8 @@ contract Queue is QueueInterface, Dispatchable {
         }
         queue.tail = _address;
         if (queue.head == address(0)) queue.head = _address;
-        queue.size++;
-        queue.last_id++;
+        queue.size = queue.size.add(1);
+        queue.last_id = queue.last_id.add(1);
         queue.line[_address].id = queue.last_id;
         return true;
     }
@@ -67,7 +69,7 @@ contract Queue is QueueInterface, Dispatchable {
         // address 0 means no more in line
         queue.line[queue.head].prev = 0;
         //house keeping
-        queue.size--;
+        queue.size = queue.size.sub(1);
         if (queue.tail == temp) queue.tail = 0;
         queue.line[temp].next = 0;
         //prev is set to 0, when the prev being popped
@@ -90,34 +92,61 @@ contract Queue is QueueInterface, Dispatchable {
         if (queue.line[_address].prev != address(0)) {
             queue.line[queue.line[_address].prev].next = queue.line[_address].next;
         }
-        queue.size--;
+        queue.size = queue.size.sub(1);
         //house keeping
         queue.line[_address].prev = 0;
         queue.line[_address].next = 0;
         queue.line[_address].id = 0;
-
         return true;
     }
 
-    //TODO NOT IMPLEMENTED
     function insert(address _address, uint _position) dispatcher_only public returns (bool){
-        if (_position >= queue.size) push(_address);
-        require(_position <= queue.size);
-        _address = 0;
+        require(!in_queue(_address) && _position > 0 && _position <= 5);
+        if (_position >= queue.size) {
+            push(_address);
+            //fallback
+        } else {
+            address _curr = queue.head;
+            for (uint8 i = 1; i < _position; ++i) _curr = queue.line[_curr].next;
+
+            address _curr_next = queue.line[_curr].next;
+            queue.line[_curr].next = _address;
+            queue.line[_address].prev = _curr;
+            queue.line[_address].id = queue.curr_id.add(_position).add(1);
+            queue.size = queue.size.add(1);
+            if (_curr_next != address(0)) {
+                queue.line[_curr_next].prev = _address;
+                queue.line[_address].next = _curr_next;
+            }
+        }
         return true;
     }
-
     ///@dev to be discussed, emergency usage only owner methods
-    function hard_reset_queue() ownerOnly public {
-        queue = QueueStruct(0, 0, 0, 0, 0);
-        QueueForceReset();
-        //TODO to be revisited
-    }
-    event QueueForceReset();
+    //    function hard_reset_queue() ownerOnly public {
+    //        queue = QueueStruct(0, 0, 0, 0, 0);
+    //        QueueForceReset();
+    //    }
+    //    event QueueForceReset();
 
     //@debug
     function queue_status() external view returns (address _head, address _tail, uint _last_id){
         return (queue.head, queue.tail, queue.last_id);
     }
+
+    function show_queue() external view returns (address[] _queue){
+        if (queue.size != 0) {
+            _queue = new address[](queue.size);
+            uint256 _index = 0;
+            address _curr = queue.head;
+
+            while (_curr != address(0)) {
+                _queue[_index++] = _curr;
+                _curr = queue.line[_curr].next;
+            }
+        }
+    }
 }
+
+
+
 

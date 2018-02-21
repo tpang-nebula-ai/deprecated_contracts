@@ -31,6 +31,10 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         minimal_fee = _minimal_fee;
     }
 
+    function() public {
+        revert();
+    }
+
     //------------------------------------------------------------------------------------------------------------------
     //Admin
     function set_addresses(address _dispatcher, address _distributor, address _client, address _model, address _task_queue) admin_only public returns (bool){
@@ -41,7 +45,6 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
         client = ClientInterfaceDistributor(client_address);
         dispatcher = DispatcherInterfaceDistributor(dispatcher_address);
-        //todo add a checker function
 
         controller_ready = true;
         return true;
@@ -73,11 +76,11 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         //require(app.valid_id(_app_id)) app_id needs to be valid
         require(_app_id != 0);
         //temp TODO a contract that keep tracks of the app id
-        require(client.submissible(msg.sender));
+        require(client.submissible(msg.sender, _app_id));
 
         _task = pool.create(_app_id, _name, _data, _script, _output, _params, msg.value, msg.sender);
         assert(_task != address(0));
-        assert(client.add_task(msg.sender, true, _task));
+        assert(client.add_task(msg.sender, true, _task, _app_id));
         assert(dispatcher.join_task_queue(_task));
         TaskCreated(msg.sender, _task);
         return _task;
@@ -86,7 +89,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     event TaskCreated(address _client, address _task);
 
     //@dev entry point
-    function cancel_task(address _task) Ready external returns (bool){
+    function cancel_task(address _task, uint256 _app_id) Ready external returns (bool){
         require(msg.sender == pool.get_owner(_task));
         uint _create_time;
         uint _dispatch_time;
@@ -94,7 +97,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
         require(_create_time != 0 && _dispatch_time == 0);
         //task existed and in queue (not dispatched) => can be cancelled
-        assert(dispatcher.leave_task_queue(_task) && !client.add_task(msg.sender, false, _task));
+        assert(dispatcher.leave_task_queue(_task) && !client.add_task(msg.sender, false, _task, _app_id));
         uint256 _fee;
         (_fee,) = pool.get_fees(_task);
         assert(pool.set_fee(_task, 0) == 0);
@@ -110,7 +113,8 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     ///@dev entry point
     function reassign_task_request(address _task) Ready task_owner_only(_task) external returns (bool){
         require(pool.reassignable(_task));
-        assert(change_worker(_task, pool.get_worker(_task), msg.sender));
+        change_worker(_task, pool.get_worker(_task), msg.sender, 2);
+        //due to many actions performed here, assert within change_worker
         TaskRejoinedQueue(_task);
         return true;
     }
@@ -167,21 +171,26 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     ///@dev entry point
     //task can be forfeited at anytime, as long as the task does exist (checked by miner_only modifier)
     function forfeit(address _task) miner_only(_task) public returns (bool){
-        assert(change_worker(_task, msg.sender, pool.get_owner(_task)));
+        assert(change_worker(_task, msg.sender, pool.get_owner(_task), 1));
         TaskRejoinedQueue(_task);
         return true;
     }
 
-    function change_worker(address _task, address _worker, address _owner) internal returns (bool){
-        return pool.set_forfeit(_task) && !client.add_job(_worker, false, _task)
-        && dispatcher.rejoin(_task) && client.pay_penalty(_worker, _owner);
+    //@dev intermediate, assertion is here to simplify the logic where it is called
+    function change_worker(address _task, address _worker, address _owner, uint8 _position) internal returns (bool){
+        assert(pool.set_forfeit(_task));
+        assert(!client.add_job(_worker, false, _task));
+        assert(dispatcher.rejoin(_task, _position));
+        assert(client.pay_penalty(_worker, _owner));
+        return true;
     }
     event TaskRejoinedQueue(address _task);
-    //todo update for task_list by app
+
     //Release submitter from its active task; list #add_task should return false, indicating success
     //Release miner from its active job ; #add_job should return false, indicating success
     function complete_procedure(address _task, address _worker) internal returns (bool){
-        return !client.add_task(pool.get_owner(_task), false, _task) && !client.add_job(_worker, false, _task);
+        uint256 _app_id = pool.get_app_id(_task);
+        return !client.add_task(pool.get_owner(_task), false, _task, _app_id) && !client.add_job(_worker, false, _task);
     }
     //------------------------------------------------------------------------------------------------------------------
     //Dispatcher
