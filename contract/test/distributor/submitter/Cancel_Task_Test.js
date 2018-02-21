@@ -30,6 +30,7 @@ let Admin = artifacts.require("Admin");
 
 module.exports = function (callback) {
     let task_to_cancel;
+    let task_app_id;
 
     Accounts.deployed()
         .then(function (instance) {
@@ -52,6 +53,7 @@ module.exports = function (callback) {
             .then(function (result) {
                 console.log("Get task " + task_to_cancel);
                 console.log("App Id : " + result[0]);
+                task_app_id = result[0];
                 console.log("Task name : " + result[1]);
                 console.log("Task data address : " + result[2]);
                 console.log("Task script address : " + result[3]);
@@ -71,11 +73,11 @@ module.exports = function (callback) {
             });
         return Accounts.deployed();
     }).then(function (instance) {
-        instance.task_history().then(function (result) {
+        instance.task_history(task_app_id).then(function (result) {
             console.log("Task History");
             console.log(result);
         }).catch(console.log);
-        instance.active_tasks().then(function (result) {
+        instance.active_tasks(task_app_id).then(function (result) {
             console.log("Active Task");
             console.log(result);
             console.log("Active Task is empty ");

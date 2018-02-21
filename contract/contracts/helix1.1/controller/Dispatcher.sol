@@ -69,9 +69,8 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
         bool _working;
         bool _banned;
         uint8 _level;
-        bool _submissible;
     }
-    
+
     //@dev internal usage
     function load_client(address _client) Ready view internal returns (account_info){
         bool _eligible;
@@ -79,9 +78,8 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
         bool _working;
         bool _banned;
         uint8 _level;
-        bool _submissible;
-        (_eligible, _waiting, _working, _banned, , _level, _submissible) = client.get_client(_client);
-        return account_info(_eligible, _waiting, _working, _banned, _level, _submissible);
+        (_eligible, _waiting, _working, _banned, , _level) = client.get_client(_client);
+        return account_info(_eligible, _waiting, _working, _banned, _level);
     }
     //@dev internal usage, if a task/ai get dispatched immediately and did not join queue, this still holds,
     // as soon as

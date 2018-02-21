@@ -14,8 +14,6 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
         uint8 misconduct_counter;
         //client
         uint8 level;
-        address[] task_history;//todo remove
-        address[] active_tasks;//todo remove
         mapping(uint256 => AppTask) app_tasks;
         //worker
         uint256 credits;
@@ -44,15 +42,14 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
         bool _working,
         bool _banned,
         uint8 _misconduct_counter,
-        uint8 _level,
-        bool _submissible
+        uint8 _level
     ){
         return (accounts[_address].eligible, accounts[_address].waiting, accounts[_address].working,
-        accounts[_address].banned, accounts[_address].misconduct_counter, accounts[_address].level, submissible(_address));
+        accounts[_address].banned, accounts[_address].misconduct_counter, accounts[_address].level);
     }
-    //todo update for task by app
-    function submissible(address _address) view public returns (bool){
-        return accounts[_address].active_tasks.length < accounts[_address].level + 1;
+
+    function submissible(address _submitter, uint256 _app_id) view external returns (bool){
+        return accounts[_submitter].app_tasks[_app_id].active_tasks.length < accounts[_submitter].level + 1;
     }
 
     function set_eligible(address _client, bool _eligible, uint256 _credit) client_only external returns (bool){
@@ -77,13 +74,12 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
         return accounts[_client].waiting = _waiting;
     }
     //entry @ distributor
-    function set_working(address _worker, bool _working) client_only external returns (bool){
-        return accounts[_worker].working = _working;
-    }
+    //    function set_working(address _worker, bool _working) client_only external returns (bool){
+    //        return accounts[_worker].working = _working;
+    //    }
 
-    function add_job(address _client, bool _working, address _task) client_only external returns (bool){
+    function add_job(address _client, bool _working, address _task) external client_only returns (bool){
         if (_working) {
-            //            require(accounts[_client].waiting && _task != address(0)); //TODO Client should have this checked
             accounts[_client].waiting = false;
             accounts[_client].job_history.push(_task);
             accounts[_client].active_job = _task;
@@ -118,26 +114,26 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
         return accounts[_client].level = _level;
     }
     //In case of cancellation, task remain in the history
-    //todo update for task by app
-    function add_task(address _client, bool _new, address _task) client_only external returns (bool){
+    function add_task(address _client, bool _new, address _task, uint256 _app_id) client_only external returns (bool){
         if (_new) {
-            //            require(submissible(_client)); //todo should be done by Entry point
-            accounts[_client].task_history.push(_task);
-            accounts[_client].active_tasks.push(_task);
+            accounts[_client].app_tasks[_app_id].task_history.push(_task);
+            accounts[_client].app_tasks[_app_id].active_tasks.push(_task);
             return true;
         } else {
-            return !removeFromActiveList(_client, _task);
+            return !removeFromActiveList(_client, _task, _app_id);
             //return false => removed , in accord with logic of using return as confirmation
         }
     }
-    //todo update for task by app
-    function removeFromActiveList(address _client, address _task) internal returns (bool){
-        address[] memory list = accounts[_client].active_tasks;
+
+    function removeFromActiveList(address _client, address _task, uint256 _app_id) internal returns (bool){
+        address[] memory list = accounts[_client].app_tasks[_app_id].active_tasks;
         for (uint index = 0; index < list.length; index++) {
             if (list[index] == _task) {
-                for (uint i = index; i < list.length - 1; i++) list[i] = list[i + 1];
-                delete accounts[_client].active_tasks[list.length - 1];
-                accounts[_client].active_tasks.length--;
+                for (uint i = index; i < list.length - 1; i++) {
+                    accounts[_client].app_tasks[_app_id].active_tasks[i] = accounts[_client].app_tasks[_app_id].active_tasks[i + 1];
+                }
+                delete accounts[_client].app_tasks[_app_id].active_tasks[list.length - 1];
+                accounts[_client].app_tasks[_app_id].active_tasks.length--;
                 return true;
             }
         }
@@ -154,12 +150,11 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
     }
 
     //submitter
-    //todo update for task by app
-    function task_history() view external returns (address[]){
-        return accounts[msg.sender].task_history;
+    function task_history(uint256 _app_id) view external returns (address[]){
+        return accounts[msg.sender].app_tasks[_app_id].task_history;
     }
-    //todo update for task by app
-    function active_tasks() view external returns (address[]){
-        return accounts[msg.sender].active_tasks;
+
+    function active_tasks(uint256 _app_id) view external returns (address[]){
+        return accounts[msg.sender].app_tasks[_app_id].active_tasks;
     }
 }
