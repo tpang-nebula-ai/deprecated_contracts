@@ -5,5 +5,6 @@
   "client": "../build/contracts/Client.json",
   "queue": "../build/contracts/Queue.json",
   "taskpool": "../build/contracts/TaskPool.json",
-  "account": "../build/contracts/Accounts.json"
+  "account": "../build/contracts/Accounts.json",
+  "migrations": "../build/contracts/Migrations.json"
 }

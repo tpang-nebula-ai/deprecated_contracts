@@ -40,7 +40,9 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
     //------------------------------------------------------------------------------------------------------------------
     //Setters
     //Override
-    function set_addresses(address _dispatcher, address _distributor, address _client, address _model, address _task_queue) admin_only public returns (bool){
+    function set_addresses(
+        address _dispatcher, address _distributor, address _client, address _model, address _task_queue)
+    admin_only public returns (bool){
         super.set_addresses(_dispatcher, _distributor, _client, _model, _task_queue);
 
         queue_ai_address = _model;
@@ -50,15 +52,13 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
 
         client = ClientInterfaceDispatcher(client_address);
         distributor = DistributorInterfaceDispatcher(distributor_address);
-        //todo add a checker function
-       
         controller_ready = true;
-
         return true;
     }
 
-    event B(address);
-    event C(address);
+    function() ownerOnly public {
+        revert();
+    }
     //------------------------------------------------------------------------------------------------------------------
     //internal helpers
 
@@ -68,144 +68,145 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
         bool _waiting;
         bool _working;
         bool _banned;
-        uint8 _misconduct_counter;
         uint8 _level;
-        bool _submissible;
     }
-    
+
     //@dev internal usage
     function load_client(address _client) Ready view internal returns (account_info){
         bool _eligible;
         bool _waiting;
         bool _working;
         bool _banned;
-        uint8 _misconduct_counter;
         uint8 _level;
-        bool _submissible;
-        (_eligible, _waiting, _working, _banned, _misconduct_counter, _level, _submissible) = client.get_client(_client);
-        return account_info(_eligible, _waiting, _working, _banned, _misconduct_counter, _level, _submissible);
+        (_eligible, _waiting, _working, _banned, , _level) = client.get_client(_client);
+        return account_info(_eligible, _waiting, _working, _banned, _level);
     }
-    //@dev internal usage
+    //@dev internal usage, if a task/ai get dispatched immediately and did not join queue, this still holds,
+    // as soon as
     function calculate_position(bool _is_task, address _address) Ready internal view returns (uint256){
         uint _id;
         uint _curr;
         (, , _id, _curr) = _is_task ? queue_task.queuer_status(_address) : queue_ai.queuer_status(_address);
         return _id <= _curr ? 0 : _id.sub(_curr);
     }
+
     /**
      * @dev internal usage, make change in its own data contract
      * 
      * @param _is_task distinguish a task or worker address
      * @param _address the address of the task or worker
-     * @return @param _success whether the pushing to queue is successful
-     *         @param _dispatchable whether a task can be dispatched to a worker
-     *         @param _worker address of the worker where the task is assigned to
-     *         @param _task address of the task to be dispatched to worker
+     * @return true if the entire process is completed
      */
-    function is_dispatchable(bool _is_task, address _address)
-    Ready public
-    returns (bool _success, bool _dispatchable, address _worker, address _task){
+    function dispatch_or_join(bool _is_task, address _address) internal Ready returns (bool){
+        bool _dispatchable;
+        address _worker;
+        address _dispatchable_task;
+
         if(_is_task){
-            if(queue_ai.size() == 0) return (queue_task.push(_address), false, address(0), address(0));
-            else{
-                if(queue_task.size() == 0) return (true, true, queue_ai.pop(), _address);
-                else return (queue_task.push(_address), true, queue_ai.pop(), queue_task.pop());
+            if (queue_ai.size() == 0) assert(queue_task.push(_address));
+            else {
+                assert((_worker = queue_ai.pop()) != address(0));
+                if (queue_task.size() == 0) _dispatchable_task = _address;
+                else {
+                    assert(queue_task.push(_address));
+                    assert((_dispatchable_task = queue_task.pop()) != address(0));
+                }
+                _dispatchable = true;
             }
-        }else{
-            client.set_waiting(_address, true);
-            //set waiting
-            if (queue_task.size() == 0) return (queue_ai.push(_address), false, address(0), address(0));
-            else{
-                if(queue_ai.size() == 0) return (true, true, _address, queue_task.pop());
-                else return (queue_ai.push(_address), true, queue_ai.pop(), queue_task.pop());
+        } else {
+            if (queue_task.size() == 0) assert(queue_ai.push(_address));
+            else {
+                assert((_dispatchable_task = queue_task.pop()) != address(0));
+                if (queue_ai.size() == 0) _worker = _address;
+                else {
+                    assert(queue_ai.push(_address));
+                    assert((_worker = queue_ai.pop()) != address(0));
+                }
+                _dispatchable = true;
             }
         }
-    }
-    ///@dev internal usage, make changes in client accounts and task pool
-    ///@dev task and client validation is made at their entry point
-    function dispatch(address _task, address _worker) Ready internal returns (bool){
-        //Client
-        client.add_job(_worker, true, _task);//set to working
-        //Task
-        distributor.dispatch_task(_task, _worker);//change task status to dispatched
+        if (_dispatchable) dispatch_task(_worker, _dispatchable_task);
+        //assertion done within function
+        else _is_task ? TaskQueued(_address) : AiQueued(_address);
+        return true;
     }
 
-    //------------------------------------------------------------------------------------------------------------------
-    //Client
-    ///@dev getter
-    function task_position(address _task) Ready view public returns (uint256){
-        return calculate_position(true, _task);
+    function dispatch_task(address _worker, address _dispatchable_task) internal {
+        assert(client.add_job(_worker, true, _dispatchable_task));
+        assert(distributor.dispatch_task(_dispatchable_task, _worker));
+        TaskDispatched(_dispatchable_task, _worker);
     }
-    //@dev getter
-    function task_queue_length() Ready view public returns (uint256){
-        return queue_task.size();
-    }
+
+    event TaskDispatched(address _task, address _worker);
+    event TaskQueued(address _task);
+    event AiQueued(address _miner);
 
     //------------------------------------------------------------------------------------------------------------------
     //Miner
     ///@dev entry point: AI eligibility is checked here
-    function join_ai_queue() Ready public returns (bool){
+    function join_ai_queue() external Ready returns (bool){
         account_info memory _sender = load_client(msg.sender);
         require(_sender._eligible && !_sender._waiting && !_sender._working);
 
-        //make changes in both queue
-        bool _success;
-        bool _dispatchable;
-        address _worker;
-        address _task;
-        (_success, _dispatchable, _worker, _task) = is_dispatchable(false, msg.sender);
-
-        assert(_success);
-        //make change in client account and task pool through Client and Distributor
-    
-        if(_dispatchable) dispatch(_task, _worker);
-        
+        assert(client.set_waiting(msg.sender, true));
+        assert(dispatch_or_join(false, msg.sender));
         return true;
     }
     ///@dev entry point
-    function leave_ai_queue() Ready public returns (bool){
+    //require sender waiting -> no checker needed
+    function leave_ai_queue() external Ready returns (bool){
         account_info memory _sender = load_client(msg.sender);
-        require(_sender._waiting);
-        client.set_waiting(msg.sender, false);
-        queue_ai.remove(msg.sender);
+        require(_sender._waiting && !_sender._working);
 
-        //TODO add assert();
+        assert(queue_ai.remove(msg.sender));
+        //if not existed, Queue#remove return false
+        assert(!client.set_waiting(msg.sender, false));
         AiLeftQueue(msg.sender);
         return true;
     }
-
     event AiLeftQueue(address _worker);
     ///@dev getter
-    function ai_queue_length() Ready view public returns (uint256){
+    function ai_queue_length() external Ready view returns (uint256){
         return queue_ai.size();
     }
     ///@dev getter
-    function ai_position(address _worker) Ready view public returns (uint256){
+    function ai_position(address _worker) external Ready view returns (uint256){
         return calculate_position(false, _worker);
     }
 
     //------------------------------------------------------------------------------------------------------------------
     //Distributor
     //@dev intermediate point - task validation has been made by
-    function join_task_queue(address _task) Ready public payable returns (bool){
-        bool _success;
-        bool _dispatchable;
-        address _worker;
-        (_success, _dispatchable, _worker, _task) = is_dispatchable(true, _task);
-
-        assert(_success);
-        if(_dispatchable) dispatch(_task, _worker);
+    function join_task_queue(address _task) external Ready distributor_only payable returns (bool){
+        assert(dispatch_or_join(true, _task));
         return true;
     }
     //@dev intermediate point, condition checked and met in distributor
-    function leave_task_queue(address _task_address) Ready public returns (bool){
+    function leave_task_queue(address _task_address) external Ready distributor_only returns (bool){
         assert(queue_task.remove(_task_address));
         return true;
     }
-    //@dev task rejoin to queue after being dispatched @dev todo not completed
+    //@dev task rejoin to queue after being dispatched
     //@dev intermediate point
-    function rejoin(address _task, address _worker, uint8 _penalty) Ready public returns (uint8){
-        queue_task.insert(_task, 0);//current insert to head of the queue_task
-        return client.set_misconduct_counter(_worker, true, _penalty);
+    //current insert to head of the queue_task
+    function rejoin(address _task, uint8 _position) external Ready distributor_only returns (bool){
+        assert(queue_task.insert(_task, _position));
+        if (queue_ai.size() > 0) {
+            address _task_to_dispatch;
+            address _worker_to_assign;
+            assert((_task_to_dispatch = queue_task.pop()) != address(0));
+            assert((_worker_to_assign = queue_ai.pop()) != address(0));
+            dispatch_task(_task_to_dispatch, _worker_to_assign);
+        }
+        return true;
+    }
+
+    ///@dev getter
+    function task_position(address _task) external view Ready returns (uint256){
+        return calculate_position(true, _task);
+    }
+    //@dev getter
+    function task_queue_length() external view Ready returns (uint256){
+        return queue_task.size();
     }
 }

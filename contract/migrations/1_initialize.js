@@ -1,14 +1,3 @@
-let log4js = require('log4js');
-log4js.configure({
-    appenders: {
-        tx: {type: 'file', filename: 'logs/tx_history.log'},
-        console: {type: 'console'}
-    },
-    categories: {default: {appenders: ['tx', 'console'], level: 'info'}}
-});
-
-let logger = log4js.getLogger('tx');
-
 let Migrations = artifacts.require("Migrations");
 let Admin = artifacts.require("Admin");
 
@@ -21,14 +10,70 @@ let Queue_Task = artifacts.require("Queue_Task");
 let TaskPool = artifacts.require("TaskPool");
 let Accounts = artifacts.require("Accounts");
 
-module.exports = function (callback) {
+let ow = true;
 
+module.exports = function (deployer) {
+    deployer.deploy(Migrations, {
+        overwrite: ow
+    }).then(function () {
+        return deployer.deploy(Admin, {
+            overwrite: ow
+        });
+    }).then(function () {
+        return deployer.deploy(Distributor, Admin.address, web3.toWei(5, "ether"), {
+            overwrite: ow
+        });
+    }).then(function () {
+        return deployer.deploy(Client, Admin.address, {
+            overwrite: ow
+        });
+    }).then(function () {
+        return deployer.deploy(Dispatcher, Admin.address, {
+            overwrite: ow
+        });
+    }).then(function () {
+        return deployer.deploy(Queue_Ai, Admin.address, {
+            overwrite: ow
+        });
+    }).then(function () {
+        return deployer.deploy(Queue_Task, Admin.address, {
+            overwrite: ow
+        });
+    }).then(function () {
+        return deployer.deploy(TaskPool, Admin.address, 0, {
+            overwrite: ow
+        });
+    }).then(function () {
+        return deployer.deploy(Accounts, Admin.address, {
+            overwrite: ow
+        });
+    }).then(function () {
+        let admin_instance;
+        return Admin.deployed()
+            .then(function (instance) {
+                admin_instance = instance;
+                return instance.set_all_addresses(
+                    Dispatcher.address, Distributor.address, Client.address,
+                    Queue_Ai.address, Queue_Task.address, Accounts.address, TaskPool.address);
+            }).then(function (result) {
+                console.log(result);
+                return admin_instance.set_all();
+            }).catch(console.log);
+    }).then(function (result) {
+        console.log(result);
+        test();
+    }).catch(console.log);
+};
+
+
+function test() {
+    console.log("Deployment address tests");
     console.log("Admin @ " + Admin.address);
     console.log("Client @ " + Client.address);
     console.log("Dispatcher @ " + Dispatcher.address);
     console.log("Distributor @ " + Distributor.address);
     console.log("Task Queue @ " + Queue_Task.address);
-    console.log("Task Ai @ " + Queue_Ai.address);
+    console.log("Ai Queue @ " + Queue_Ai.address);
     console.log("Accounts @ " + Accounts.address);
     console.log("TaskPool @ " + TaskPool.address);
 
@@ -42,8 +87,6 @@ module.exports = function (callback) {
     let distributor_addr = Distributor.address;
 
     let admin_addr = Admin.address;
-
-    // let admin = Admin.address;
 
     Admin.deployed().then(function (instance) {
         instance.dispatcher_address().then(function (result) {
@@ -92,7 +135,6 @@ module.exports = function (callback) {
         correct_client(instance, "Account");
     });
 
-
     function correct_admin(instance, contract) {
         instance.admin_address().then(function (result) {
             console.log(contract + "'s admin @ " + result + " " + assert(result, admin_addr))
@@ -127,4 +169,4 @@ module.exports = function (callback) {
     function assert(returned, expected) {
         return returned === expected;
     }
-};
+}

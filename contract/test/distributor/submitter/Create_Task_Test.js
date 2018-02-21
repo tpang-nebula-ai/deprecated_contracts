@@ -98,11 +98,11 @@ module.exports = function (callback) {
                 });
             return Accounts.deployed();
         }).then(function (instance) {
-            instance.task_history().then(function (result) {
+            instance.task_history(_app_id).then(function (result) {
                 console.log("Task History");
                 console.log(result);
             });
-            instance.active_tasks().then(function (result) {
+            instance.active_tasks(_app_id).then(function (result) {
                 console.log("Active Task");
                 console.log(result);
                 console.log("Active Task is empty ");
@@ -138,7 +138,7 @@ module.exports = function (callback) {
             instance.queue_status().then(function (result) {
                 console.log("Queue head : " + result[0]);
                 console.log("Queue tail : " + result[1]);
-                console.log("Queue size : " + result[2]);
+                console.log("Queue Last Id : " + result[2]);
             });
         }).catch(console.log);
     });

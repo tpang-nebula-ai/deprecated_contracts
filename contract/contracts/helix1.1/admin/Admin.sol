@@ -26,8 +26,6 @@ contract Admin is Ownable {
     QueueInterfaceAdmin queue_task;
     TaskPoolInterfaceAdmin taskpool;
 
-    bool ready;
-
     function Admin() Ownable(msg.sender) public {}
 
     modifier valid_address(address _address){
@@ -35,37 +33,61 @@ contract Admin is Ownable {
         _;
     }
     //Setters-----------------------------------------------------------------------------------------------------------
-    function set_dispatcher_address(address _address) valid_address(_address) ownerOnly public {
+    function set_all_addresses(
+        address _dispatcher, address _distributor, address _client,
+        address _ai_queue, address _task_queue,
+        address _account, address _taskpool) ownerOnly public returns (bool){
+
+        set_dispatcher_address(_dispatcher);
+        set_distributor_address(_distributor);
+        set_client_address(_client);
+        set_ai_queue_address(_ai_queue);
+        set_task_queue_address(_task_queue);
+        set_account_address(_account);
+        set_taskpool_address(_taskpool);
+        AddressSet();
+        assert(account_address == _account);
+        return true;
+    }
+
+    event AddressSet();
+
+    modifier setter(){
+        require(msg.sender == owner || msg.sender == address(this));
+        _;
+    }
+
+    function set_dispatcher_address(address _address) valid_address(_address) setter public {
         dispatcher_address = _address;
         dispatcher = ControllerInterfaceAdmin(dispatcher_address);
     }
 
-    function set_distributor_address(address _address) valid_address(_address) ownerOnly public {
+    function set_distributor_address(address _address) valid_address(_address) setter public {
         distributor_address = _address;
         distributor = ControllerInterfaceAdmin(distributor_address);
     }
 
-    function set_client_address(address _address) valid_address(_address) ownerOnly public {
+    function set_client_address(address _address) valid_address(_address) setter public {
         client_address = _address;
         client = ControllerInterfaceAdmin(client_address);
     }
 
-    function set_ai_queue_address(address _address) valid_address(_address) ownerOnly public {
+    function set_ai_queue_address(address _address) valid_address(_address) setter public {
         queue_ai_address = _address;
         queue_ai = QueueInterfaceAdmin(queue_ai_address);
     }
 
-    function set_task_queue_address(address _address) valid_address(_address) ownerOnly public {
+    function set_task_queue_address(address _address) valid_address(_address) setter public {
         queue_task_address = _address;
         queue_task = QueueInterfaceAdmin(queue_task_address);
     }
 
-    function set_account_address(address _address) valid_address(_address) ownerOnly public {
+    function set_account_address(address _address) valid_address(_address) setter public {
         account_address = _address;
         account = AccountInterfaceAdmin(account_address);
     }
 
-    function set_taskpool_address(address _address) valid_address(_address) ownerOnly public {
+    function set_taskpool_address(address _address) valid_address(_address) setter public {
         taskpool_address = _address;
         taskpool = TaskPoolInterfaceAdmin(taskpool_address);
     }
@@ -81,13 +103,14 @@ contract Admin is Ownable {
     //@dev entry point
     function set_all() ownerOnly public returns (bool){
         require(ready_to_set_all());
-        assert(
-            set_distributor() && set_dispatcher() && set_client()
-            && set_account() && set_queue_task() && set_queue_ai() && set_taskpool()
-        );
+        assert(set_distributor() && set_dispatcher() && set_client()
+        && set_account() && set_queue_task() && set_queue_ai() && set_taskpool());
+        AddressesSetInAllContracts();
         return true;
     }
-    //internal @dev testing only todo remove for release
+
+    event AddressesSetInAllContracts();
+    //internal
     function set_dispatcher() internal returns (bool){
         return dispatcher.set_addresses(dispatcher_address, distributor_address, client_address, queue_ai_address, queue_task_address);
     }
@@ -115,4 +138,11 @@ contract Admin is Ownable {
     function set_taskpool() internal returns (bool){
         return taskpool.set_distributor(distributor_address);
     }
+
+    ///@dev More administrator functions to be added
+    //function ban_client(address _client, bool _ban) owner_only public returns(bool);
+    //    function remove_task();
+    //    function remove_ai_from_queue();
+    //    function close_task();
+    //etc...
 }
