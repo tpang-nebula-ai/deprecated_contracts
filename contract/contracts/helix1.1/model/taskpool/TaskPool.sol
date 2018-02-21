@@ -82,6 +82,7 @@ contract TaskPool is Distributable, TaskPoolInterface {
     }
 
 
+
     //------------------------------------------------------------------------------------------------------------------
     //Setters
     function create(uint256 _app_id, string _name, string _data, string _script, string _output, string _params, uint256 _fee, address _owner)

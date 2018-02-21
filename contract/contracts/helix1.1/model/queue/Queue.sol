@@ -102,9 +102,9 @@ contract Queue is QueueInterface, Dispatchable {
 
     function insert(address _address, uint _position) dispatcher_only public returns (bool){
         require(!in_queue(_address) && _position > 0 && _position <= 5);
+        //limited to five to limit gas spent, might need to be changed
         if (_position >= queue.size) {
             push(_address);
-            //fallback
         } else {
             address _curr = queue.head;
             for (uint8 i = 1; i < _position; ++i) _curr = queue.line[_curr].next;
@@ -121,7 +121,7 @@ contract Queue is QueueInterface, Dispatchable {
         }
         return true;
     }
-    ///@dev to be discussed, emergency usage only owner methods
+    //@dev to be discussed, emergency usage only owner methods
     //    function hard_reset_queue() ownerOnly public {
     //        queue = QueueStruct(0, 0, 0, 0, 0);
     //        QueueForceReset();

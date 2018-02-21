@@ -33,7 +33,7 @@ interface AccountInterface {
     function get_credits(address _client) external view returns (uint256);
 
     //miner
-    function active_job() view external returns (address);
+    //    function active_job() view external returns (address);
 
     //distributor
     //    function set_working(address _worker, bool _working) external returns (bool);

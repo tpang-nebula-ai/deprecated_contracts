@@ -1,0 +1,25 @@
+1. Distributor:
+    - Create Task
+    - Cancel Task
+    - reassign_task_request (pay penalty)
+    - pay_completion_fee
+    - report_start
+    - report_finish
+    - report_error
+    - forfeit (pay penalty)
+
+Dispatcher
+    - join_ai_queue
+    - leave_ai_queue
+    - ai_queue_length
+    - ai_position
+    - task_position
+    - task_queue_length
+
+Client
+    - submissible
+    - apply_eligibility
+    - withdrawal
+
+task pool, account, queue should not need direct testing, as it is included in the controllers
+however, each of these data storage contracts are separately testable
