@@ -26,6 +26,7 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
     DispatcherInterfaceClient dispatcher;
 
     uint256 public penalty = 5 ether;
+    uint256 penalty_to_client = penalty.div(10).mul(8);
     uint256 public minimal_credit = 15 ether;
 
     function Client(address _admin) public Controllable(msg.sender, _admin) {}
@@ -73,16 +74,14 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
 
     ///@dev entry point
     function apply_eligibility() public Ready payable returns (bool){
-        require(msg.value == minimal_credit);
+        require(msg.value >= minimal_credit);
         bool _banned;
         bool _eligible;
-        bool _waiting;
-        bool _working;
 
-        (_eligible, _waiting, _working, _banned, , ,) = account.get_client(msg.sender);
+        (_eligible, , , _banned,,,) = account.get_client(msg.sender);
 
-        require(!_banned && !_eligible && !_waiting && !_working);
-        assert(account.set_eligible(msg.sender, true, minimal_credit));
+        require(!_banned && !_eligible);
+        assert(account.set_eligible(msg.sender, true, msg.value));
         //assert returned == true
         return true;
     }
@@ -119,8 +118,22 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
 
     //@dev intermediate
     function pay_penalty(address _worker, address _client) controllers_only public returns (bool){
-        account.set_credits(_worker, false, penalty);
-        _client.transfer(penalty.mul(8).div(10));
+        uint256 _available_credits = account.get_credits(_worker);
+        require(_available_credits > 0);
+        uint256 _set_to;
+        uint256 _to_client;
+        if (_available_credits > penalty) {
+            _set_to = _available_credits.sub(penalty);
+            _to_client = penalty_to_client;
+        } else {
+            _set_to = 0;
+            _to_client = _available_credits.mul(8).div(10);
+        }
+        assert((_available_credits = _set_to) == account.set_credits(_worker, _set_to));
+
+        if (_available_credits < penalty) assert(account.set_banned(_worker, true));
+
+        _client.transfer(penalty_to_client);
         return true;
     }
 
@@ -154,7 +167,7 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
         uint256 _balance = account.get_credits(msg.sender);
         _balance = _balance.sub(_amount);
         //safemath throws if _amount > _balance
-        assert(account.set_credits(msg.sender, false, _amount) == _balance);
+        assert(account.set_credits(msg.sender, _balance) == _balance);
         msg.sender.transfer(_amount);
         return _balance;
     }

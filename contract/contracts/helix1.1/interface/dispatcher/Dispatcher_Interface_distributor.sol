@@ -6,5 +6,5 @@ interface DispatcherInterfaceDistributor {
 
     function leave_task_queue(address _task_address) external returns (bool);
 
-    function rejoin(address _task) external returns (bool);
+    function rejoin(address _task, uint8 _position) external returns (bool);
 }

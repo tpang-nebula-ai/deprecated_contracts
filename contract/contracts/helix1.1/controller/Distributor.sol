@@ -31,6 +31,10 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         minimal_fee = _minimal_fee;
     }
 
+    function() {
+        revert();
+    }
+
     //------------------------------------------------------------------------------------------------------------------
     //Admin
     function set_addresses(address _dispatcher, address _distributor, address _client, address _model, address _task_queue) admin_only public returns (bool){
@@ -110,7 +114,8 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     ///@dev entry point
     function reassign_task_request(address _task) Ready task_owner_only(_task) external returns (bool){
         require(pool.reassignable(_task));
-        assert(change_worker(_task, pool.get_worker(_task), msg.sender));
+        change_worker(_task, pool.get_worker(_task), msg.sender, 2);
+        //due to many actions performed here, assert within change_worker
         TaskRejoinedQueue(_task);
         return true;
     }
@@ -167,16 +172,21 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     ///@dev entry point
     //task can be forfeited at anytime, as long as the task does exist (checked by miner_only modifier)
     function forfeit(address _task) miner_only(_task) public returns (bool){
-        assert(change_worker(_task, msg.sender, pool.get_owner(_task)));
+        assert(change_worker(_task, msg.sender, pool.get_owner(_task), 1));
         TaskRejoinedQueue(_task);
         return true;
     }
 
-    function change_worker(address _task, address _worker, address _owner) internal returns (bool){
-        return pool.set_forfeit(_task) && !client.add_job(_worker, false, _task)
-        && dispatcher.rejoin(_task) && client.pay_penalty(_worker, _owner);
+    //@dev intermediate, assertion is here to simplify the logic where it is called
+    function change_worker(address _task, address _worker, address _owner, uint8 _position) internal returns (bool){
+        assert(pool.set_forfeit(_task));
+        assert(!client.add_job(_worker, false, _task));
+        assert(dispatcher.rejoin(_task, _position));
+        assert(client.pay_penalty(_worker, _owner));
+        return true;
     }
     event TaskRejoinedQueue(address _task);
+
     //todo update for task_list by app
     //Release submitter from its active task; list #add_task should return false, indicating success
     //Release miner from its active job ; #add_job should return false, indicating success

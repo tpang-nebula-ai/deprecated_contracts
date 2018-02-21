@@ -60,11 +60,13 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
         return accounts[_client].eligible = _eligible;
     }
 
-    function set_credits(address _client, bool _increase, uint256 _credit) client_only external returns (uint256){
-        if (_increase) accounts[_client].credits.add(_credit);
-        else accounts[_client].credits.sub(_credit);
-        // safemath throws when _credit > credits
+    function set_credits(address _client, uint256 _credit) client_only external returns (uint256){
+        accounts[_client].credits = _credit;
         return accounts[_client].credits;
+    }
+
+    function get_credits() client_only view external returns (uint256){
+        return accounts[msg.sender].credits;
     }
 
     function get_credits(address _client) client_only view external returns (uint256){

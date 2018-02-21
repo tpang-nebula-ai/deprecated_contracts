@@ -29,7 +29,7 @@ interface AccountInterface {
 
     function set_eligible(address _worker, bool _eligible, uint256 _credit) external returns (bool);
 
-    function set_credits(address _worker, bool _increase, uint256 _credit) external returns (uint256);
+    function set_credits(address _worker, uint256 _credit) external returns (uint256);
 
     function get_credits(address _client) external view returns (uint256);
 
