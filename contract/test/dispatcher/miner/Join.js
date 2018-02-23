@@ -3,9 +3,6 @@
  * Join Ai Queue
  * Inputs :
  * Output : result
- *
- *
- *
  */
 //Prepare the contracts and load the logger
 let log4js = require('log4js');
@@ -98,6 +95,4 @@ module.exports = function (callback) {
             });
         }).catch(console.log);
     }
-
-
 };

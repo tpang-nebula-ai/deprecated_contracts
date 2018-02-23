@@ -1,7 +1,7 @@
 const fs = require('fs');
-const sync = require('synchronize')
+const sync = require('synchronize');
 const path = require('path');
-sync(fs,'readFile','readdir')
+sync(fs, 'readFile', 'readdir');
 const folderPath = './build/contracts/';
 
 
@@ -15,7 +15,7 @@ sync.fiber(function() {
     let getter = 'getter';
     let submitter= 'submitter';
     let miner = 'miner';
-    let other = 'other'
+    let other = 'other';
     let writePath;
 
     createDir(writeBasePath);
@@ -26,7 +26,7 @@ sync.fiber(function() {
     createDir(writeBasePath+other);
 
 
-    console.log(path.delimiter)
+    console.log(path.delimiter);
     for (let i in files) {
         fileName = files[i];
         if (fileName.toLowerCase().includes('interface')) {
@@ -36,26 +36,26 @@ sync.fiber(function() {
             abiObj = {abi:interfaceObj.abi};
             if (fileName.toLowerCase().includes(admin)){
                 writePath = writePath+admin+'/'+fileName;
-                fs.writeFile(writePath,JSON.stringify(abiObj))
+                fs.writeFile(writePath, JSON.stringify(abiObj));
                 continue;
             }
             if (fileName.toLowerCase().includes(getter)){
                 writePath = writePath+getter+'/'+fileName;
-                fs.writeFile(writePath,JSON.stringify(abiObj))
+                fs.writeFile(writePath, JSON.stringify(abiObj));
                 continue;
             }
             if (fileName.toLowerCase().includes(miner)){
                 writePath = writePath+miner+'/'+fileName;
-                fs.writeFile(writePath,JSON.stringify(abiObj))
+                fs.writeFile(writePath, JSON.stringify(abiObj));
                 continue;
             }
             if (fileName.toLowerCase().includes(submitter)){
                 writePath = writePath+submitter+'/'+fileName;
-                fs.writeFile(writePath,JSON.stringify(abiObj))
+                fs.writeFile(writePath, JSON.stringify(abiObj));
                 continue;
             }
             writePath = writePath+other+'/'+fileName;
-            fs.writeFile(writePath,JSON.stringify(abiObj))
+            fs.writeFile(writePath, JSON.stringify(abiObj));
         }
     }
 });

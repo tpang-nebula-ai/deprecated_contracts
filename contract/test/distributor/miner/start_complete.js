@@ -1,7 +1,5 @@
 /*
  * report Start task and report Complete task
- *
- *
  */
 //Prepare the contracts and load the logger
 let log4js = require('log4js');
@@ -27,7 +25,6 @@ let Admin = artifacts.require("Admin");
 module.exports = function (callback) {
     for (let index = 0; index < 8; index++) {
         let _task;
-        // let _task_id;
         Accounts.deployed().then(function (instance) {
             return instance.active_job({
                 from: web3.eth.accounts[index]

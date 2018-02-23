@@ -33,7 +33,7 @@ let Admin = artifacts.require("Admin");
 module.exports = function (callback) {
     for (let index = 1; index < 11; index++) {
         let _app_id = index;
-        let _name = "This is test 1";
+        let _name = "This is test " + index;
         let _data = "This is data";
         let _script = "This is Script";
         let _output = "This is output address";
@@ -41,7 +41,7 @@ module.exports = function (callback) {
 
         Distributor.web3.eth.getGasPrice(function (error, result) {
             let gasPrice = Number(result);
-            console.log("Gas Price is " + result + " wei"); // "10000000000000"
+            console.log("Gas Price is " + result + " wei");
 
             let task_address;
 

@@ -53,41 +53,41 @@ contract Admin is Ownable {
     event AddressSet();
 
     modifier setter(){
-        require(msg.sender == owner || msg.sender == address(this));
+        require(msg.sender == owner);
         _;
     }
 
-    function set_dispatcher_address(address _address) valid_address(_address) setter public {
+    function set_dispatcher_address(address _address) public valid_address(_address) setter {
         dispatcher_address = _address;
         dispatcher = ControllerInterfaceAdmin(dispatcher_address);
     }
 
-    function set_distributor_address(address _address) valid_address(_address) setter public {
+    function set_distributor_address(address _address) public valid_address(_address) setter {
         distributor_address = _address;
         distributor = ControllerInterfaceAdmin(distributor_address);
     }
 
-    function set_client_address(address _address) valid_address(_address) setter public {
+    function set_client_address(address _address) public valid_address(_address) setter {
         client_address = _address;
         client = ControllerInterfaceAdmin(client_address);
     }
 
-    function set_ai_queue_address(address _address) valid_address(_address) setter public {
+    function set_ai_queue_address(address _address) public valid_address(_address) setter {
         queue_ai_address = _address;
         queue_ai = QueueInterfaceAdmin(queue_ai_address);
     }
 
-    function set_task_queue_address(address _address) valid_address(_address) setter public {
+    function set_task_queue_address(address _address) public valid_address(_address) setter {
         queue_task_address = _address;
         queue_task = QueueInterfaceAdmin(queue_task_address);
     }
 
-    function set_account_address(address _address) valid_address(_address) setter public {
+    function set_account_address(address _address) public valid_address(_address) setter {
         account_address = _address;
         account = AccountInterfaceAdmin(account_address);
     }
 
-    function set_taskpool_address(address _address) valid_address(_address) setter public {
+    function set_taskpool_address(address _address) public valid_address(_address) setter {
         taskpool_address = _address;
         taskpool = TaskPoolInterfaceAdmin(taskpool_address);
     }
@@ -101,7 +101,7 @@ contract Admin is Ownable {
         return true;
     }
     //@dev entry point
-    function set_all() ownerOnly public returns (bool){
+    function set_all() public ownerOnly returns (bool){
         require(ready_to_set_all());
         assert(set_distributor() && set_dispatcher() && set_client()
         && set_account() && set_queue_task() && set_queue_ai() && set_taskpool());
@@ -110,7 +110,7 @@ contract Admin is Ownable {
     }
 
     event AddressesSetInAllContracts();
-    //internal
+    //internals
     function set_dispatcher() internal returns (bool){
         return dispatcher.set_addresses(dispatcher_address, distributor_address, client_address, queue_ai_address, queue_task_address);
     }

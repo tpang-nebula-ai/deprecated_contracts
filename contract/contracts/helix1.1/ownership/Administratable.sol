@@ -7,19 +7,23 @@ contract Administratable is Ownable {
     bool public admin_loaded;
     bool public controller_ready;
     bool public valid; //once invalidated, can no longer be revalidated
-
+    bool public paused;
     function Administratable(address _owner, address _admin) public Ownable(_owner) {
         valid = true;
         if (_admin != address(0)) set_admin(_admin);
     }
 
     modifier Ready(){
-        require(controller_ready);
+        require(controller_ready && !paused && valid);
         _;
     }
 
     modifier admin_only(){
         require(msg.sender == admin_address || msg.sender == owner);
+        _;
+    }
+    modifier invalidated_only{
+        require(!valid);
         _;
     }
 
@@ -28,10 +32,8 @@ contract Administratable is Ownable {
         admin_loaded = true;
     }
 
-
-    modifier invalidated_only{
-        require(!valid);
-        _;
+    function pause() ownerOnly external returns (bool){
+        return paused = true;
     }
 
     function invalidate_contract() public ownerOnly returns (bool){

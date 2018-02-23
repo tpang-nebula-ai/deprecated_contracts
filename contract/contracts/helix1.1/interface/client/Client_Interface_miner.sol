@@ -10,6 +10,8 @@ interface ClientInterfaceMiner {
         uint8 _misconduct_counter
     );
 
+    function get_minimal_credit() external view returns (uint256);
+
     function apply_eligibility() external payable returns (bool);
 
     function withdrawal(uint256 _amount) external returns (uint256);

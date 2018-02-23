@@ -9,12 +9,13 @@ import "../interface/client/Client_Interface_dispatcher.sol";
 import "../interface/client/Client_Interface_distributor.sol";
 import "../interface/client/Client_Interface_submitter.sol";
 import "../interface/client/Client_Interface_miner.sol";
+import "../interface/client/Client_Interface_admin.sol";
 //uses
 import "../interface/distributor/Distributor_Interface_client.sol";
 import "../interface/dispatcher/Dispatcher_Interface_client.sol";
 
 contract Client is Controllable,
-ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, ClientInterfaceDistributor
+ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, ClientInterfaceDistributor, ClientInterfaceAdmin
 {
     using SafeMath for uint256;
 
@@ -24,9 +25,9 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
     DistributorInterfaceClient distributor;
     DispatcherInterfaceClient dispatcher;
 
-    uint256 public penalty = 5 ether;
+    uint256 penalty = 5 ether;
     uint256 penalty_to_client = penalty.div(10).mul(8);
-    uint256 public minimal_credit = 15 ether;
+    uint256 minimal_credit = 15 ether;
 
     function Client(address _admin) public Controllable(msg.sender, _admin) {}
 
@@ -36,7 +37,7 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
 
     //Admin Interface
     function set_addresses(address _dispatcher, address _distributor, address _client, address _model, address _task_queue)
-    admin_only public returns (bool){
+    public admin_only returns (bool){
         super.set_addresses(_dispatcher, _distributor, _client, _model, _task_queue);
 
         account_address = _model;
@@ -50,7 +51,7 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
     }
 
     //dispatcher Interface
-    function get_client(address _address) view external returns (
+    function get_client(address _address) external view returns (
         bool _eligible,
         bool _waiting,
         bool _working,
@@ -79,24 +80,24 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
     }
 
     ///@dev intermediate
-    function set_waiting(address _client, bool _waiting) controllers_only external returns (bool){
+    function set_waiting(address _client, bool _waiting) external Ready controllers_only returns (bool){
         return account.set_waiting(_client, _waiting);
     }
     ///@dev intermediate
-    function add_job(address _client, bool _working, address _task) controllers_only external returns (bool){
+    function add_job(address _client, bool _working, address _task) external Ready controllers_only returns (bool){
         return account.add_job(_client, _working, _task);
     }
     ///@dev intermediate
-    function set_banned(address _client, bool _banned) controllers_only external returns (bool){
+    function set_banned(address _client, bool _banned) external Ready controllers_only returns (bool){
         return account.set_banned(_client, _banned);
     }
 
     ///@dev intermediate
-    function set_level(address _client, uint8 _level) controllers_only external returns (uint8){
+    function set_level(address _client, uint8 _level) external Ready controllers_only returns (uint8){
         return account.set_level(_client, _level);
     }
     ///@dev intermediate
-    function add_task(address _client, bool _new, address _task, uint256 _app_id) controllers_only external returns (bool){
+    function add_task(address _client, bool _new, address _task, uint256 _app_id) external Ready controllers_only returns (bool){
         return account.add_task(_client, _new, _task, _app_id);
     }
 
@@ -106,7 +107,7 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
     // }
 
     //@dev intermediate
-    function pay_penalty(address _worker, address _client) controllers_only external returns (bool){
+    function pay_penalty(address _worker, address _client) external Ready controllers_only returns (bool){
         uint256 _available_credits = account.get_credits(_worker);
         require(_available_credits > 0);
         uint256 _set_to;
@@ -128,7 +129,7 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
 
     //submitter Interface
     ///@dev getter
-    function get_client_c() view external returns (
+    function get_client_c() external view returns (
         bool _banned,
         uint8 _misconduct_counter,
         uint8 _level
@@ -138,7 +139,7 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
 
     //Miner Interface
     ///@dev getter
-    function get_client_m() view external returns (
+    function get_client_m() external view returns (
         bool _eligible,
         bool _waiting,
         bool _working,
@@ -151,7 +152,7 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
         return account.get_credits(msg.sender);
     }
 
-    function withdrawal(uint256 _amount) external returns (uint256){
+    function withdrawal(uint256 _amount) external Ready returns (uint256){
         uint256 _balance = account.get_credits(msg.sender);
         _balance = _balance.sub(_amount);
         //safemath throws if _amount > _balance
@@ -159,5 +160,9 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
         else assert(account.set_eligible(msg.sender, true, _balance));
         msg.sender.transfer(_amount);
         return _balance;
+    }
+
+    function get_minimal_credit() external view returns (uint256){
+        return minimal_credit;
     }
 }

@@ -48,31 +48,18 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
         accounts[_address].banned, accounts[_address].misconduct_counter, accounts[_address].level);
     }
 
-    function submissible(address _submitter, uint256 _app_id) view external returns (bool){
-        return accounts[_submitter].app_tasks[_app_id].active_tasks.length < accounts[_submitter].level + 1;
-    }
-
     function set_eligible(address _client, bool _eligible, uint256 _credit) client_only external returns (bool){
         accounts[_client].credits = _credit;
         return accounts[_client].eligible = _eligible;
     }
 
     function set_credits(address _client, uint256 _credit) client_only external returns (uint256){
-        accounts[_client].credits = _credit;
-        return accounts[_client].credits;
-    }
-
-    function get_credits(address _client) view external returns (uint256){
-        return accounts[_client].credits;
+        return accounts[_client].credits = _credit;
     }
 
     function set_waiting(address _client, bool _waiting) client_only external returns (bool){
         return accounts[_client].waiting = _waiting;
     }
-    //entry @ distributor
-    //    function set_working(address _worker, bool _working) client_only external returns (bool){
-    //        return accounts[_worker].working = _working;
-    //    }
 
     function add_job(address _client, bool _working, address _task) external client_only returns (bool){
         if (_working) {
@@ -94,18 +81,6 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
         return accounts[_client].banned = _banned;
     }
 
-    //    function set_misconduct_counter(address _client, bool _increase, uint8 _amount) client_only external returns (uint8){
-    //        if (_increase) {
-    //            accounts[_client].misconduct_counter.add(_amount);
-    //            if (accounts[_client].misconduct_counter == 3) set_banned(_client, true);
-    //        } else {
-    //            if (accounts[_client].misconduct_counter >= 3) set_banned(_client, false);
-    //            if (accounts[_client].misconduct_counter < _amount) accounts[_client].misconduct_counter = 0;
-    //            else accounts[_client].misconduct_counter.sub(_amount);
-    //        }
-    //        return accounts[_client].misconduct_counter;
-    //    }
-
     function set_level(address _client, uint8 _level) client_only external returns (uint8){
         return accounts[_client].level = _level;
     }
@@ -115,12 +90,9 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
             accounts[_client].app_tasks[_app_id].task_history.push(_task);
             accounts[_client].app_tasks[_app_id].active_tasks.push(_task);
             return true;
-        } else {
-            return !removeFromActiveList(_client, _task, _app_id);
-            //return false => removed , in accord with logic of using return as confirmation
-        }
+        } else return removeFromActiveList(_client, _task, _app_id);
     }
-
+    //return false => removed , in accord with logic of using return as confirmation
     function removeFromActiveList(address _client, address _task, uint256 _app_id) internal returns (bool){
         address[] memory list = accounts[_client].app_tasks[_app_id].active_tasks;
         for (uint index = 0; index < list.length; index++) {
@@ -130,10 +102,11 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
                 }
                 delete accounts[_client].app_tasks[_app_id].active_tasks[list.length - 1];
                 accounts[_client].app_tasks[_app_id].active_tasks.length--;
-                return true;
+                return false;
+                //false == removed
             }
         }
-        return false;
+        return true;
     }
 
     //miner
@@ -145,6 +118,9 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
         return accounts[msg.sender].active_job;
     }
 
+    function get_credits(address _client) view external returns (uint256){
+        return accounts[_client].credits;
+    }
     //submitter
     function task_history(uint256 _app_id) view external returns (address[]){
         return accounts[msg.sender].app_tasks[_app_id].task_history;
@@ -152,5 +128,9 @@ contract Accounts is Clientable, AccountInterface, AccountInterfaceGetters {
 
     function active_tasks(uint256 _app_id) view external returns (address[]){
         return accounts[msg.sender].app_tasks[_app_id].active_tasks;
+    }
+
+    function submissible(address _submitter, uint256 _app_id) view external returns (bool){
+        return accounts[_submitter].app_tasks[_app_id].active_tasks.length < accounts[_submitter].level + 1;
     }
 }

@@ -16,7 +16,6 @@ contract Clientable is Administratable, AccountInterfaceAdmin {
     function set_client(address _client) admin_only external returns (bool){
         require(_client != address(0));
         client_address = _client;
-        controller_ready = true;
-        return true;
+        return controller_ready = true;
     }
 }

@@ -16,7 +16,6 @@ contract Distributable is Administratable, TaskPoolInterfaceAdmin {
     function set_distributor(address _distributor) admin_only external returns (bool){
         require(_distributor != address(0));
         distributor_address = _distributor;
-        controller_ready = true;
-        return true;
+        return controller_ready = true;
     }
 }

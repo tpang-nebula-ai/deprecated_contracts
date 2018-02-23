@@ -36,7 +36,8 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
     //------------------------------------------------------------------------------------------------------------------
     //Admin
-    function set_addresses(address _dispatcher, address _distributor, address _client, address _model, address _task_queue) admin_only public returns (bool){
+    function set_addresses(address _dispatcher, address _distributor, address _client, address _model, address _task_queue)
+    public admin_only returns (bool){
         super.set_addresses(_dispatcher, _distributor, _client, _model, _task_queue);
         
         pool_address = _model;
@@ -90,7 +91,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     event TaskCreated(address _client, address _task);
 
     //@dev entry point
-    function cancel_task(address _task, uint256 _app_id) Ready external returns (bool){
+    function cancel_task(address _task, uint256 _app_id) external Ready returns (bool){
         require(msg.sender == pool.get_owner(_task));
         uint _create_time;
         uint _dispatch_time;
@@ -112,7 +113,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     event TaskCancelled(address _client, address _task);
 
     ///@dev entry point
-    function reassign_task_request(address _task) Ready task_owner_only(_task) external returns (bool){
+    function reassign_task_request(address _task) external Ready task_owner_only(_task) returns (bool){
         require(pool.reassignable(_task));
         change_worker(_task, pool.get_worker(_task), msg.sender, 2);
         //due to many actions performed here, assert within change_worker
@@ -120,7 +121,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         return true;
     }
     //@dev entry point
-    function pay_completion_fee(address _task) task_owner_only(msg.sender) payable external returns (bool){
+    function pay_completion_fee(address _task) external payable task_owner_only(msg.sender) returns (bool){
         uint256 _fee;
         (, _fee) = pool.get_fees(_task);
         require(_fee != 0 && msg.value == _fee);
@@ -132,7 +133,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     //------------------------------------------------------------------------------------------------------------------
     //Miner
     ///@dev entry point
-    function report_start(address _task) miner_only(_task) public returns (bool){
+    function report_start(address _task) public miner_only(_task) returns (bool){
         //task can be reported start at anytime, as long as the task does exist (checked by miner_only modifier)
         //this does not effect anything, other than reassignable()
         assert(pool.set_start(_task));
@@ -142,7 +143,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     event TaskStarted(address _task);
 
     ///@dev entry point
-    function report_finish(address _task, uint256 _complete_fee) miner_only(_task) public returns (bool){
+    function report_finish(address _task, uint256 _complete_fee) public miner_only(_task) returns (bool){
         //task can be reported complete at anytime, as long as the task does exist (checked by miner_only modifier)
         assert(pool.set_complete(_task, _complete_fee));
         assert(complete_procedure(_task, msg.sender));
@@ -157,7 +158,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     //@dev entry point
     //Currently the penalty would be pay the 1/3 price...
     //task can be reported error at anytime, as long as the task does exist (checked by miner_only modifier)
-    function report_error(address _task, string _error_msg) miner_only(_task) public returns (bool){
+    function report_error(address _task, string _error_msg) public miner_only(_task) returns (bool){
         uint256 _fee;
         (_fee,) = pool.get_fees(_task);
         assert(pool.set_error(_task, _error_msg) && complete_procedure(_task, msg.sender) && pool.set_fee(_task, 0) == 0);
@@ -196,7 +197,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     //------------------------------------------------------------------------------------------------------------------
     //Dispatcher
     ///@dev intermediate
-    function dispatch_task(address _task, address _worker) dispatcher_only public returns (bool){
+    function dispatch_task(address _task, address _worker) public dispatcher_only returns (bool){
         return pool.set_dispatched(_task, _worker);
     }
 }

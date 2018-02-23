@@ -26,6 +26,7 @@ contract TaskPool is Distributable, TaskPoolInterface {
     }
 
     uint160 nonce;
+
     mapping(address => Task) pool;
 
     uint256 MAX_WAITING_BLOCK_COUNT = 25;
@@ -51,37 +52,6 @@ contract TaskPool is Distributable, TaskPoolInterface {
     }
 
     event TaskCreated(address _client, address _task);
-
-    function get_status(address _task)
-    view external returns (uint _create_time, uint _dispatch_time, uint _start_time, uint _complete_time, uint _cancel_time, uint _error_time)
-    {
-        return (
-        pool[_task].create_time,
-        pool[_task].dispatch_time,
-        pool[_task].start_time,
-        pool[_task].complete_time,
-        pool[_task].cancel_time,
-        pool[_task].error_time
-        );
-    }
-
-    function get_worker(address _task) view external returns (address){
-        return pool[_task].worker;
-    }
-
-    function get_owner(address _task) view external returns (address){
-        return pool[_task].owner;
-    }
-
-    function get_error_msg(address _task) view external returns (string){
-        return pool[_task].error_message;
-    }
-
-    function get_fees(address _task) view external returns (uint256 _fee, uint256 _completion_fee){
-        return (pool[_task].fee, pool[_task].completion_fee);
-    }
-
-
 
     //------------------------------------------------------------------------------------------------------------------
     //Setters
@@ -145,12 +115,42 @@ contract TaskPool is Distributable, TaskPoolInterface {
         return true;
     }
 
-    function generate_address() internal returns (address){
-        return address(bytes20(++nonce));
+    function generate_address() internal returns (address _uuid){
+        _uuid = address(keccak256(msg.sender, nonce++));
+        while (pool[_uuid].create_time != 0) _uuid = address(keccak256(msg.sender, nonce++));
     }
 
+    //Getter
+    function get_status(address _task)
+    view external returns (uint _create_time, uint _dispatch_time, uint _start_time, uint _complete_time, uint _cancel_time, uint _error_time)
+    {
+        return (
+        pool[_task].create_time,
+        pool[_task].dispatch_time,
+        pool[_task].start_time,
+        pool[_task].complete_time,
+        pool[_task].cancel_time,
+        pool[_task].error_time
+        );
+    }
     function reassignable(address _task) view external returns (bool){
         return pool[_task].create_time != 0 && pool[_task].dispatch_time != 0
         && block.number - pool[_task].dispatch_time > MAX_WAITING_BLOCK_COUNT;
+    }
+
+    function get_worker(address _task) view external returns (address){
+        return pool[_task].worker;
+    }
+
+    function get_owner(address _task) view external returns (address){
+        return pool[_task].owner;
+    }
+
+    function get_error_msg(address _task) view external returns (string){
+        return pool[_task].error_message;
+    }
+
+    function get_fees(address _task) view external returns (uint256 _fee, uint256 _completion_fee){
+        return (pool[_task].fee, pool[_task].completion_fee);
     }
 }

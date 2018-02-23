@@ -10,6 +10,9 @@ contract Controllable is Administratable, ControllerInterfaceAdmin
     address public distributor_address;
     address public client_address;
 
+    function Controllable(address _owner, address _admin) public Administratable(_owner, _admin) {
+    }
+
     //@dev  == owner will be removed , testing purpose only
     modifier dispatcher_only(){
         require(dispatcher_address == msg.sender || msg.sender == admin_address || msg.sender == owner);
@@ -30,9 +33,6 @@ contract Controllable is Administratable, ControllerInterfaceAdmin
         require(dispatcher_address == msg.sender || distributor_address == msg.sender || client_address == msg.sender
         || msg.sender == admin_address || msg.sender == owner);
         _;
-    }
-
-    function Controllable(address _owner, address _admin) public Administratable(_owner, _admin) {
     }
 
     ///@dev Override this function with the corresponding class requirement
