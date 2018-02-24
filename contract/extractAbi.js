@@ -36,26 +36,18 @@ sync.fiber(function() {
             abiObj = {abi:interfaceObj.abi};
             if (fileName.toLowerCase().includes(admin)){
                 writePath = writePath+admin+'/'+fileName;
-                fs.writeFile(writePath, JSON.stringify(abiObj));
-                continue;
             }
-            if (fileName.toLowerCase().includes(getter)){
+            else if (fileName.toLowerCase().includes(getter)){
                 writePath = writePath+getter+'/'+fileName;
-                fs.writeFile(writePath, JSON.stringify(abiObj));
-                continue;
             }
-            if (fileName.toLowerCase().includes(miner)){
+            else if (fileName.toLowerCase().includes(miner)){
                 writePath = writePath+miner+'/'+fileName;
-                fs.writeFile(writePath, JSON.stringify(abiObj));
-                continue;
             }
-            if (fileName.toLowerCase().includes(submitter)){
+            else if (fileName.toLowerCase().includes(submitter)){
                 writePath = writePath+submitter+'/'+fileName;
-                fs.writeFile(writePath, JSON.stringify(abiObj));
-                continue;
             }
-            writePath = writePath+other+'/'+fileName;
-            fs.writeFile(writePath, JSON.stringify(abiObj));
+            else writePath = writePath+other+'/'+fileName;
+            fs.writeFile(writePath, JSON.stringify(abiObj,null,4));
         }
     }
 });
