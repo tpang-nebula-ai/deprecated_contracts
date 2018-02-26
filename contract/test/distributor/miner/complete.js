@@ -36,24 +36,16 @@ module.exports = function (callback) {
                 }
             });
         }).then(function (instance) {
-            return instance.report_start(
+            return instance.report_finish(
                 _task,
+                0,
                 {
                     from: web3.eth.accounts[index]
                 }).then(function (result) {
-                console.log(index + " : ");
-                console.log(result);
-                return instance.report_finish(
-                    _task,
-                    0,
-                    {
-                        from: web3.eth.accounts[index]
-                    }).then(function (result) {
                     console.log(index + " : ");
                     console.log(result);
                     return Accounts.deployed();
-                }).catch(console.log);
-            }).catch(console.log);
+            });
         }).then(function (instance) {
             instance.get_client(web3.eth.accounts[index]).then(console.log);
         }).catch(console.log);

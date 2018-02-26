@@ -12,6 +12,8 @@ interface ClientInterfaceMiner {
 
     function get_minimal_credit() external view returns (uint256);
 
+    function get_penalty() external view returns (uint256);
+
     function apply_eligibility() external payable returns (bool);
 
     function withdrawal(uint256 _amount) external returns (uint256);

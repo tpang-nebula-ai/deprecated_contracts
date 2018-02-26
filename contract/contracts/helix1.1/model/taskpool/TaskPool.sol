@@ -134,7 +134,9 @@ contract TaskPool is Distributable, TaskPoolInterface {
         );
     }
     function reassignable(address _task) view external returns (bool){
-        return pool[_task].create_time != 0 && pool[_task].dispatch_time != 0
+        return pool[_task].create_time != 0
+        && pool[_task].dispatch_time != 0
+        && pool[_task].start_time == 0
         && block.number - pool[_task].dispatch_time > MAX_WAITING_BLOCK_COUNT;
     }
 

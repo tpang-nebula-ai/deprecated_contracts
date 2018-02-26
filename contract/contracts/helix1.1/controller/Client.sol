@@ -165,4 +165,8 @@ ClientInterfaceSubmitter, ClientInterfaceMiner, ClientInterfaceDispatcher, Clien
     function get_minimal_credit() external view returns (uint256){
         return minimal_credit;
     }
+
+    function get_penalty() external view returns (uint256){
+        return penalty;
+    }
 }

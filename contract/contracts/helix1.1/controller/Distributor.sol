@@ -90,14 +90,30 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
     event TaskCreated(address _client, address _task);
 
+    struct Task {
+        uint _create_time;
+        uint _dispatch_time;
+        uint _start_time;
+        uint _complete_time;
+        uint _cancel_time;
+        uint _error_time;
+    }
+
+    function get_task(address _task) internal view returns (Task){
+        uint _create_time;
+        uint _dispatch_time;
+        uint _start_time;
+        uint _complete_time;
+        uint _cancel_time;
+        uint _error_time;
+        (_create_time, _dispatch_time, _start_time, _complete_time, _cancel_time, _error_time) = pool.get_status(_task);
+        return Task(_create_time, _dispatch_time, _start_time, _complete_time, _cancel_time, _error_time);
+    }
     //@dev entry point
     function cancel_task(address _task, uint256 _app_id) external Ready returns (bool){
         require(msg.sender == pool.get_owner(_task));
-        uint _create_time;
-        uint _dispatch_time;
-        (_create_time, _dispatch_time, ,,,) = pool.get_status(_task);
-
-        require(_create_time != 0 && _dispatch_time == 0);
+        Task memory task = get_task(_task);
+        require(task._create_time != 0 && task._dispatch_time == 0);
         //task existed and in queue (not dispatched) => can be cancelled
         assert(dispatcher.leave_task_queue(_task) && !client.add_task(msg.sender, false, _task, _app_id));
         uint256 _fee;
@@ -134,8 +150,8 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     //Miner
     ///@dev entry point
     function report_start(address _task) public miner_only(_task) returns (bool){
-        //task can be reported start at anytime, as long as the task does exist (checked by miner_only modifier)
-        //this does not effect anything, other than reassignable()
+        Task memory task = get_task(_task);
+        require(task._start_time == 0 && task._complete_time == 0 && task._error_time == 0 && task._cancel_time == 0);
         assert(pool.set_start(_task));
         TaskStarted(_task);
         return true;
@@ -144,7 +160,9 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
     ///@dev entry point
     function report_finish(address _task, uint256 _complete_fee) public miner_only(_task) returns (bool){
-        //task can be reported complete at anytime, as long as the task does exist (checked by miner_only modifier)
+        Task memory task = get_task(_task);
+        require(task._start_time != 0 && task._complete_time == 0 && task._error_time == 0 && task._cancel_time == 0);
+        //TODO cancel not allowed after task is started, if that is changed, need to change here
         assert(pool.set_complete(_task, _complete_fee));
         assert(complete_procedure(_task, msg.sender));
         uint256 _fee;
@@ -159,9 +177,15 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     //Currently the penalty would be pay the 1/3 price...
     //task can be reported error at anytime, as long as the task does exist (checked by miner_only modifier)
     function report_error(address _task, string _error_msg) public miner_only(_task) returns (bool){
+        Task memory task = get_task(_task);
+        require(task._start_time != 0 && task._complete_time == 0 && task._cancel_time == 0 && task._error_time == 0);
         uint256 _fee;
         (_fee,) = pool.get_fees(_task);
-        assert(pool.set_error(_task, _error_msg) && complete_procedure(_task, msg.sender) && pool.set_fee(_task, 0) == 0);
+
+        assert(pool.set_error(_task, _error_msg));
+        assert(complete_procedure(_task, msg.sender));
+        assert(pool.set_fee(_task, 0) == 0);
+
         uint256 _to_worker = _fee.div(3);
         msg.sender.transfer(_to_worker);
         pool.get_owner(_task).transfer(_fee.sub(_to_worker));
@@ -170,6 +194,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     }
 
     event ErrorReported(address _task);
+
     ///@dev entry point
     //task can be forfeited at anytime, as long as the task does exist (checked by miner_only modifier)
     function forfeit(address _task) miner_only(_task) public returns (bool){
@@ -180,6 +205,8 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
     //@dev intermediate, assertion is here to simplify the logic where it is called
     function change_worker(address _task, address _worker, address _owner, uint8 _position) internal returns (bool){
+        Task memory task = get_task(_task);
+        require(task._start_time != 0 && task._complete_time == 0 && task._cancel_time == 0 && task._error_time == 0);
         assert(pool.set_forfeit(_task));
         assert(!client.add_job(_worker, false, _task));
         assert(dispatcher.rejoin(_task, _position));
