@@ -1,0 +1,103 @@
+{
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "get_client",
+      "outputs": [
+        {
+          "name": "_eligible",
+          "type": "bool"
+        },
+        {
+          "name": "_waiting",
+          "type": "bool"
+        },
+        {
+          "name": "_working",
+          "type": "bool"
+        },
+        {
+          "name": "_banned",
+          "type": "bool"
+        },
+        {
+          "name": "_misconduct_counter",
+          "type": "uint8"
+        },
+        {
+          "name": "_level",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_client",
+          "type": "address"
+        },
+        {
+          "name": "_level",
+          "type": "uint8"
+        }
+      ],
+      "name": "set_level",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "get_minimal_credit",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_client",
+          "type": "address"
+        },
+        {
+          "name": "_banned",
+          "type": "bool"
+        }
+      ],
+      "name": "set_banned",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}

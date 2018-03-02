@@ -131,7 +131,11 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     ///@dev entry point
     function reassign_task_request(address _task) external Ready task_owner_only(_task) returns (bool){
         require(pool.reassignable(_task));
-        change_worker(_task, pool.get_worker(_task), msg.sender, 2);
+
+        Task memory task = get_task(_task);
+        require(task._complete_time == 0 && task._cancel_time == 0 && task._error_time == 0);
+
+        assert(change_worker(_task, pool.get_worker(_task), msg.sender, 2));
         //due to many actions performed here, assert within change_worker
         TaskRejoinedQueue(_task);
         return true;
@@ -198,6 +202,8 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     ///@dev entry point
     //task can be forfeited at anytime, as long as the task does exist (checked by miner_only modifier)
     function forfeit(address _task) miner_only(_task) public returns (bool){
+        Task memory task = get_task(_task);
+        require(task._complete_time == 0 && task._cancel_time == 0 && task._error_time == 0);
         assert(change_worker(_task, msg.sender, pool.get_owner(_task), 1));
         TaskRejoinedQueue(_task);
         return true;
@@ -205,8 +211,6 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
 
     //@dev intermediate, assertion is here to simplify the logic where it is called
     function change_worker(address _task, address _worker, address _owner, uint8 _position) internal returns (bool){
-        Task memory task = get_task(_task);
-        require(task._start_time != 0 && task._complete_time == 0 && task._cancel_time == 0 && task._error_time == 0);
         assert(pool.set_forfeit(_task));
         assert(!client.add_job(_worker, false, _task));
         assert(dispatcher.rejoin(_task, _position));

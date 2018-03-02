@@ -10,7 +10,7 @@ let Queue_Task = artifacts.require("Queue_Task");
 let TaskPool = artifacts.require("TaskPool");
 let Accounts = artifacts.require("Accounts");
 
-let overwrite = false;
+let overwrite = true;
 
 module.exports = function (deployer) {
     deployer.deploy(Migrations, {
@@ -25,7 +25,7 @@ module.exports = function (deployer) {
         });
     }).then(function () {
         return deployer.deploy(Client, Admin.address, {
-            overwrite: true
+            overwrite: overwrite
         });
     }).then(function () {
         return deployer.deploy(Dispatcher, Admin.address, {

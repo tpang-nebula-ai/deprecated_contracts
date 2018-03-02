@@ -1,0 +1,262 @@
+{
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_client",
+          "type": "address"
+        },
+        {
+          "name": "_new",
+          "type": "bool"
+        },
+        {
+          "name": "_task",
+          "type": "address"
+        },
+        {
+          "name": "_app_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "add_task",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_address",
+          "type": "address"
+        },
+        {
+          "name": "_app_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "submissible",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "get_client",
+      "outputs": [
+        {
+          "name": "_eligible",
+          "type": "bool"
+        },
+        {
+          "name": "_waiting",
+          "type": "bool"
+        },
+        {
+          "name": "_working",
+          "type": "bool"
+        },
+        {
+          "name": "_banned",
+          "type": "bool"
+        },
+        {
+          "name": "_misconduct_counter",
+          "type": "uint8"
+        },
+        {
+          "name": "_level",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_client",
+          "type": "address"
+        },
+        {
+          "name": "_waiting",
+          "type": "bool"
+        }
+      ],
+      "name": "set_waiting",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_worker",
+          "type": "address"
+        },
+        {
+          "name": "_eligible",
+          "type": "bool"
+        },
+        {
+          "name": "_credit",
+          "type": "uint256"
+        }
+      ],
+      "name": "set_eligible",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_client",
+          "type": "address"
+        },
+        {
+          "name": "_working",
+          "type": "bool"
+        },
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "add_job",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_client",
+          "type": "address"
+        },
+        {
+          "name": "_level",
+          "type": "uint8"
+        }
+      ],
+      "name": "set_level",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_worker",
+          "type": "address"
+        },
+        {
+          "name": "_credit",
+          "type": "uint256"
+        }
+      ],
+      "name": "set_credits",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_client",
+          "type": "address"
+        }
+      ],
+      "name": "get_credits",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_client",
+          "type": "address"
+        },
+        {
+          "name": "_banned",
+          "type": "bool"
+        }
+      ],
+      "name": "set_banned",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}

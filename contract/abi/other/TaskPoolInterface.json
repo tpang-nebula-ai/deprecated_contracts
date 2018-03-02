@@ -1,0 +1,419 @@
+{
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        },
+        {
+          "name": "_worker",
+          "type": "address"
+        }
+      ],
+      "name": "set_dispatched",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "reassignable",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        },
+        {
+          "name": "_complete_fee",
+          "type": "uint256"
+        }
+      ],
+      "name": "set_complete",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "get_worker",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "get_app_id",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        },
+        {
+          "name": "_fee",
+          "type": "uint256"
+        }
+      ],
+      "name": "set_fee",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "set_forfeit",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "get_status",
+      "outputs": [
+        {
+          "name": "_create_time",
+          "type": "uint256"
+        },
+        {
+          "name": "_dispatch_time",
+          "type": "uint256"
+        },
+        {
+          "name": "_start_time",
+          "type": "uint256"
+        },
+        {
+          "name": "_complete_time",
+          "type": "uint256"
+        },
+        {
+          "name": "_cancel_time",
+          "type": "uint256"
+        },
+        {
+          "name": "_error_time",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        },
+        {
+          "name": "_complete_fee",
+          "type": "uint256"
+        }
+      ],
+      "name": "set_completion_fee",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "get_task",
+      "outputs": [
+        {
+          "name": "_app_id",
+          "type": "uint256"
+        },
+        {
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "name": "_data",
+          "type": "string"
+        },
+        {
+          "name": "_script",
+          "type": "string"
+        },
+        {
+          "name": "_output",
+          "type": "string"
+        },
+        {
+          "name": "_params",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "set_start",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "get_fees",
+      "outputs": [
+        {
+          "name": "_fee",
+          "type": "uint256"
+        },
+        {
+          "name": "_completion_fee",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "get_owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_app_id",
+          "type": "uint256"
+        },
+        {
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "name": "_data",
+          "type": "string"
+        },
+        {
+          "name": "_script",
+          "type": "string"
+        },
+        {
+          "name": "_output",
+          "type": "string"
+        },
+        {
+          "name": "_params",
+          "type": "string"
+        },
+        {
+          "name": "_fee",
+          "type": "uint256"
+        },
+        {
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "name": "create",
+      "outputs": [
+        {
+          "name": "_task_address",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "get_error_msg",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        },
+        {
+          "name": "_error_msg",
+          "type": "string"
+        }
+      ],
+      "name": "set_error",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "set_cancel",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}

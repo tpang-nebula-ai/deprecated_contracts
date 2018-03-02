@@ -31,13 +31,13 @@ let Distributor = artifacts.require("Distributor");
 let Admin = artifacts.require("Admin");
 
 module.exports = function (callback) {
-    for (let index = 1; index < 11; index++) {
+    for (let index = 1; index < 2; index++) {
         let _app_id = index;
-        let _name = "This is test " + index;
-        let _data = "This is data";
-        let _script = "This is Script";
-        let _output = "This is output address";
-        let _params = "A really long parameter list in Json format";
+        let _name = "This is test " + Date.now();
+        let _data = "";
+        let _script = "http://quantum.nebula-ai.network/script/Nebula_LSTM.py";
+        let _output = "";
+        let _params = "{\"epoch\":5}";
 
         Distributor.web3.eth.getGasPrice(function (error, result) {
             let gasPrice = Number(result);
@@ -52,12 +52,11 @@ module.exports = function (callback) {
                         {
                             from: Admin.web3.eth.accounts[0],
                             value: Admin.web3.toWei(5, "ether")
-                        })
-                        .then(function (result) {
+                        }).then(function (result) {
                             let gas = Number(result);
                             console.log("gas estimation = " + gas + " units");
                             console.log("gas cost estimation = " + (gas * gasPrice) + " wei");
-                            console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " ether");
+                        console.log("gas cost estimation = " + Admin.web3.fromWei((gas * gasPrice), 'ether') + " Nbai");
 
                             return distributor.create_task(
                                 _app_id, _name, _data, _script, _output, _params,

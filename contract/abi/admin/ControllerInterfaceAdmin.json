@@ -1,0 +1,39 @@
+{
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_dispatcher",
+          "type": "address"
+        },
+        {
+          "name": "_distributor",
+          "type": "address"
+        },
+        {
+          "name": "_client",
+          "type": "address"
+        },
+        {
+          "name": "_model",
+          "type": "address"
+        },
+        {
+          "name": "_task_queue",
+          "type": "address"
+        }
+      ],
+      "name": "set_addresses",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}

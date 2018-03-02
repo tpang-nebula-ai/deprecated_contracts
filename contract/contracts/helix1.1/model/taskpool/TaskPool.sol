@@ -133,12 +133,26 @@ contract TaskPool is Distributable, TaskPoolInterface {
         pool[_task].error_time
         );
     }
+    //pre start
     function reassignable(address _task) view external returns (bool){
         return pool[_task].create_time != 0
         && pool[_task].dispatch_time != 0
         && pool[_task].start_time == 0
+        && pool[_task].complete_time == 0
+        && pool[_task].error_time == 0
+        && pool[_task].cancel_time == 0
         && block.number - pool[_task].dispatch_time > MAX_WAITING_BLOCK_COUNT;
     }
+    //post start to be implemented todo
+    //    function reassignable_post(address _task) view external returns(bool){
+    //        return pool[_task].create_time != 0
+    //        && pool[_task].dispatch_time != 0
+    //        && pool[_task].start_time != 0
+    //        && pool[_task].complete_time == 0
+    //        && pool[_task].error_time == 0
+    //        && pool[_task].cancel_time == 0
+    //        && block.number - pool[_task].dispatch_time > MAX_WAITING_BLOCK_COUNT;
+    //    }
 
     function get_worker(address _task) view external returns (address){
         return pool[_task].worker;

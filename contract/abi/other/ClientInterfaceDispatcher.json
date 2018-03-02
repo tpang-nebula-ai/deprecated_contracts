@@ -1,0 +1,93 @@
+{
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "get_client",
+      "outputs": [
+        {
+          "name": "_eligible",
+          "type": "bool"
+        },
+        {
+          "name": "_waiting",
+          "type": "bool"
+        },
+        {
+          "name": "_working",
+          "type": "bool"
+        },
+        {
+          "name": "_banned",
+          "type": "bool"
+        },
+        {
+          "name": "_misconduct_counter",
+          "type": "uint8"
+        },
+        {
+          "name": "_level",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_client",
+          "type": "address"
+        },
+        {
+          "name": "_waiting",
+          "type": "bool"
+        }
+      ],
+      "name": "set_waiting",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_client",
+          "type": "address"
+        },
+        {
+          "name": "_working",
+          "type": "bool"
+        },
+        {
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "add_job",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}
