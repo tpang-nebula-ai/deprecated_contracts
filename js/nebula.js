@@ -193,16 +193,23 @@ class Nebula {
      * @param output
      * @param param
      */
-    create_task(app_id, name, script, data, output, param) {
+    create_task() {
         _this = this;
         return new Promise(function (resolve, reject) {
-            _this.distributor.create_task(app_id, name, script, data, output, param, function (error, result) {
-                if (error) reject(error);
-                else {
-                    console.log("Create task txHash : ", result);
-                    return resolve(result);
-                }
-            })
+            _this.distributor.create_task(
+                _this.current_task["app_id"],
+                _this.current_task["name"],
+                _this.current_task["script"],
+                _this.current_task["data"],
+                _this.current_task["output"],
+                _this.current_task["param"],
+                function (error, result) {
+                    if (error) reject(error);
+                    else {
+                        console.log("Create task txHash : ", result);
+                        return resolve(result);
+                    }
+                })
         });
     }
 
