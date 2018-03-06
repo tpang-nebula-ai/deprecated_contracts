@@ -9,7 +9,7 @@ contract Clientable is Administratable, AccountInterfaceAdmin {
     function Clientable(address _owner, address _admin) public Administratable(_owner, _admin) {}
 
     modifier client_only(){
-        require(client_address == msg.sender || msg.sender == owner);
+        require(client_address == msg.sender || msg.sender == owner || msg.sender == admin_address);
         _;
     }
 

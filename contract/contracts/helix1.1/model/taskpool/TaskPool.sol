@@ -29,7 +29,7 @@ contract TaskPool is Distributable, TaskPoolInterface {
 
     mapping(address => Task) pool;
 
-    uint256 MAX_WAITING_BLOCK_COUNT = 25;
+    uint256 MAX_WAITING_BLOCK_COUNT = 10;
 
     function TaskPool(address _admin, uint160 _nonce) public Distributable(msg.sender, _admin) {nonce = _nonce;}
 
@@ -118,6 +118,10 @@ contract TaskPool is Distributable, TaskPoolInterface {
     function generate_address() internal returns (address _uuid){
         _uuid = address(keccak256(msg.sender, nonce++));
         while (pool[_uuid].create_time != 0) _uuid = address(keccak256(msg.sender, nonce++));
+    }
+    //todo admin interface to be continued
+    function set_max_waiting_count(uint256 num) external admin_only returns (bool){
+        MAX_WAITING_BLOCK_COUNT = num;
     }
 
     //Getter
