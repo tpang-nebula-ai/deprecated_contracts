@@ -96,7 +96,6 @@ class Nebula {
         let _this = this;
         return new Promise(function (resolve, reject) {
             _this.admin = new Contract(_this.web3, "Admin", _this.admin_address, admin_abi_json);
-            console.log(_this.admin);
             _this.admin.prepare_contract().then(resolve).catch(reject);
         });
     }
@@ -312,7 +311,6 @@ class Nebula {
     get_task_position(task = this.current_task["address"]) {
         //Dispatcher#task_position
         let _this = this;
-        console.log(task);
         return new Promise((resolve, reject) => {
             _this.dispatcher.instance.task_position(
                 task,
@@ -331,7 +329,7 @@ class Nebula {
         //dispatcher#task_queue_size
         let _this = this;
         return new Promise((resolve, reject) => {
-            _this.dispatcher.instance.task_queue_size(
+            _this.dispatcher.instance.task_queue_length(
                 (error, result) => {
                     if (error) reject(error);
                     else resolve(Number(result));
@@ -347,7 +345,7 @@ class Nebula {
         //dispatch#ai_queue_size
         let _this = this;
         return new Promise((resolve, reject) => {
-            _this.dispatcher.instance.ai_queue_size(
+            _this.dispatcher.instance.ai_queue_length(
                 (error, result) => {
                     if (error) reject(error);
                     else resolve(Number(result));
@@ -355,19 +353,14 @@ class Nebula {
             );
         })
     }
+
+    submit_task() {
+    }
     /**
      * Create a task
      */
     create_task() {
         let _this = this;
-        console.log(
-            _this.current_task["app_id"],
-            _this.current_task["name"],
-            _this.current_task["script"],
-            _this.current_task["data"],
-            _this.current_task["output"],
-            _this.current_task["params"]
-        );
         return new Promise((resolve, reject) => {
             _this.distributor.instance.create_task(
                 _this.current_task["app_id"],
@@ -647,6 +640,52 @@ class Nebula {
         //CIM#withdrawal
         let _this = this;
     }
+
+
+    /*
+    Queue updaters
+     */
+    task_queue_size_updater(callback) {
+        let _this = this;
+        _this.get_task_queue_size().then(result => callback(result)).catch(console.log);
+        setTimeout(() => {
+            _this.task_queue_size_updater(callback)
+        }, 5000);
+    }
+
+    ai_queue_size_updater(callback) {
+        let _this = this;
+        _this.get_ai_queue_size().then(result => callback(result)).catch(console.log);
+        setTimeout(() => _this.ai_queue_size_updater(callback), 5000);
+    }
+
+    // client_status_updater(){
+    //     let _this = this;
+    //     _this.get_client_info().then(result=>callback(result)).catch(console.log);
+    //     setTimeout(()=>_this.client_status_updater(),5000);
+    // }
+    submissible_updater(callback) {
+        let _this = this;
+        this.submissible(this.web3.eth.defaultAccount, this.current_task["app_id"])
+            .then(result => {
+                callback(result);
+                setTimeout(() => _this.submissible_updater(callback), 5000);
+            })
+            .catch(console.log);
+    }
+
+    current_task_position_updater(task = this.current_task["address"], callback) {
+        let _this = this;
+        _this.get_task_position(task).then(result => {
+            let position = Number(result);
+            if (position !== 0) {
+                callback(position);
+                setTimeout(() => _this.current_task_position_updater(task, callback), 5000);
+            }
+        }).catch(console.log);
+    }
+
+
 
 
 }

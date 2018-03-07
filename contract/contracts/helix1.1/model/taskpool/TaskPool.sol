@@ -115,9 +115,9 @@ contract TaskPool is Distributable, TaskPoolInterface {
         return true;
     }
 
-    function generate_address() internal returns (address _uuid){
-        _uuid = address(keccak256(msg.sender, nonce++));
-        while (pool[_uuid].create_time != 0) _uuid = address(keccak256(msg.sender, nonce++));
+    function generate_address() internal returns (address _address){
+        _address = address(keccak256(msg.sender, nonce++));
+        while (pool[_address].create_time != 0) _address = address(keccak256(msg.sender, nonce++));
     }
     //todo admin interface to be continued
     function set_max_waiting_count(uint256 num) external admin_only returns (bool){
@@ -126,8 +126,17 @@ contract TaskPool is Distributable, TaskPoolInterface {
 
     //Getter
     function get_status(address _task)
-    view external returns (uint _create_time, uint _dispatch_time, uint _start_time, uint _complete_time, uint _cancel_time, uint _error_time)
-    {
+    view
+    external
+    returns
+    (
+        uint _create_time,
+        uint _dispatch_time,
+        uint _start_time,
+        uint _complete_time,
+        uint _cancel_time,
+        uint _error_time
+    ){
         return (
         pool[_task].create_time,
         pool[_task].dispatch_time,
