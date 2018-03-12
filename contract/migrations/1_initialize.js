@@ -10,7 +10,7 @@ let Queue_Task = artifacts.require("Queue_Task");
 let TaskPool = artifacts.require("TaskPool");
 let Accounts = artifacts.require("Accounts");
 
-let overwrite = true;
+let overwrite = false;
 
 module.exports = function (deployer) {
     deployer.deploy(Migrations, {
@@ -21,7 +21,7 @@ module.exports = function (deployer) {
         });
     }).then(function () {
         return deployer.deploy(Distributor, Admin.address, web3.toWei(5, "ether"), {
-            overwrite: overwrite
+            overwrite: true
         });
     }).then(function () {
         return deployer.deploy(Client, Admin.address, {
@@ -29,7 +29,7 @@ module.exports = function (deployer) {
         });
     }).then(function () {
         return deployer.deploy(Dispatcher, Admin.address, {
-            overwrite: overwrite
+            overwrite: true
         });
     }).then(function () {
         return deployer.deploy(Queue_Ai, Admin.address, {

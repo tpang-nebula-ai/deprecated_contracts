@@ -136,10 +136,10 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
         assert(distributor.dispatch_task(_dispatchable_task, _worker));
         TaskDispatched(_dispatchable_task, _worker);
     }
-
-    event TaskDispatched(address _task, address _worker);
-    event TaskQueued(address _task);
-    event AiQueued(address _miner);
+    //todo add events to interface
+    event TaskDispatched(address indexed _task, address indexed _worker);
+    event TaskQueued(address indexed _task);
+    event AiQueued(address indexed _miner);
 
     //------------------------------------------------------------------------------------------------------------------
     //Miner
@@ -164,7 +164,8 @@ DispatcherInterfaceSubmitter, DispatcherInterfaceMiner, DispatcherInterfaceDistr
         AiLeftQueue(msg.sender);
         return true;
     }
-    event AiLeftQueue(address _worker);
+
+    event AiLeftQueue(address indexed _worker);
     ///@dev getter
     function ai_queue_length() external Ready view returns (uint256){
         return queue_ai.size();

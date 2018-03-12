@@ -46,6 +46,59 @@
       "payable": false,
       "stateMutability": "view",
       "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "_task",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "_worker",
+          "type": "address"
+        }
+      ],
+      "name": "TaskDispatched",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "_task",
+          "type": "address"
+        }
+      ],
+      "name": "TaskQueued",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "_miner",
+          "type": "address"
+        }
+      ],
+      "name": "AiQueued",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "_worker",
+          "type": "address"
+        }
+      ],
+      "name": "AiLeftQueue",
+      "type": "event"
     }
   ]
 }

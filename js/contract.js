@@ -20,17 +20,6 @@ class Contract {
                 console.log("Invalid address or abi file path");
                 return;
             }
-            // $.getJSON(_this.abi_url)
-            //     .then(function(data){
-            //         _this.contract = _this.web3.eth.contract(data);
-            //         _this.instance = _this.contract.at(_this.address);
-            //         console.log(_this.name + " contract @ " + _this.address + " has been loaded");
-            //         resolve();
-            //     })
-            //     .fail(function(error){
-            //         console.log(error);
-            //         reject();
-            //     })
             $.getJSON(_this.abi_url, function (data) {
                 _this.contract = _this.web3.eth.contract(data["abi"]);
                 _this.instance = _this.contract.at(_this.address);

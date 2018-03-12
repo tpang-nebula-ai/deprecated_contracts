@@ -2,8 +2,8 @@
 
 window.onload = function () {
 
-    var browserChrome = !!window.chrome && !!window.chrome.webstore;
-    var browserFirefox = typeof InstallTrigger !== 'undefined';
+    let browserChrome = !!window.chrome && !!window.chrome.webstore;
+    let browserFirefox = typeof InstallTrigger !== 'undefined';
 
     if (!browserChrome && !browserFirefox) {
         window.location.href = "./notice/notice_supported/index.html";
@@ -11,20 +11,11 @@ window.onload = function () {
         window.location.href = "./notice/notice_install/index.html";
         console.log('No web3? You should consider trying MetaMask!')
     } else {
-        web3 = new Web3(web3.currentProvider);
+        window.web3 = new Web3(web3.currentProvider);
 
         if (web3.eth.defaultAccount === undefined) {
             window.location.href = "./notice/notice_locked/index.html"
-            // alert("Please log into your MetaMask account using MetaMask Plugin");
-            // Currently only support Chrome with MetaMask plugin installed
-            //loginWallet using private key or JSON format
-            //
-            // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-            // web3 = new Web3(new Web3.providers.HttpProvider("http://18.221.71.211:8545"));
-        } else {
-            //all good: start app
-            start_app();
-        }
+        } else start_app();
     }
 };
 let admin_address = "0x2f1400233d6368fe3f38767a5c52775d423132fd";

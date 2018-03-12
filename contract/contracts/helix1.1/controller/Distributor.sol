@@ -88,7 +88,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         return _task;
     }
 
-    event TaskCreated(address _client, address _task);
+    event TaskCreated(address indexed _client, address indexed _task);
 
     struct Task {
         uint _create_time;
@@ -126,7 +126,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
     }
     //    event TaskLeftQueue(address _client, address _task);
     //    event SubmitterFreed(address _client);
-    event TaskCancelled(address _client, address _task);
+    event TaskCancelled(address indexed _client, address indexed _task);
 
     ///@dev entry point
     function reassign_task_request(address _task) external Ready task_owner_only(_task) returns (bool){
@@ -160,7 +160,8 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         TaskStarted(_task);
         return true;
     }
-    event TaskStarted(address _task);
+
+    event TaskStarted(address indexed _task);
 
     ///@dev entry point
     function report_finish(address _task, uint256 _complete_fee) public miner_only(_task) returns (bool){
@@ -176,7 +177,8 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         TaskCompleted(_task);
         return true;
     }
-    event TaskCompleted(address _task);
+
+    event TaskCompleted(address indexed _task);
     //@dev entry point
     //Currently the penalty would be pay the 1/3 price...
     //task can be reported error at anytime, as long as the task does exist (checked by miner_only modifier)
@@ -197,7 +199,7 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         return true;
     }
 
-    event ErrorReported(address _task);
+    event ErrorReported(address indexed _task);
 
     ///@dev entry point
     //task can be forfeited at anytime, as long as the task does exist (checked by miner_only modifier)
@@ -217,7 +219,8 @@ DistributorInterfaceSubmitter, DistributorInterfaceMiner, DistributorInterfaceDi
         assert(client.pay_penalty(_worker, _owner));
         return true;
     }
-    event TaskRejoinedQueue(address _task);
+
+    event TaskRejoinedQueue(address indexed _task);
 
     //Release submitter from its active task; list #add_task should return false, indicating success
     //Release miner from its active job ; #add_job should return false, indicating success

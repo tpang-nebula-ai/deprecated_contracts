@@ -140,7 +140,7 @@ contract Admin is Ownable {
     }
 
     ///@dev More administrator functions to be added
-    function ban_client(address _client, bool _ban) owner_only public returns (bool){
+    function ban_client(address _client, bool _ban) ownerOnly public returns (bool){
         return account.set_banned(_client, _ban);
     }
     //    function remove_task();

@@ -13,5 +13,10 @@ interface DistributorInterfaceSubmitter {
     function pay_completion_fee(address _task) payable external returns (bool);
 
     //@dev is task modification needed
-
+    event TaskCreated(address indexed _client, address indexed _task);
+    event TaskCancelled(address indexed _client, address indexed _task);
+    event TaskStarted(address indexed _task);
+    event TaskCompleted(address indexed _task);
+    event ErrorReported(address indexed _task);
+    event TaskRejoinedQueue(address indexed _task);
 }
